@@ -6,7 +6,7 @@ NebuLab's central capistrano deploy resource.
 A quick example. To run any cap command for an application specified in a configuration repo you can run:
 
 ```
-deploy -c=<configuration-repo-git-url> <application> <stage> <capistrano_args>
+pulsar -c=<configuration-repo-git-url> <application> <stage> <capistrano_args>
 ```
 
 A couple of concrete examples:
