@@ -12,11 +12,11 @@ deploy -c=<configuration-repo-git-url> <application> <stage> <capistrano_args>
 A couple of concrete examples:
 
 ```
-deploy -c git@github.com:nebulab/deploy-configuration.git nebulab production --tasks
+pulsar -c git@github.com:nebulab/deploy-configuration.git nebulab production --tasks
 
-deploy -c git@github.com:nebulab/deploy-configuration.git nebulab staging # Deploy on staging
+pulsar -c git@github.com:nebulab/deploy-configuration.git nebulab staging # Deploy on staging
 
-deploy -c git@github.com:nebulab/deploy-configuration.git farmavillage production deploy:check
+pulsar -c git@github.com:nebulab/deploy-configuration.git farmavillage production deploy:check
 ```
 
 ## Installation
