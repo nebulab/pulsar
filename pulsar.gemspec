@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
     providing a simple solution to managing multiple systems without installing capistrano
     configurations in each app.
   }
-  gem.homepage       = "https://github.com/nebulab/deploy"
+  gem.homepage       = "https://github.com/nebulab/pulsar"
 
   gem.files          = `git ls-files`.split($/)
   gem.executables    = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
