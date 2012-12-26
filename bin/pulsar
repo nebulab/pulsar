@@ -2,51 +2,58 @@
 
 require 'pulsar'
 
-class PulsarCommand < Clamp::Command
-  include Pulsar::Helpers::Clamp
+module Pulsar
+  class Command < Clamp::Command
+    include Pulsar::Helpers::Clamp
 
-  option [ "-v", "--verbose" ], :flag,
-                                "Print out all the things!!!",
-                                :default => false
+    option [ "-V", "--version" ], :flag, "print out pulsar version" do
+      puts(VERSION)
+      exit(0)
+    end
 
-  option [ "-k", "--keep-capfile" ], :flag, 
-                                     "Dont't remove the generated capfile in the /tmp/ directory.",
-                                     :default => false
+    option [ "-v", "--verbose" ], :flag,
+                                  "print out what pulsar is doing",
+                                  :default => false
 
-  option [ "-l", "--log-level" ], "LOG LEVEL",
-                                  "How much output will Capistrano spit out. Can be any of: important, info, debug.",
-                                  :default => "important"
+    option [ "-k", "--keep-capfile" ], :flag, 
+                                       "don't remove the generated capfile in the /tmp/ directory",
+                                       :default => false
 
-  option [ "-c", "--conf-repo" ], "REPO URL",
-                                  "A git repository with deploy configurations, mainly apps and recipes.",
-                                  :required => true
+    option [ "-l", "--log-level" ], "LOG LEVEL",
+                                    "how much output will Capistrano print out. Can be any of: important, info, debug",
+                                    :default => "important"
 
-  option [ "-b", "--conf-branch" ], "REPO BRANCH",
-                                    "Specify a branch for the configuration repository.",
-                                    :default => "master"
+    option [ "-c", "--conf-repo" ], "REPO URL",
+                                    "a git repository with deploy configurations, mainly apps and recipes",
+                                    :required => true
 
-  parameter "APPLICATION", "The application which you would like to deploy. For example: nebulab"
-  parameter "ENVIRONMENT", "The environment on which you would like to deploy. For example: production" do |env|
-    %w(production staging development).include?(env) ? env : raise(ArgumentError)
-  end
-  parameter "[TASKS] ...", "The tasks that will be passed to the final `cap` command. For example: --tasks, deploy, deploy:check", :default => "deploy"
+    option [ "-b", "--conf-branch" ], "REPO BRANCH",
+                                      "specify a branch for the configuration repository",
+                                      :default => "master"
 
-  def execute
-    target = "#{application}:#{environment}"
+    parameter "APPLICATION", "the application which you would like to deploy"
+    parameter "ENVIRONMENT", "the environment on which you would like to deploy" do |env|
+      %w(production staging development).include?(env) ? env : raise(ArgumentError)
+    end
+    parameter "[TASKS] ...", "the tasks/args that will be passed to the final `cap` command", :default => "deploy"
 
-    ::Bundler.with_clean_env do
-      fetch_repo
-      bundle_install
-      create_capfile
-      build_capfile(target)
+    def execute
+      target = "#{application}:#{environment}"
 
-      cap_args = [tasks_list].flatten.join(" ")
-      run_capistrano(cap_args)
+      ::Bundler.with_clean_env do
+        fetch_repo
+        bundle_install
+        create_capfile
+        build_capfile(target)
 
-      remove_capfile unless keep_capfile?
-      remove_repo
+        cap_args = [tasks_list].flatten.join(" ")
+        run_capistrano(cap_args)
+
+        remove_capfile unless keep_capfile?
+        remove_repo
+      end
     end
   end
 end
 
-PulsarCommand.run
+Pulsar::Command.run
