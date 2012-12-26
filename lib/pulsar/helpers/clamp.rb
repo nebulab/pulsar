@@ -36,8 +36,9 @@ module Pulsar
       end
 
       def fetch_repo
+        repo = !conf_repo.include?(':') ? "git@github.com:#{conf_repo}.git" : conf_repo
         git_options = "--quiet --depth=1 --branch #{conf_branch}"
-        run_cmd("git clone #{git_options} #{conf_repo} #{config_path}", :verbose => verbose?)
+        run_cmd("git clone #{git_options} #{repo} #{config_path}", :verbose => verbose?)
       end
 
       def include_app(app, stage=nil)
