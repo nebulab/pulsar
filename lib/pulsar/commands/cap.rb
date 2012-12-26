@@ -25,7 +25,7 @@ module Pulsar
     def execute
       target = "#{application}:#{environment}"
 
-      ::Bundler.with_clean_env do
+      Bundler.with_clean_env do
         fetch_repo
         bundle_install
         create_capfile
