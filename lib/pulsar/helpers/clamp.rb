@@ -72,6 +72,26 @@ module Pulsar
         run_cmd("cat #{config_path}/apps/base.rb >> #{capfile_path}", :verbose => verbose?)
       end
 
+      def list_apps
+        apps = Dir["#{config_path}/apps/*"].each do |app|
+          if File.directory?(app)
+            app_name = File.basename(app)
+            app_envs = []
+
+            Dir["#{app}/*"].each do |env|
+              environments = %w(development staging production)
+              env_name = File.basename(env, '.rb')
+
+              if environments.include?(env_name)
+                app_envs << env_name
+              end
+            end
+
+            puts "#{app_name}: #{app_envs.join(', ')}"
+          end
+        end
+      end
+
       def remove_capfile
         rm_rf(capfile_path, :verbose => verbose?)
       end
