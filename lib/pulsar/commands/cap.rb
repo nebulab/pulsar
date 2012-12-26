@@ -1,6 +1,6 @@
 module Pulsar
   class CapCommand < MainCommand
-    option [ "-k", "--keep-capfile" ], :flag, 
+    option [ "-k", "--keep-capfile" ], :flag,
                                        "don't remove the generated capfile in the /tmp/ directory",
                                        :default => false
 
@@ -25,7 +25,7 @@ module Pulsar
     def execute
       target = "#{application}:#{environment}"
 
-      Bundler.with_clean_env do
+      ::Bundler.with_clean_env do
         fetch_repo
         bundle_install
         create_capfile
