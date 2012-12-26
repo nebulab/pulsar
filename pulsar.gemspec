@@ -22,4 +22,5 @@ Gem::Specification.new do |gem|
   gem.require_paths  = ["lib"]
 
   gem.add_dependency "clamp", "~> 0.5"
+  gem.add_dependency "bundler", "~> 1.2"
 end
