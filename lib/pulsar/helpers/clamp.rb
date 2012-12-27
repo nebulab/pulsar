@@ -18,13 +18,18 @@ module Pulsar
       end
 
       def bundle_install
-        FileUtils.cd(config_path, :verbose => verbose?) do
+        cd(config_path, :verbose => verbose?) do
           run_cmd("bundle install --quiet", :verbose => verbose?)
         end
       end
 
       def capfile_path
         @capfile_name ||= "/tmp/pulsar/capfile-#{Time.now.strftime("%Y-%m-%d-%H%M%S")}"
+      end
+
+      def cd(path, opts, &block)
+        puts "Directory: #{path.white}".yellow if opts[:verbose]
+        FileUtils.cd(path) { yield }
       end
 
       def config_path
@@ -36,7 +41,12 @@ module Pulsar
       end
 
       def fetch_repo
-        repo = !conf_repo.include?(':') ? "git@github.com:#{conf_repo}.git" : conf_repo
+        repo = if conf_repo =~ /^\w+\/\w+$/
+          "git@github.com:#{conf_repo}.git"
+        else
+          conf_repo
+        end
+
         git_options = "--quiet --depth=1 --branch #{conf_branch}"
         run_cmd("git clone #{git_options} #{repo} #{config_path}", :verbose => verbose?)
       end
@@ -87,7 +97,7 @@ module Pulsar
               end
             end
 
-            puts "#{app_name}: #{app_envs.join(', ')}"
+            puts "#{app_name.cyan}: #{app_envs.map(&:magenta).join(', ')}"
           end
         end
       end
@@ -101,13 +111,18 @@ module Pulsar
       end
 
       def run_capistrano(args)
-        FileUtils.cd(config_path, :verbose => verbose?) do
+        cd(config_path, :verbose => verbose?) do
           run_cmd("bundle exec cap --file #{capfile_path} #{args}", :verbose => verbose?)
         end
       end
 
+      def rm_rf(path, opts)
+        puts "Remove: #{path.white}".yellow if opts[:verbose]
+        FileUtils.rm_rf(path)
+      end
+
       def run_cmd(cmd, opts)
-        puts cmd if opts[:verbose]
+        puts "Command: #{cmd.white}".yellow if opts[:verbose]
         system(cmd)
       end
 
@@ -120,6 +135,11 @@ module Pulsar
         cmd = "echo 'logger.level = logger.level = Capistrano::Logger::#{level}' >> #{capfile_path}"
 
         run_cmd(cmd, :verbose => verbose?)
+      end
+
+      def touch(file, opts)
+        puts "Touch: #{file.white}".yellow if opts[:verbose]
+        FileUtils.touch(file)
       end
     end
   end
