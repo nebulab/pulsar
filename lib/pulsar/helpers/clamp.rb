@@ -41,7 +41,7 @@ module Pulsar
       end
 
       def fetch_repo
-        repo = if conf_repo =~ /^\w+\/\w+$/
+        repo = if conf_repo =~ /\A[a-zA-Z-]+\/[a-zA-Z-]+\Z/
           "git@github.com:#{conf_repo}.git"
         else
           conf_repo
