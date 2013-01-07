@@ -1,0 +1,13 @@
+language: ruby
+before_install: gem install bundler --pre
+script: "DISPLAY=:99.0 bundle exec rspec spec"
+notifications:
+  email:
+    - kennyadsl@gmail.com
+    - mtylty@gmail.com
+branches:
+  only:
+    - master
+rvm:
+  - 1.9.2
+  - 1.9.3
