@@ -43,14 +43,14 @@ describe Pulsar do
         expect { pulsar.parse([""]) }.to raise_error(Clamp::UsageError)
       end
     end
+  end
 
-    context "with required args" do
-      it "sets variables correctly" do
-        pulsar.parse(%w(-c repo.com project development))
+  context "ListCommand" do
+    let(:pulsar) { Pulsar::CapCommand.new("list") }
 
-        pulsar.conf_repo.should == "repo.com"
-        pulsar.application.should == "project"
-        pulsar.environment.should == "development"
+    context "--conf-repo option" do
+      it "is required" do
+        expect { pulsar.parse([""]) }.to raise_error(Clamp::UsageError)
       end
     end
   end
