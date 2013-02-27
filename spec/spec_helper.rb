@@ -1,9 +1,15 @@
 require "rspec"
+require "stringio"
 require "pulsar"
-require 'stringio'
 
 RSpec.configure do |config|
   config.mock_with :rr
+end
+
+module Helpers
+  def base_args
+    [ "--conf-repo", "dummy_conf", "dummy_app", "production" ]
+  end
 end
 
 module OutputCapture

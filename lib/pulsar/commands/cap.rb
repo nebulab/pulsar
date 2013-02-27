@@ -1,7 +1,7 @@
 module Pulsar
   class CapCommand < MainCommand
     option [ "-k", "--keep-capfile" ], :flag,
-                                       "don't remove the generated capfile in the /tmp/ directory",
+                                       "don't remove the generated capfile in the TMP DIR directory",
                                        :default => false
 
     option [ "-l", "--log-level" ], "LOG LEVEL",
@@ -15,6 +15,10 @@ module Pulsar
     option [ "-b", "--conf-branch" ], "REPO BRANCH",
                                       "specify a branch for the configuration repository",
                                       :default => "master"
+
+    option [ "-d", "--tmp-dir" ], "TMP DIR",
+                                  "a directory where to put the configuration repo to build capfile with",
+                                  :default => "/tmp/pulsar"
 
     parameter "APPLICATION", "the application which you would like to deploy"
     parameter "ENVIRONMENT", "the environment on which you would like to deploy" do |env|

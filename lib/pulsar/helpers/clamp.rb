@@ -24,7 +24,7 @@ module Pulsar
       end
 
       def capfile_path
-        @capfile_name ||= "/tmp/pulsar/capfile-#{Time.now.strftime("%Y-%m-%d-%H%M%S")}"
+        @capfile_name ||= "#{tmp_dir}/capfile-#{Time.now.strftime("%Y-%m-%d-%H%M%S")}"
       end
 
       def cd(path, opts, &block)
@@ -33,7 +33,7 @@ module Pulsar
       end
 
       def config_path
-        @configuration_path ||= "/tmp/pulsar/conf_repo"
+        @configuration_path ||= "#{tmp_dir}/conf_repo"
       end
 
       def create_capfile

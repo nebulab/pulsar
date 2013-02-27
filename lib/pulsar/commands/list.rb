@@ -1,7 +1,7 @@
 module Pulsar
   class ListCommand < MainCommand
     option [ "-k", "--keep-capfile" ], :flag, 
-                                       "don't remove the generated capfile in the /tmp/ directory",
+                                       "don't remove the generated capfile in the TMP DIR directory",
                                        :default => false
 
     option [ "-c", "--conf-repo" ], "REPO URL",
@@ -11,6 +11,10 @@ module Pulsar
     option [ "-b", "--conf-branch" ], "REPO BRANCH",
                                       "specify a branch for the configuration repository",
                                       :default => "master"
+
+    option [ "-d", "--tmp-dir" ], "TMP DIR",
+                                  "a directory where to put the configuration repo to build capfile with",
+                                  :default => "/tmp/pulsar"
 
     def execute
       Bundler.with_clean_env do
