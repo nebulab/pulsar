@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe Pulsar::CapCommand do
-  include Helpers
-  include OutputCapture
-
   let(:pulsar) { Pulsar::CapCommand.new("cap") }
 
   it "builds a Capfile file in tmp dir" do

@@ -1,52 +1,21 @@
 require "rspec"
 require "stringio"
+require "fileutils"
 require "pulsar"
 require "pulsar/commands/main"
 
+#
+# Require all helper modules
+# 
+Dir[File.join(File.dirname(__FILE__), 'support/modules/**/*.rb')].each { |f| require f }
+
 RSpec.configure do |config|
   config.mock_with :rr
-end
 
-module Helpers
-  def base_args
-    [ "--conf-repo", dummy_conf_path ]
-  end
+  config.include Helpers
+  config.include OutputCapture
 
-  def full_args
-    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
-  end
-
-  def dummy_conf_path
-    "#{File.dirname(__FILE__)}/support/dummy_conf"
-  end
-
-  def tmp_path
-    "#{File.dirname(__FILE__)}/support/tmp"
-  end
-
-  def dummy_app
-    [ "dummy_app", "production" ]
-  end
-end
-
-module OutputCapture
-  def self.included(target)
-    target.before do
-      $stdout = @out = StringIO.new
-      $stderr = @err = StringIO.new
-    end
-
-    target.after do
-      $stdout = STDOUT
-      $stderr = STDERR
-    end
-  end
-
-  def stdout
-    @out.string
-  end
-
-  def stderr
-    @err.string
+  config.after(:suite) do
+    FileUtils.rm_r(Dir.glob("#{File.dirname(__FILE__)}/support/tmp/*"))
   end
 end

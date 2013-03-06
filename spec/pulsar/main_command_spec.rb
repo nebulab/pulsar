@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe Pulsar::MainCommand do
-  include Helpers
-  include OutputCapture
-
   let(:pulsar) { Pulsar::MainCommand.new("") }
 
   context "--version option" do

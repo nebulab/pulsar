@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe Pulsar::ListCommand do
-  include Helpers
-  include OutputCapture
-
   let(:pulsar) { Pulsar::ListCommand.new("list") }
 
   context "--conf-repo option" do
