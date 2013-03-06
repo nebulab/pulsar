@@ -12,9 +12,9 @@ module Pulsar
         end
 
         def method_missing(meth, *args, &block)
-          if File.directory?("#{config_path}/recipes/#{meth}")
+          if File.directory?("#{ENV['CONFIG_PATH']}/recipes/#{meth}")
             args.each do |arg|
-              @cap_conf.load("#{config_path}/recipes/#{meth}/#{arg}.rb")
+              @cap_conf.load("#{ENV['CONFIG_PATH']}/recipes/#{meth}/#{arg}.rb")
             end
           else
             super

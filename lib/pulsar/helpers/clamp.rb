@@ -122,7 +122,7 @@ module Pulsar
 
       def run_capistrano(args)
         cd(config_path, :verbose => verbose?) do
-          run_cmd("bundle exec cap --file #{capfile_path} #{args}", :verbose => verbose?)
+          run_cmd("CONFIG_PATH=#{config_path} bundle exec cap --file #{capfile_path} #{args}", :verbose => verbose?)
         end
       end
 
