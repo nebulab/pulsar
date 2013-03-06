@@ -1,6 +1,7 @@
 require "rspec"
 require "stringio"
 require "pulsar"
+require "pulsar/commands/main"
 
 RSpec.configure do |config|
   config.mock_with :rr
@@ -8,11 +9,11 @@ end
 
 module Helpers
   def base_args
-    [ "--conf-repo", dummy_conf_path ] + dummy_app
+    [ "--conf-repo", dummy_conf_path ]
   end
 
   def full_args
-    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path ] + dummy_app
+    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path ]
   end
 
   def dummy_conf_path
