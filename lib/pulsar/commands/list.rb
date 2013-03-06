@@ -4,6 +4,10 @@ module Pulsar
                                        "don't remove the generated capfile in the TMP DIR directory",
                                        :default => false
 
+    option [ "-r", "--keep-repo" ], :flag,
+                                    "don't remove the downloaded configuration repository from the TMP DIR directory",
+                                    :default => false
+
     option [ "-c", "--conf-repo" ], "REPO URL",
                                     "a git repository with deploy configurations, mainly apps and recipes",
                                     :required => true
@@ -23,7 +27,7 @@ module Pulsar
         list_apps
 
         remove_capfile unless keep_capfile?
-        remove_repo
+        remove_repo unless keep_repo?
       end
     end
   end

@@ -24,7 +24,7 @@ module Pulsar
       end
 
       def capfile_path
-        @capfile_name ||= "#{tmp_dir}/capfile-#{Time.now.strftime("%Y-%m-%d-%H%M%S")}"
+        @capfile_name ||= "#{tmp_dir}/capfile-#{time_to_deploy}"
       end
 
       def cd(path, opts, &block)
@@ -33,7 +33,7 @@ module Pulsar
       end
 
       def config_path
-        @configuration_path ||= "#{tmp_dir}/conf_repo"
+        @configuration_path ||= "#{tmp_dir}/conf-repo-#{time_to_deploy}"
       end
 
       def create_capfile
@@ -134,6 +134,8 @@ module Pulsar
       def run_cmd(cmd, opts)
         puts "Command: #{cmd.white}".yellow if opts[:verbose]
         system(cmd)
+
+        raise "Command #{cmd} Failed" if $? != 0
       end
 
       def set_log_level
@@ -145,6 +147,10 @@ module Pulsar
         cmd = "echo 'logger.level = logger.level = Capistrano::Logger::#{level}' >> #{capfile_path}"
 
         run_cmd(cmd, :verbose => verbose?)
+      end
+
+      def time_to_deploy
+        @now ||= Time.now.strftime("%Y-%m-%d-%H%M%S-s#{rand(9999)}")
       end
 
       def touch(file, opts)

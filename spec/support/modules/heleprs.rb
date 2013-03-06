@@ -3,8 +3,12 @@ module Helpers
     [ "--conf-repo", dummy_conf_path ]
   end
 
-  def full_args
-    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
+  def full_cap_args
+    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
+  end
+
+  def full_list_args
+    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile" ]
   end
 
   def dummy_conf_path

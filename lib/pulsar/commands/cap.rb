@@ -4,6 +4,10 @@ module Pulsar
                                        "don't remove the generated capfile in the TMP DIR directory",
                                        :default => false
 
+    option [ "-r", "--keep-repo" ], :flag,
+                                    "don't remove the downloaded configuration repository from the TMP DIR directory",
+                                    :default => false
+
     option [ "-l", "--log-level" ], "LOG LEVEL",
                                     "how much output will Capistrano print out. Can be any of: important, info, debug",
                                     :default => "important"
@@ -45,7 +49,7 @@ module Pulsar
         end
 
         remove_capfile unless keep_capfile?
-        remove_repo
+        remove_repo unless keep_repo?
       end
     end
   end
