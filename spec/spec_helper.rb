@@ -8,7 +8,23 @@ end
 
 module Helpers
   def base_args
-    [ "--conf-repo", "dummy_conf", "dummy_app", "production" ]
+    [ "--conf-repo", dummy_conf_path ] + dummy_app
+  end
+
+  def full_args
+    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path ] + dummy_app
+  end
+
+  def dummy_conf_path
+    "#{File.dirname(__FILE__)}/spec/support/dummy_conf"
+  end
+
+  def tmp_path
+    "#{File.dirname(__FILE__)}/spec/support/tmp"
+  end
+
+  def dummy_app
+    [ "dummy_app", "production" ]
   end
 end
 
