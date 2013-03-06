@@ -6,9 +6,17 @@ describe Pulsar::CapCommand do
 
   let(:pulsar) { Pulsar::CapCommand.new("cap") }
 
+  it "builds a Capfile file in tmp dir" do
+    expect { pulsar.run(full_args + dummy_app) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(1)
+  end
+
   context "--conf-repo option" do
     it "is required" do
       expect { pulsar.parse([""]) }.to raise_error(Clamp::UsageError)
+    end
+
+    it "supports directories" do
+      expect { pulsar.run(full_args + dummy_app) }.not_to raise_error(Errno::ENOENT)
     end
   end
 
@@ -21,6 +29,12 @@ describe Pulsar::CapCommand do
   context "--keep-capfile option" do
     it "is supported" do
       expect { pulsar.parse(base_args + %w(--keep-capfile) + dummy_app) }.to_not raise_error(Clamp::UsageError)
+    end
+  end
+
+  context "--skip-cap-run option" do
+    it "is supported" do
+      expect { pulsar.parse(base_args + %w(--skip-cap-run) + dummy_app) }.to_not raise_error(Clamp::UsageError)
     end
   end
 end

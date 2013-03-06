@@ -20,6 +20,10 @@ module Pulsar
                                   "a directory where to put the configuration repo to build capfile with",
                                   :default => "/tmp/pulsar"
 
+    option [ "-s", "--skip-cap-run" ], :flag,
+                                       "do everything pulsar does (build a Capfile) but don't run the cap command",
+                                       :default => false
+
     parameter "APPLICATION", "the application which you would like to deploy"
     parameter "ENVIRONMENT", "the environment on which you would like to deploy" do |env|
       %w(production staging development).include?(env) ? env : raise(ArgumentError)
@@ -35,8 +39,10 @@ module Pulsar
         create_capfile
         build_capfile(target)
 
-        cap_args = [tasks_list].flatten.join(" ")
-        run_capistrano(cap_args)
+        unless skip_cap_run?
+          cap_args = [tasks_list].flatten.join(" ")
+          run_capistrano(cap_args)
+        end
 
         remove_capfile unless keep_capfile?
         remove_repo

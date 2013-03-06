@@ -13,15 +13,15 @@ module Helpers
   end
 
   def full_args
-    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path ]
+    [ "--conf-repo", dummy_conf_path, "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
   end
 
   def dummy_conf_path
-    "#{File.dirname(__FILE__)}/spec/support/dummy_conf"
+    "#{File.dirname(__FILE__)}/support/dummy_conf"
   end
 
   def tmp_path
-    "#{File.dirname(__FILE__)}/spec/support/tmp"
+    "#{File.dirname(__FILE__)}/support/tmp"
   end
 
   def dummy_app

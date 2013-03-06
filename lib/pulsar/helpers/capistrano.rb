@@ -12,6 +12,7 @@ module Pulsar
         end
 
         def method_missing(meth, *args, &block)
+          raise "asdasd"
           if File.directory?("#{config_path}/recipes/#{meth}")
             args.each do |arg|
               @cap_conf.load("#{config_path}/recipes/#{meth}/#{arg}.rb")

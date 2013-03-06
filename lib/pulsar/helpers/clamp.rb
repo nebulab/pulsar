@@ -33,7 +33,7 @@ module Pulsar
       end
 
       def config_path
-        @configuration_path ||= "#{tmp_dir}/conf_repo"
+        $configuration_path ||= "#{tmp_dir}/conf_repo"
       end
 
       def create_capfile
@@ -41,12 +41,22 @@ module Pulsar
       end
 
       def fetch_repo
-        repo = if conf_repo =~ /\A[a-zA-Z-]+\/[a-zA-Z-]+\Z/
-          "git@github.com:#{conf_repo}.git"
+        if conf_repo =~ /\A[a-zA-Z-]+\/[a-zA-Z-]+\Z/
+          fetch_git_repo("git@github.com:#{conf_repo}.git")
         else
-          conf_repo
+          fetch_directory_repo(conf_repo)
         end
+      end
 
+      def fetch_directory_repo(repo)
+        if File.directory?("#{repo}/.git")
+          fetch_git_repo(repo)
+        else
+          run_cmd("cp -rp #{repo} #{config_path}", :verbose => verbose?)
+        end
+      end
+
+      def fetch_git_repo(repo)
         git_options = "--quiet --depth=1 --branch #{conf_branch}"
         run_cmd("git clone #{git_options} #{repo} #{config_path}", :verbose => verbose?)
       end

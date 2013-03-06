@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'pulsar'
-gem 'capistrano'
+# Require from local gem
+gem 'pulsar', :path => '../../../../'
