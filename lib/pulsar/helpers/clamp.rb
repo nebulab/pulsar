@@ -33,7 +33,7 @@ module Pulsar
       end
 
       def config_path
-        $configuration_path ||= "#{tmp_dir}/conf_repo"
+        @configuration_path ||= "#{tmp_dir}/conf_repo"
       end
 
       def create_capfile
