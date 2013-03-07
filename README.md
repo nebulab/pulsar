@@ -42,7 +42,7 @@ so we'll talk about the structure here.
 
 This is the required configuration repository layout:
 
-```
+```bash
 pulsar-conf/
   |── Gemfile
   ├── Gemfile.lock
@@ -87,7 +87,7 @@ The `recipes/` directory contains all your precious recipes. To include a recipe
 
 An example of the `load_recipes` method:
 
-```
+```ruby
 #
 # Load default recipes
 #
@@ -106,7 +106,7 @@ The `cap` command is needed to (guess what) run Capistrano. The syntax will be a
 since you're running it via `pulsar`.
 For example, to see the list of tasks (like running `cap --tasks`) you have available you can run:
 
-```
+```bash
 pulsar cap -c gh_user/pulsar-conf my_app production --tasks
 ```
 
@@ -119,7 +119,7 @@ inside your app.
 
 For example to deploy a `my_app` in `production` you can run:
 
-```
+```bash
 pulsar cap -c gh_user/pulsar-conf my_app production
 ```
 
@@ -129,13 +129,13 @@ by default pulsar will assume you want to run the `deploy` Capistrano task.
 
 The `list` command will help you list the applications/environments you have configured. Running:
 
-```
+```bash
 pulsar list -c gh_user/pulsar-conf
 ```
 
 will output a list like this one:
 
-```
+```bash
 my_app: production, staging
 my_other_app: staging
 ```
