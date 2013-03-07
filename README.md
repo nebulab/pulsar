@@ -37,6 +37,43 @@ You can install it by running:
 
 ## Usage
 
+To use pulsar you'll need a configuration repository with a certain dir/file structure. We don't have generators (yet)
+so we'll talk about the structure here.
+
+This is the required configuration repository layout:
+
+```
+pulsar-conf/
+  |── Gemfile
+  ├── Gemfile.lock
+  ├── apps
+  │   ├── base.rb
+  │   ├── my_application
+  │   │   ├── defaults.rb
+  │   │   ├── production.rb
+  │   │   ├── recipes
+  │   │   │   └── custom_recipe.rb
+  │   │   └── staging.rb
+  └── recipes
+      ├── generic
+      │   ├── cleanup.rb
+      │   ├── maintenance_mode.rb
+      │   ├── notify.rb
+      │   └── rake.rb
+      ├── rails
+      │   ├── asset_pipeline.rb
+      │   ├── create_database_yml.rb
+      │   ├── create_mongoid_yml.rb
+      │   ├── delayed_job.rb
+      │   ├── passenger.rb
+      │   ├── repair_permissions.rb
+      │   ├── symlink_configs.rb
+      │   ├── unicorn.rb
+      │   └── whenever.rb
+      └── spree_1
+          └── symlink_assets.rb
+```
+
 Pulsar currently supports two commands: `cap` and `list`.
 
 ### Cap command
