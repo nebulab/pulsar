@@ -40,6 +40,8 @@ You can install it by running:
 To use pulsar you'll need a configuration repository with a certain dir/file structure. We don't have generators (yet)
 so we'll talk about the structure here.
 
+### Configurations repository
+
 This is the required configuration repository layout:
 
 ```bash
