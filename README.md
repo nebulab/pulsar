@@ -3,14 +3,14 @@
 [![Build Status](https://secure.travis-ci.org/nebulab/pulsar.png?branch=master)](http://travis-ci.org/nebulab/pulsar) 
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/nebulab/pulsar)
 
-Pulsar is a little tool that helps with deploys a big number of applications. Its main purpose is building capfiles for
-[Capistrano](https://rubygems.org/gems/capistrano) to run.
+Pulsar is a little tool that helps with deploys. Its main purpose is building capfiles for [Capistrano](https://rubygems.org/gems/capistrano) 
+to run. It makes it easy to manage a large number of apps via a separate configuration repository.
 
 Since we usually manage a lot of projects each with its own very special configuration, we got tired of copying-and-pasting
-Capistrano configurations around. A lot of people usually build a private gem with Capistrano reciepes in it but we 
+Capistrano configurations around. A lot of people usually build a private gem with Capistrano recipes in it but we 
 wanted more.
 
-Pulsar lets you keep all your configurations on a private repo (containing all your configurations/reciepes) for all your
+Pulsar lets you keep all your configurations on a private repo (containing all your configurations/recipes) for all your
 servers and apps. As long as you have read access to the repo you'll be able, through pulsar, to build a custom dynamic 
 Capfile on which Capistrano is executed.
 
@@ -19,7 +19,8 @@ These are some of the benefits of this approach:
 * No need to pollute the apps with custom configurations
 * No need to have the app locally to deploy your application
 * It has multistage support by default
-* Everything you add to your recipes can be easily shared with every other app
+* Everything you add to your 
+* pes can be easily shared with every other app
 * Can easily be integrated with a web framework to provide easy 1-click deploys
 * Everything is structured so that you write the least code possible to deploy apps
 * You'll never have your eyes bleed on Capistrano output
