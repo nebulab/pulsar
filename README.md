@@ -74,7 +74,31 @@ pulsar-conf/
           └── symlink_assets.rb
 ```
 
-Pulsar currently supports two commands: `cap` and `list`.
+What pulsar does is use this configuration repository to build a Capfile file by appending the configurations as needed.
+The `base.rb` file contains configurations that are shared between all the apps and it's prepended at the head of the Capfile.
+The `apps/` directory contains configurations for your apps (no recipes as they're stored and included from the `recipes/` directory).
+The `apps/my_application/recipes/` directory includes recipes which are automatically included in the Capfile (there 
+are some apps that require a special "dirty" recipe).
+The `apps/my_application/defaults.rb` file includes configuration shared between your app's stages.
+The `recipes/` directory contains all your precious recipes. To include a recipe and actually use it you have to:
+
+1. extend your `base.rb` with: `extend Pulsar::Helpers::Capistrano`
+2. use the `load_recipes` method wherever you want inside the `apps/` directory
+
+An example of the `load_recipes` method:
+
+```
+#
+# Load default recipes
+#
+load_recipes do
+  generic :notify, :cleanup, :rake
+end
+```
+
+After you have your repository (I hope hosted somewhere safe), you can start using the `pulsar` command.
+
+Pulsar currently supports two sub-commands: `cap` and `list`.
 
 ### Cap command
 
