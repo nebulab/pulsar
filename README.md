@@ -1,7 +1,7 @@
 # Pulsar
 
 [![Build Status](https://secure.travis-ci.org/nebulab/pulsar.png?branch=master)](http://travis-ci.org/nebulab/pulsar) 
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/nebulab/pulsar)
+[![Code Climate](https://codeclimate.com/github/nebulab/pulsar.png)](https://codeclimate.com/github/nebulab/pulsar)
 
 Pulsar is a little tool that helps with deploys. Its main purpose is building capfiles for [Capistrano](https://rubygems.org/gems/capistrano) 
 to run. It makes it easy to manage a large number of apps via a separate configuration repository.
