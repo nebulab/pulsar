@@ -50,12 +50,12 @@ pulsar-conf/
   ├── Gemfile.lock
   ├── apps
   │   ├── base.rb
-  │   ├── my_application
-  │   │   ├── defaults.rb
-  │   │   ├── production.rb
-  │   │   ├── recipes
-  │   │   │   └── custom_recipe.rb
-  │   │   └── staging.rb
+  │   └── my_application
+  │       ├── defaults.rb
+  │       ├── production.rb
+  │       ├── recipes
+  │       │   └── custom_recipe.rb
+  │       └── staging.rb
   └── recipes
       ├── generic
       │   ├── cleanup.rb
