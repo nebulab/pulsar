@@ -71,8 +71,8 @@ inside a local directory or git repo. Pulsar will then use that repo to build te
 <p>For now pulsar lacks integration with other framworks. This means that the best way you can use it is standalone.
 You can install it by running:</p>
 
-<pre><code>$ gem install pulsar
-</code></pre>
+<div class="highlight"><pre>gem install pulsar
+</pre></div>
 
 <h2>Usage</h2>
 
@@ -122,11 +122,11 @@ are some apps that require a special "dirty" recipe).
 The <code>apps/my_application/defaults.rb</code> file includes configuration shared between your app's stages.
 The <code>recipes/</code> directory contains all your precious recipes. To include a recipe and actually use it you have to:</p>
 
-<ol>
+<ul>
 <li>extend your <code>base.rb</code> with: <code>extend Pulsar::Helpers::Capistrano</code>
 </li>
 <li>use the <code>load_recipes</code> method wherever you want inside the <code>apps/</code> directory</li>
-</ol><p>An example of the <code>load_recipes</code> method:</p>
+</ul><p>An example of the <code>load_recipes</code> method:</p>
 
 <div class="highlight"><pre><span class="c1">#</span>
 <span class="c1"># Load default recipes</span>
@@ -181,13 +181,7 @@ my_other_app: staging
 
 <h2>Contributing</h2>
 
-<ol>
-<li>Fork it</li>
-<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
-<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
-<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
-<li>Create new Pull Request</li>
-</ol>
+<p>Please visit the <a href="https://github.com/nebulab/pulsar">GitHub Project</a> for that.</p>
         </article>
       </div>
     </div>
