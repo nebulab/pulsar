@@ -98,6 +98,9 @@ load_recipes do
 end
 ```
 
+This will load the recipes in `recipes/generic/notify.rb recipes/generic/cleanup.rb recipes/generic/rake.rb` by using
+Capistrano's `load` method.
+
 After you have your repository (I hope hosted somewhere safe), you can start using the `pulsar` command.
 
 Pulsar currently supports two sub-commands: `cap` and `list`.
