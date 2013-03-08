@@ -1,0 +1,213 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Pulsar</title>
+  <meta name="description" content="Manage your Capistrano deployments with ease">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Pulsar</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Manage your Capistrano deployments with ease</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/nebulab/pulsar/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/nebulab/pulsar/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/nebulab/pulsar" class="code">View Pulsar on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>Pulsar</h1>
+
+<p><a href="http://travis-ci.org/nebulab/pulsar"><img src="https://secure.travis-ci.org/nebulab/pulsar.png?branch=master" alt="Build Status"></a> 
+<a href="https://codeclimate.com/github/nebulab/pulsar"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+
+<p>Pulsar is a little tool that helps with deploys. Its main purpose is building capfiles for <a href="https://rubygems.org/gems/capistrano">Capistrano</a> 
+to run. It makes it easy to manage a large number of apps via a separate configuration repository.</p>
+
+<p>Since we usually manage a lot of projects each with its own very special configuration, we got tired of copying-and-pasting
+Capistrano configurations around. A lot of people usually build a private gem with Capistrano recipes in it but we 
+wanted more.</p>
+
+<p>Pulsar lets you keep all your configurations on a private repo (containing all your configurations/recipes) for all your
+servers and apps. As long as you have read access to the repo you'll be able, through pulsar, to build a custom dynamic 
+Capfile on which Capistrano is executed.</p>
+
+<p>These are some of the benefits of this approach:</p>
+
+<ul>
+<li>No need to pollute the apps with custom configurations</li>
+<li>No need to have the app locally to deploy your application</li>
+<li>It has multistage support by default</li>
+<li>Everything you add to your </li>
+<li>pes can be easily shared with every other app</li>
+<li>Can easily be integrated with a web framework to provide easy 1-click deploys</li>
+<li>Everything is structured so that you write the least code possible to deploy apps</li>
+<li>You'll never have your eyes bleed on Capistrano output</li>
+</ul><p>Pulsar requires you, as a minimal configuration, to have the gem installed and store the configurations in a certain way
+inside a local directory or git repo. Pulsar will then use that repo to build temporary Capfiles.</p>
+
+<h2>Installation</h2>
+
+<p>For now pulsar lacks integration with other framworks. This means that the best way you can use it is standalone.
+You can install it by running:</p>
+
+<pre><code>$ gem install pulsar
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>To use pulsar you'll need a configuration repository with a certain dir/file structure. We don't have generators (yet)
+so we'll talk about the structure here.</p>
+
+<h3>Configurations repository</h3>
+
+<p>This is the required configuration repository layout:</p>
+
+<div class="highlight"><pre>pulsar-conf/
+  |── Gemfile
+  ├── Gemfile.lock
+  ├── apps
+  │   ├── base.rb
+  │   └── my_application
+  │       ├── defaults.rb
+  │       ├── production.rb
+  │       ├── recipes
+  │       │   └── custom_recipe.rb
+  │       └── staging.rb
+  └── recipes
+      ├── generic
+      │   ├── cleanup.rb
+      │   ├── maintenance_mode.rb
+      │   ├── notify.rb
+      │   └── rake.rb
+      ├── rails
+      │   ├── asset_pipeline.rb
+      │   ├── create_database_yml.rb
+      │   ├── create_mongoid_yml.rb
+      │   ├── delayed_job.rb
+      │   ├── passenger.rb
+      │   ├── repair_permissions.rb
+      │   ├── symlink_configs.rb
+      │   ├── unicorn.rb
+      │   └── whenever.rb
+      └── spree_1
+          └── symlink_assets.rb
+</pre></div>
+
+<p>What pulsar does is use this configuration repository to build a Capfile file by appending the configurations as needed.
+The <code>base.rb</code> file contains configurations that are shared between all the apps and it's prepended at the head of the Capfile.
+The <code>apps/</code> directory contains configurations for your apps (no recipes as they're stored and included from the <code>recipes/</code> directory).
+The <code>apps/my_application/recipes/</code> directory includes recipes which are automatically included in the Capfile (there 
+are some apps that require a special "dirty" recipe).
+The <code>apps/my_application/defaults.rb</code> file includes configuration shared between your app's stages.
+The <code>recipes/</code> directory contains all your precious recipes. To include a recipe and actually use it you have to:</p>
+
+<ol>
+<li>extend your <code>base.rb</code> with: <code>extend Pulsar::Helpers::Capistrano</code>
+</li>
+<li>use the <code>load_recipes</code> method wherever you want inside the <code>apps/</code> directory</li>
+</ol><p>An example of the <code>load_recipes</code> method:</p>
+
+<div class="highlight"><pre><span class="c1">#</span>
+<span class="c1"># Load default recipes</span>
+<span class="c1">#</span>
+<span class="n">load_recipes</span> <span class="k">do</span>
+  <span class="n">generic</span> <span class="ss">:notify</span><span class="p">,</span> <span class="ss">:cleanup</span><span class="p">,</span> <span class="ss">:rake</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>This will load the recipes in <code>recipes/generic/notify.rb recipes/generic/cleanup.rb recipes/generic/rake.rb</code> by using
+Capistrano's <code>load</code> method.</p>
+
+<p>After you have your repository (I hope hosted somewhere safe), you can start using the <code>pulsar</code> command.</p>
+
+<p>Pulsar currently supports two sub-commands: <code>cap</code> and <code>list</code>.</p>
+
+<h3>Cap command</h3>
+
+<p>The <code>cap</code> command is needed to (guess what) run Capistrano. The syntax will be a little different to that of Capistrano
+since you're running it via <code>pulsar</code>.
+For example, to see the list of tasks (like running <code>cap --tasks</code>) you have available you can run:</p>
+
+<div class="highlight"><pre>pulsar cap -c gh_user/pulsar-conf my_app production --tasks
+</pre></div>
+
+<p>That would result in pulsar fetching the <code>git@github.com:gh_user/pulsar-conf.git</code> repo (just the latest <code>HEAD</code> 
+to preserve bandwidth) and building a Capfile on that looking for the configuration of <code>my_app</code> for stage <code>production</code>
+and then running <code>cap --tasks</code> on that Capfile.</p>
+
+<p>As you can guess, you can append any kind of args to this command and it will execute it as if your're running <code>cap</code>
+inside your app.</p>
+
+<p>For example to deploy a <code>my_app</code> in <code>production</code> you can run:</p>
+
+<div class="highlight"><pre>pulsar cap -c gh_user/pulsar-conf my_app production
+</pre></div>
+
+<p>by default pulsar will assume you want to run the <code>deploy</code> Capistrano task.</p>
+
+<h3>List command</h3>
+
+<p>The <code>list</code> command will help you list the applications/environments you have configured. Running:</p>
+
+<div class="highlight"><pre>pulsar list -c gh_user/pulsar-conf
+</pre></div>
+
+<p>will output a list like this one:</p>
+
+<div class="highlight"><pre>my_app: production, staging
+my_other_app: staging
+</pre></div>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/nebulab" class="avatar"><img src="https://secure.gravatar.com/avatar/16da3fdf9eff2a639f8da408ccf04524?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/nebulab">nebulab</a> maintains <a href="https://github.com/nebulab/pulsar">Pulsar</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/nebulab/pulsar/tarball/master" class="tar">tar</a><a href="https://github.com/nebulab/pulsar/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
