@@ -8,7 +8,7 @@ to run. It makes it easy to manage a large number of apps via a separate configu
 
 ## Installation & Usage
 
-Refer to the [GitHub Page](http://nebulab.github.com/pulsar/).
+Refer to the [GitHub Page](http://pulsar.nebulab.it).
 
 ## Contributing
 
