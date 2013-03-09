@@ -47,10 +47,11 @@ Capfile on which Capistrano is executed.</p>
 <li>No need to pollute the apps with custom configurations</li>
 <li>No need to have the app locally to deploy your application</li>
 <li>It has multistage support by default</li>
-<li>Everything you add to your recipes can be easily shared with every other app</li>
+<li>Everything you add to your </li>
+<li>pes can be easily shared with every other app</li>
 <li>Can easily be integrated with a web framework to provide easy 1-click deploys</li>
 <li>Everything is structured so that you write the least code possible to deploy apps</li>
-<li>You'll never have your eyes bleed on Capistrano output again</li>
+<li>You'll never have your eyes bleed on Capistrano output</li>
 </ul><p>Pulsar requires you, as a minimal configuration, to have the gem installed and store the configurations in a certain way
 inside a local directory or git repo. Pulsar will then use that repo to build temporary Capfiles.</p>
 
@@ -102,13 +103,15 @@ so we'll talk about the structure here.</p>
           └── symlink_assets.rb
 </pre></div>
 
-<p>What pulsar does is use this configuration repository to build a Capfile file by appending the configurations as needed.
-The <code>base.rb</code> file contains configurations that are shared between all the apps and it's prepended at the head of the Capfile.
-The <code>apps/</code> directory contains configurations for your apps (no recipes as they're stored and included from the <code>recipes/</code> directory).
-The <code>apps/my_application/recipes/</code> directory includes recipes which are automatically included in the Capfile (there 
-are some apps that require a special "dirty" recipe).
-The <code>apps/my_application/defaults.rb</code> file includes configuration shared between your app's stages.
-The <code>recipes/</code> directory contains all your precious recipes. To include a recipe and actually use it you have to:</p>
+<p>What pulsar does is use this configuration repository to build a Capfile by appending the configurations as needed. Here is a list of the main files it uses:</p>
+
+<ul>
+<li>The <code>base.rb</code> file contains configurations that are shared between all the apps.</li>
+<li>The <code>apps/</code> directory contains configurations for your apps (no recipes as they're stored and included from the <code>recipes/</code> directory).</li>
+<li>The <code>apps/my_application/recipes/</code> directory includes recipes which are automatically included in the Capfile (there are some apps that require a special "dirty" recipe).</li>
+<li>The <code>apps/my_application/defaults.rb</code> file includes configuration shared between your app's stages.</li>
+<li>The <code>recipes/</code> directory contains all your precious recipes. </li>
+</ul><p>Pulsar also provides a nifty little helper that lets you easily load recipes from the <code>recipes/</code> directory without worrying about the actual recipe path. To use it you need to:</p>
 
 <ul>
 <li>extend your <code>base.rb</code> with: <code>extend Pulsar::Helpers::Capistrano</code>
@@ -133,26 +136,28 @@ Capistrano's <code>load</code> method.</p>
 
 <h3>Cap command</h3>
 
-<p>The <code>cap</code> command is needed to (guess what) run Capistrano. The syntax will be a little different to that of Capistrano
-since you're running it via <code>pulsar</code>.
+<p>The <code>cap</code> command is needed to (guess what) run Capistrano. The syntax will be a little different to that of Capistrano since you're running it via <code>pulsar</code>.
 For example, to see the list of tasks (like running <code>cap --tasks</code>) you have available you can run:</p>
 
 <div class="highlight"><pre>pulsar cap -c gh_user/pulsar-conf my_app production --tasks
 </pre></div>
 
-<p>That would result in pulsar fetching the <code>git@github.com:gh_user/pulsar-conf.git</code> repo (just the latest <code>HEAD</code> 
-to preserve bandwidth) and building a Capfile on that looking for the configuration of <code>my_app</code> for stage <code>production</code>
-and then running <code>cap --tasks</code> on that Capfile.</p>
+<p>This is what Pulsar will do:</p>
 
-<p>As you can guess, you can append any kind of args to this command and it will execute it as if your're running <code>cap</code>
-inside your app.</p>
+<ol>
+<li>fetch <code>git@github.com:gh_user/pulsar-conf.git</code> repo (just the latest <code>HEAD</code> to preserve bandwidth)</li>
+<li>use <code>cat</code> to append/prepend files from the configuration repo to build a Capfile with configurations for <code>my_app production</code>
+</li>
+<li>run <code>bundle install</code> to install all the dependencies you required via Gemfile</li>
+<li>run <code>cap --tasks</code> on that Capfile</li>
+</ol><p>As you can guess, you can append any kind of arguments to this command and it will execute it as if your're running <code>cap</code> inside your app.</p>
 
 <p>For example to deploy a <code>my_app</code> in <code>production</code> you can run:</p>
 
 <div class="highlight"><pre>pulsar cap -c gh_user/pulsar-conf my_app production
 </pre></div>
 
-<p>by default pulsar will assume you want to run the <code>deploy</code> Capistrano task.</p>
+<p>by default Pulsar will assume you want to run the <code>deploy</code> Capistrano task.</p>
 
 <h3>List command</h3>
 
