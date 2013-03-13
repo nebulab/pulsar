@@ -23,11 +23,12 @@ describe Pulsar::MainCommand do
   end
 
   context "subcommands" do
-    it "should be cap and list" do
+    it "should be cap and list and init" do
       help = pulsar.help
       help.should =~ /Subcommands:/
       help.should =~ /cap/
       help.should =~ /list/
+      help.should =~ /init/
     end
   end
 end

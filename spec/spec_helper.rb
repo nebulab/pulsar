@@ -15,7 +15,7 @@ RSpec.configure do |config|
   config.include Helpers
   config.include OutputCapture
 
-  config.before(:each) do
+  config.around(:each) do
     FileUtils.rm_rf(Dir.glob("#{File.dirname(__FILE__)}/support/tmp/*"))
   end
 end
