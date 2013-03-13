@@ -20,65 +20,65 @@ describe Pulsar::CapCommand do
     it "uses base.rb in staging stage" do
       pulsar.run(full_cap_args + dummy_app(:staging))
 
-      latest_capfile.should match(/# This is apps\/base.rb/)
+      latest_capfile.should include("# This is apps/base.rb")
     end
 
     it "uses base.rb in production stage" do
       pulsar.run(full_cap_args + dummy_app)
 
-      latest_capfile.should match(/# This is apps\/base.rb/)
+      latest_capfile.should include("# This is apps/base.rb")
     end
 
     it "uses defaults.rb in staging stage" do
       pulsar.run(full_cap_args + dummy_app(:staging))
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/defaults.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/defaults.rb")
     end
 
     it "uses defaults.rb in production stage" do
       pulsar.run(full_cap_args + dummy_app)
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/defaults.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/defaults.rb")
     end
 
     it "uses defaults.rb in staging stage only" do
       pulsar.run(full_cap_args + dummy_app(:staging))
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/staging.rb/)
-      latest_capfile.should_not match(/# This is apps\/dummy_app\/production.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/staging.rb")
+      latest_capfile.should_not include("# This is apps/dummy_app/production.rb")
     end
 
     it "uses defaults.rb in production stage only" do
       pulsar.run(full_cap_args + dummy_app)
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/production.rb/)
-      latest_capfile.should_not match(/# This is apps\/dummy_app\/staging.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/production.rb")
+      latest_capfile.should_not include("# This is apps/dummy_app/staging.rb")
     end
 
     it "uses custom recipes in staging stage" do
       pulsar.run(full_cap_args + dummy_app(:staging))
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/recipes\/custom_recipe.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/recipes/custom_recipe.rb")
     end
 
     it "uses custom recipes in production stage" do
       pulsar.run(full_cap_args + dummy_app)
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/recipes\/custom_recipe.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/recipes/custom_recipe.rb")
     end
 
     it "uses custom staging recipes in staging stage only" do
       pulsar.run(full_cap_args + dummy_app(:staging))
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/recipes\/staging\/custom_recipe.rb/)
-      latest_capfile.should_not match(/# This is apps\/dummy_app\/recipes\/production\/custom_recipe.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/recipes/staging/custom_recipe.rb")
+      latest_capfile.should_not include("# This is apps/dummy_app/recipes/production/custom_recipe.rb")
     end
 
     it "uses custom production recipes in production stage only" do
       pulsar.run(full_cap_args + dummy_app)
 
-      latest_capfile.should match(/# This is apps\/dummy_app\/recipes\/production\/custom_recipe.rb/)
-      latest_capfile.should_not match(/# This is apps\/dummy_app\/recipes\/staging\/custom_recipe.rb/)
+      latest_capfile.should include("# This is apps/dummy_app/recipes/production/custom_recipe.rb")
+      latest_capfile.should_not include("# This is apps/dummy_app/recipes/staging/custom_recipe.rb")
     end
   end
 
@@ -124,19 +124,19 @@ describe Pulsar::CapCommand do
     it "supports Capistrano IMPORTANT" do
       pulsar.run(full_cap_args + %w(--log-level important) + dummy_app)
 
-      latest_capfile.should match(/logger.level = logger.level = Capistrano::Logger::IMPORTANT/)
+      latest_capfile.should include("logger.level = logger.level = Capistrano::Logger::IMPORTANT")
     end
 
     it "supports Capistrano INFO" do
       pulsar.run(full_cap_args + %w(--log-level info) + dummy_app)
 
-      latest_capfile.should match(/logger.level = logger.level = Capistrano::Logger::INFO/)
+      latest_capfile.should include("logger.level = logger.level = Capistrano::Logger::INFO")
     end
 
     it "supports Capistrano DEBUG" do
       pulsar.run(full_cap_args + %w(--log-level debug) + dummy_app)
 
-      latest_capfile.should match(/logger.level = logger.level = Capistrano::Logger::DEBUG/)
+      latest_capfile.should include("logger.level = logger.level = Capistrano::Logger::DEBUG")
     end
   end
 end
