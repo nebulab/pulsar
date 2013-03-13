@@ -38,7 +38,7 @@ Capistrano configurations around. A lot of people usually build a private gem wi
 wanted more.</p>
 
 <p>Pulsar lets you keep all your configurations on a private repo (containing all your configurations/recipes) for all your
-servers and apps. As long as you have read access to the repo you'll be able, through pulsar, to build a custom dynamic 
+servers and apps. As long as you have read access to the repo you'll be able, through Pulsar, to build a custom dynamic 
 Capfile on which Capistrano is executed.</p>
 
 <p>These are some of the benefits of this approach:</p>
@@ -47,13 +47,12 @@ Capfile on which Capistrano is executed.</p>
 <li>No need to pollute the apps with custom configurations</li>
 <li>No need to have the app locally to deploy your application</li>
 <li>It has multistage support by default</li>
-<li>Everything you add to your </li>
-<li>pes can be easily shared with every other app</li>
-<li>Can easily be integrated with a web framework to provide easy 1-click deploys</li>
+<li>Everything you add to your recipes can be easily shared with every other app</li>
+<li>Can easily be integrated with a web framework to provide 1-click deploys</li>
 <li>Everything is structured so that you write the least code possible to deploy apps</li>
-<li>You'll never have your eyes bleed on Capistrano output</li>
-</ul><p>Pulsar requires you, as a minimal configuration, to have the gem installed and store the configurations in a certain way
-inside a local directory or git repo. Pulsar will then use that repo to build temporary Capfiles.</p>
+<li>You'll never have your eyes bleed on Capistrano output again</li>
+</ul><p>Pulsar requires you to have, as a minimal configuration, the gem installed and your configurations stored in a certain way
+inside a local directory or git repository. Pulsar will then use that repo to build temporary Capfiles.</p>
 
 <h2>Installation</h2>
 
