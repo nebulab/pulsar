@@ -49,4 +49,28 @@ describe Pulsar::CapCommand do
       expect { pulsar.parse(base_args + %w(--keep-repo) + dummy_app) }.to_not raise_error(Clamp::UsageError)
     end
   end
+
+  context "--log-level option" do
+    it "is supported" do
+      expect { pulsar.parse(base_args + %w(--log-level debug) + dummy_app) }.to_not raise_error(Clamp::UsageError)
+    end
+
+    it "supports Capistrano IMPORTANT" do
+      pulsar.run(full_cap_args + %w(--log-level important) + dummy_app)
+
+      latest_capfile.should match(/logger.level = logger.level = Capistrano::Logger::IMPORTANT/)
+    end
+
+    it "supports Capistrano INFO" do
+      pulsar.run(full_cap_args + %w(--log-level info) + dummy_app)
+
+      latest_capfile.should match(/logger.level = logger.level = Capistrano::Logger::INFO/)
+    end
+
+    it "supports Capistrano DEBUG" do
+      pulsar.run(full_cap_args + %w(--log-level debug) + dummy_app)
+
+      latest_capfile.should match(/logger.level = logger.level = Capistrano::Logger::DEBUG/)
+    end
+  end
 end

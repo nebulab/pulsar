@@ -22,4 +22,12 @@ module Helpers
   def dummy_app
     [ "dummy_app", "production" ]
   end
+
+  def latest_capfile
+    capfile = File.open(Dir.glob("#{tmp_path}/capfile-*").first)
+    content = capfile.read
+    capfile.close
+    
+    content
+  end
 end
