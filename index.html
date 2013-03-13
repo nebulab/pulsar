@@ -65,8 +65,9 @@ You can install it by running:</p>
 
 <h2>Usage</h2>
 
-<p>To use pulsar you'll need a configuration repository with a certain dir/file structure. We don't have generators (yet)
-so we'll talk about the structure here.</p>
+<p>To use pulsar you'll need a configuration repository with a certain dir/file structure. The configurations can either be a plain directory or a git repository.</p>
+
+<p>An initial folder structure can be obtained with the <code>pulsar init</code> command.</p>
 
 <h3>Configurations repository</h3>
 
@@ -171,6 +172,22 @@ For example, to see the list of tasks (like running <code>cap --tasks</code>) yo
 <div class="highlight"><pre>my_app: production, staging
 my_other_app: staging
 </pre></div>
+
+<h3>Init command</h3>
+
+<p>The <code>init</code> command will help you get started with Pulsar by providing a basic directory structure for your
+configuration repo. If you run:</p>
+
+<div class="highlight"><pre>pulsar init ./my_path
+</pre></div>
+
+<p>Pulsar will put a "starter" configuration repo inside <code>./my_path</code>. After that please remember that you need to:</p>
+
+<div class="highlight"><pre><span class="nb">cd</span> ./my_path
+bundle install
+</pre></div>
+
+<p>to add a <code>Gemfile.lock</code> file. If you'd like to keep your configurations under revision control you should also proceed to init the repo with <code>git</code>.</p>
 
 <h2>Contributing</h2>
 
