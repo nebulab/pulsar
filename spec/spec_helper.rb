@@ -10,10 +10,14 @@ require "pulsar/commands/main"
 Dir[File.join(File.dirname(__FILE__), 'support/modules/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
-  config.mock_with :rr
+  config.mock_with :rspec
 
   config.include Helpers
   config.include OutputCapture
+
+  config.before(:each) do
+    Pulsar::MainCommand.any_instance.stub(:bundle_install)
+  end
 
   config.after(:each) do
     FileUtils.rm_rf(Dir.glob("#{File.dirname(__FILE__)}/support/tmp/*"))
