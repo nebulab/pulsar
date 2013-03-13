@@ -1,3 +1,5 @@
+# This is apps/base.rb
+
 #
 # Require and extend with additional modules
 #

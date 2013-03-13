@@ -19,8 +19,8 @@ module Helpers
     File.join(File.dirname(__FILE__), "..", "tmp")
   end
 
-  def dummy_app
-    [ "dummy_app", "production" ]
+  def dummy_app(stage = :production)
+    [ "dummy_app", stage.to_s ]
   end
 
   def latest_capfile
