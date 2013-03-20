@@ -1,8 +1,14 @@
 require "rspec"
 require "stringio"
 require "fileutils"
+require "coveralls"
 require "pulsar"
 require "pulsar/commands/main"
+
+#
+# Code coverage
+#
+Coveralls.wear!
 
 #
 # Require all helper modules
