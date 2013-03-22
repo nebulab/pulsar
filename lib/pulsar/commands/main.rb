@@ -1,37 +1,12 @@
 module Pulsar
   class MainCommand < Clamp::Command
     include Pulsar::Helpers::Clamp
+    include Pulsar::Options::Shared
+    include Pulsar::Options::ConfRepo
     
-    option [ "-V", "--version" ], :flag, "print out pulsar version" do
-      puts(VERSION)
-      exit(0)
-    end
-
-    option [ "-v", "--verbose" ], :flag, "print out what pulsar is doing", :default => false 
-    
-    option [ "-k", "--keep-capfile" ], :flag,
-                                       "don't remove the generated capfile in the TMP DIR directory",
-                                       :default => false
-
-    option [ "-r", "--keep-repo" ], :flag,
-                                    "don't remove the downloaded configuration repository from the TMP DIR directory",
-                                    :default => false
-
     option [ "-l", "--log-level" ], "LOG LEVEL",
                                     "how much output will Capistrano print out. Can be any of: important, info, debug",
                                     :default => "important"
-
-    option [ "-c", "--conf-repo" ], "REPO URL",
-                                    "a git repository with deploy configurations, mainly apps and recipes",
-                                    :required => true
-
-    option [ "-b", "--conf-branch" ], "REPO BRANCH",
-                                      "specify a branch for the configuration repository",
-                                      :default => "master"
-
-    option [ "-d", "--tmp-dir" ], "TMP DIR",
-                                  "a directory where to put the configuration repo to build capfile with",
-                                  :default => "/tmp/pulsar"
 
     option [ "-s", "--skip-cap-run" ], :flag,
                                        "do everything pulsar does (build a Capfile) but don't run the cap command",

@@ -6,5 +6,6 @@ module Pulsar
   require "colored"
   require "pulsar/helpers/clamp"
   require "pulsar/helpers/capistrano"
+  require "pulsar/options/all"
   require "pulsar/commands/all"
 end
