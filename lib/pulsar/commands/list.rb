@@ -1,5 +1,5 @@
 module Pulsar
-  class ListCommand < MainCommand
+  class ListCommand < UtilsCommand
     option [ "-k", "--keep-capfile" ], :flag, 
                                        "don't remove the generated capfile in the TMP DIR directory",
                                        :default => false

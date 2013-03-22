@@ -4,6 +4,7 @@ require "fileutils"
 require "coveralls"
 require "pulsar"
 require "pulsar/commands/main"
+require "pulsar/commands/utils"
 
 #
 # Code coverage

@@ -48,3 +48,4 @@ then
 fi
 
 alias pulsar="ruby bin/pulsar"
+alias pulsar-utils="ruby bin/pulsar-utils"

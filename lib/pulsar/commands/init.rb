@@ -1,5 +1,5 @@
 module Pulsar
-  class InitCommand < MainCommand
+  class InitCommand < UtilsCommand
     parameter "CONFIGURATION_PATH", "where to generate your configuration repository"
 
     def execute
