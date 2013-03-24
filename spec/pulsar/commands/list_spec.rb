@@ -16,6 +16,11 @@ describe Pulsar::ListCommand do
     it "is required" do
       expect { pulsar.parse([""]) }.to raise_error(Clamp::UsageError)
     end
+
+    it "supports environment variable" do
+      ENV["PULSAR_CONF_REPO"] = dummy_conf_path
+      expect { pulsar.parse([]) }.not_to raise_error(Clamp::UsageError)
+    end
     
     it "supports directories" do
       expect { pulsar.run(full_list_args) }.not_to raise_error(Errno::ENOENT)

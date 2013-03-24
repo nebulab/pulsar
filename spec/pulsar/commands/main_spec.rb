@@ -106,6 +106,11 @@ describe Pulsar::MainCommand do
       expect { pulsar.parse([""]) }.to raise_error(Clamp::UsageError)
     end
 
+    it "supports environment variable" do
+      ENV["PULSAR_CONF_REPO"] = dummy_conf_path
+      expect { pulsar.parse(dummy_app) }.not_to raise_error(Clamp::UsageError)
+    end
+
     it "supports directories" do
       expect { pulsar.run(full_cap_args + dummy_app) }.not_to raise_error(Errno::ENOENT)
     end
