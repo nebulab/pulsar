@@ -16,7 +16,7 @@ module Pulsar
     parameter "ENVIRONMENT", "the environment on which you would like to deploy" do |env|
       %w(production staging development).include?(env) ? env : raise(ArgumentError)
     end
-    parameter "[TASKS] ...", "the tasks/args that will be passed to the final `cap` command", :default => "deploy"
+    parameter "[TASKS] ...", "the arguments and/or options that will be passed to capistrano", :default => "deploy"
 
     def execute
       target = "#{application}:#{environment}"
