@@ -15,6 +15,10 @@ module Helpers
     File.join(File.dirname(__FILE__), "..", "dummy_conf")
   end
 
+  def dummy_rack_app_path
+    File.join(File.dirname(__FILE__), "..", "dummy_app")
+  end
+
   def tmp_path
     File.join(File.dirname(__FILE__), "..", "tmp")
   end
