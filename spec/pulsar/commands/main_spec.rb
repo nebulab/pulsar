@@ -103,7 +103,7 @@ describe Pulsar::MainCommand do
 
   context "--conf-repo option" do
     it "is required" do
-      expect { pulsar.parse([""]) }.to raise_error(Clamp::UsageError)
+      expect { pulsar.parse([]) }.to raise_error(Clamp::UsageError)
     end
 
     it "supports environment variable" do
