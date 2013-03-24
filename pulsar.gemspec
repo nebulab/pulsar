@@ -8,11 +8,11 @@ Gem::Specification.new do |gem|
   gem.version        = Pulsar::VERSION
   gem.authors        = ["Alberto Vena", "Matteo Latini"]
   gem.email          = ["info@nebulab.it"]
-  gem.description    = %q{NebuLab's central capistrano deploy resource.}
+  gem.description    = %q{Manage your Capistrano deployments with ease}
   gem.summary        = %q{
-    A simple gem that parses capistrano configuration froma another (private) repository
-    providing a simple solution to managing multiple systems without installing capistrano
-    configurations in each app.
+    Pulsar helps with Capistrano configuration management. It uses a repository
+    to store all your precious configurations and recipes to build Capistrano 
+    deploys on it.
   }
   gem.homepage       = "https://github.com/nebulab/pulsar"
 
