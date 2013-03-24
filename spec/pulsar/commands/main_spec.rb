@@ -3,11 +3,7 @@ require 'spec_helper'
 describe Pulsar::MainCommand do
   let(:pulsar) { Pulsar::MainCommand.new("") }
 
-  before(:each) do
-    Pulsar.instance_eval{ remove_const :MainCommand }
-    load "pulsar/commands/main.rb"
-    Pulsar::MainCommand.any_instance.stub(:bundle_install)
-  end
+  before(:each) { reload_main_command }
 
   it "builds a Capfile file in tmp dir" do
     expect { pulsar.run(full_cap_args + dummy_app) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(1)
@@ -23,9 +19,9 @@ describe Pulsar::MainCommand do
   end
 
   it "uses dirname when inside a rack app directory" do
-    pending
-    
     FileUtils.cd(dummy_rack_app_path) do
+      reload_main_command
+
       expect { pulsar.run(full_cap_args + %w(production)) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(1)
     end
   end

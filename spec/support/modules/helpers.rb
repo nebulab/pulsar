@@ -12,11 +12,11 @@ module Helpers
   end
 
   def dummy_conf_path
-    File.join(File.dirname(__FILE__), "..", "dummies", "conf")
+    File.join(File.dirname(__FILE__), "..", "dummies", "dummy_conf")
   end
 
   def dummy_rack_app_path
-    File.join(File.dirname(__FILE__), "..", "dummies", "app")
+    File.join(File.dirname(__FILE__), "..", "dummies", "dummy_app")
   end
 
   def tmp_path
@@ -33,5 +33,16 @@ module Helpers
     capfile.close
     
     content
+  end
+
+  def reload_main_command
+    Pulsar.instance_eval{ remove_const :MainCommand }
+    load "pulsar/commands/main.rb"
+
+    stub_bundle_install
+  end
+
+  def stub_bundle_install
+    Pulsar::MainCommand.any_instance.stub(:bundle_install)
   end
 end
