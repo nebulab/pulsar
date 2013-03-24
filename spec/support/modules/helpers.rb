@@ -12,11 +12,11 @@ module Helpers
   end
 
   def dummy_conf_path
-    File.join(File.dirname(__FILE__), "..", "dummy_conf")
+    File.join(File.dirname(__FILE__), "..", "dummies", "conf")
   end
 
   def dummy_rack_app_path
-    File.join(File.dirname(__FILE__), "..", "dummy_app")
+    File.join(File.dirname(__FILE__), "..", "dummies", "app")
   end
 
   def tmp_path
