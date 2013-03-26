@@ -52,23 +52,35 @@ Capfile on which Capistrano is executed.</p>
 <li>Everything you add to your recipes can be easily shared with every other app</li>
 <li>Can easily be integrated with a web framework to provide 1-click deploys</li>
 <li>Everything is structured so that you write the least code possible to deploy apps</li>
-<li>You'll never have your eyes bleed on Capistrano output again</li>
-</ul><p>Pulsar requires you to have, as a minimal configuration, the gem installed and your configurations stored in a certain way
-inside a local directory or git repository. Pulsar will then use that repo to build temporary Capfiles.</p>
+</ul><p>Pulsar requires, as a minimal configuration, the gem installed and your configurations stored inside a local directory or git repository. 
+Pulsar will then use that repo to build temporary Capfiles.</p>
 
 <h2>Installation</h2>
 
-<p>For now pulsar lacks integration with other framworks. This means that the best way you can use it is standalone.
-You can install it by running:</p>
+<p>Pulsar can be used standalone or inside a <code>Rack</code> application installed via <code>Gemfile</code>.</p>
+
+<p>Standalone:</p>
 
 <div class="highlight"><pre>gem install pulsar
+</pre></div>
+
+<p>Rack application (inside your Gemfile):</p>
+
+<div class="highlight"><pre><span class="n">gem</span> <span class="s1">'pulsar'</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="kp">false</span>
 </pre></div>
 
 <h2>Usage</h2>
 
 <p>To use pulsar you'll need a configuration repository with a certain dir/file structure. The configurations can either be a plain directory or a git repository.</p>
 
-<p>An initial folder structure can be obtained with the <code>pulsar init</code> command.</p>
+<p>An initial folder structure can be obtained with the <code>pulsar-utils init</code> command. For example:</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>pulsar-utils init ~/Desktop/pulsar-conf
+Your starter configuration repo is in ~/Desktop/conf.
+Remember to run bundle install to add the needed Gemfile.lock.
+</pre></div>
+
+<p>You'll have a template of a working configuration inside <code>~/Desktop/conf</code>. You'll just need to add your apps and recipes.</p>
 
 <h3>Configurations repository</h3>
 
@@ -113,10 +125,10 @@ You can install it by running:</p>
 <li>The <code>apps/my_application/recipes/</code> directory includes recipes which are automatically included in the Capfile (there are some apps that require a special "dirty" recipe).</li>
 <li>The <code>apps/my_application/defaults.rb</code> file includes configuration shared between your app's stages.</li>
 <li>The <code>recipes/</code> directory contains all your precious recipes. </li>
-</ul><p>Pulsar also provides a nifty little helper that lets you easily load recipes from the <code>recipes/</code> directory without worrying about the actual recipe path. To use it you need to:</p>
+</ul><p>Pulsar also provides a little helper that lets you easily load recipes from the <code>recipes/</code> directory without worrying about the actual recipe path. To use it you need to:</p>
 
 <ul>
-<li>extend your <code>base.rb</code> with: <code>extend Pulsar::Helpers::Capistrano</code>
+<li>extend your <code>base.rb</code> file with: <code>extend Pulsar::Helpers::Capistrano</code>
 </li>
 <li>use the <code>load_recipes</code> method wherever you want inside the <code>apps/</code> directory</li>
 </ul><p>An example of the <code>load_recipes</code> method:</p>
@@ -125,47 +137,69 @@ You can install it by running:</p>
 <span class="c1"># Load default recipes</span>
 <span class="c1">#</span>
 <span class="n">load_recipes</span> <span class="k">do</span>
-  <span class="n">generic</span> <span class="ss">:notify</span><span class="p">,</span> <span class="ss">:cleanup</span><span class="p">,</span> <span class="ss">:rake</span>
+  <span class="n">generic</span> <span class="ss">:cleanup</span><span class="p">,</span> <span class="ss">:rake</span>
 <span class="k">end</span>
 </pre></div>
 
-<p>This will load the recipes in <code>recipes/generic/notify.rb recipes/generic/cleanup.rb recipes/generic/rake.rb</code> by using
-Capistrano's <code>load</code> method.</p>
+<p>This will load the recipes in <code>recipes/generic/cleanup.rb recipes/generic/rake.rb</code> by using Capistrano's <code>load</code> method.</p>
 
 <p>After you have your repository (I hope hosted somewhere safe), you can start using the <code>pulsar</code> command.</p>
 
-<p>Pulsar currently supports two sub-commands: <code>cap</code> and <code>list</code>.</p>
+<p>Pulsar currently comes with two commands: <code>pulsar</code> and <code>pulsar-utils</code>.</p>
 
-<h3>Cap command</h3>
+<h3>pulsar command</h3>
 
-<p>The <code>cap</code> command is needed to (guess what) run Capistrano. The syntax will be a little different to that of Capistrano since you're running it via <code>pulsar</code>.
-For example, to see the list of tasks (like running <code>cap --tasks</code>) you have available you can run:</p>
+<p>The <code>pulsar</code> command is needed to run Capistrano. The syntax will be a little different to that of Capistrano since you're running it via <code>pulsar</code>.
+This command can be used either "standalone" or from a "Rack app" directory. The main difference will be that you won't need to specify the application
+name for a Rack application becaus Pulsar will look for an app named as your current directory.</p>
 
-<div class="highlight"><pre>pulsar cap -c gh_user/pulsar-conf my_app production --tasks
+<p>For example to deploy a <code>my_app</code> in <code>production</code> by using Pulsar by itself you can run:</p>
+
+<div class="highlight"><pre>pulsar -c gh_user/pulsar-conf my_app production
 </pre></div>
 
-<p>This is what Pulsar will do:</p>
+<p>The same thing if you installed Pulsar in your Gemfile: </p>
+
+<div class="highlight"><pre>~/Code/my_app <span class="nv">$ </span>pulsar -c gh_user/pulsar-conf production
+</pre></div>
+
+<p>If you wish to type even less to deploy an application you can set the <code>$PULSAR_CONF_REPO</code> environment variable to specify your configuration repository.
+Just put in your <code>.bashrc</code> or <code>.zshrc</code> file:</p>
+
+<div class="highlight"><pre><span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span>
+</pre></div>
+
+<p>Then to deploy an app in production the above command becomes:</p>
+
+<div class="highlight"><pre>~/Code/my_app <span class="nv">$ </span>pulsar production
+</pre></div>
+
+<p>This is what Pulsar does when you run the <code>pulsar</code> command:</p>
 
 <ol>
 <li>fetch <code>git@github.com:gh_user/pulsar-conf.git</code> repo (just the latest <code>HEAD</code> to preserve bandwidth)</li>
 <li>use <code>cat</code> to append/prepend files from the configuration repo to build a Capfile with configurations for <code>my_app production</code>
 </li>
 <li>run <code>bundle install</code> to install all the dependencies you required via Gemfile</li>
-<li>run <code>cap --tasks</code> on that Capfile</li>
-</ol><p>As you can guess, you can append any kind of arguments to this command and it will execute it as if your're running <code>cap</code> inside your app.</p>
+<li>run <code>cap</code> on that Capfile with whatever you passed as arguments to <code>pulsar</code> (it deaults to the <code>deploy</code> task)</li>
+</ol><p>As you can guess, you can append any kind of arguments to this command and it will execute it as if your're running <code>cap</code> inside your app.
+For example, to see the list of tasks (like running <code>cap --tasks</code>) you have available you can run:</p>
 
-<p>For example to deploy a <code>my_app</code> in <code>production</code> you can run:</p>
-
-<div class="highlight"><pre>pulsar cap -c gh_user/pulsar-conf my_app production
+<div class="highlight"><pre>pulsar -c gh_user/pulsar-conf my_app production --tasks
 </pre></div>
 
 <p>by default Pulsar will assume you want to run the <code>deploy</code> Capistrano task.</p>
 
-<h3>List command</h3>
+<h3>pulsar-utils command</h3>
 
-<p>The <code>list</code> command will help you list the applications/environments you have configured. Running:</p>
+<p>Everything which is not related to running Capistrano you can do it with the <code>pulsar-utils</code> command. This command
+has the <code>list</code> and <code>init</code> subcommands.</p>
 
-<div class="highlight"><pre>pulsar list -c gh_user/pulsar-conf
+<h4>list subcommand</h4>
+
+<p>The <code>list</code> subcommand will help you list the applications/environments you have configured. Running:</p>
+
+<div class="highlight"><pre>pulsar-utils list -c gh_user/pulsar-conf
 </pre></div>
 
 <p>will output a list like this one:</p>
@@ -174,12 +208,11 @@ For example, to see the list of tasks (like running <code>cap --tasks</code>) yo
 my_other_app: staging
 </pre></div>
 
-<h3>Init command</h3>
+<h4>init subcommand</h4>
 
-<p>The <code>init</code> command will help you get started with Pulsar by providing a basic directory structure for your
-configuration repo. If you run:</p>
+<p>The <code>init</code> subcommand will help you get started with Pulsar by providing a basic directory structure for your configuration repo. If you run:</p>
 
-<div class="highlight"><pre>pulsar init ./my_path
+<div class="highlight"><pre>pulsar-utils init ./my_path
 </pre></div>
 
 <p>Pulsar will put a "starter" configuration repo inside <code>./my_path</code>. After that please remember that you need to:</p>
