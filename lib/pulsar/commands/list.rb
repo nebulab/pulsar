@@ -4,12 +4,14 @@ module Pulsar
     
     def execute
       Bundler.with_clean_env do
-        fetch_repo
-        
-        list_apps
+        begin
+          fetch_repo
 
-        remove_capfile unless keep_capfile?
-        remove_repo unless keep_repo?
+          list_apps
+        ensure
+          remove_capfile unless keep_capfile?
+          remove_repo unless keep_repo?
+        end
       end
     end
   end

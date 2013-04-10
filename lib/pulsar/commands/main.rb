@@ -23,18 +23,20 @@ module Pulsar
       target = "#{app}:#{environment}"
 
       Bundler.with_clean_env do
-        fetch_repo
-        bundle_install
-        create_capfile
-        build_capfile(target)
+        begin
+          fetch_repo
+          bundle_install
+          create_capfile
+          build_capfile(target)
 
-        unless skip_cap_run?
-          cap_args = [tasks_list].flatten.join(" ")
-          run_capistrano(cap_args)
+          unless skip_cap_run?
+            cap_args = [tasks_list].flatten.join(" ")
+            run_capistrano(cap_args)
+          end
+        ensure
+          remove_capfile unless keep_capfile?
+          remove_repo unless keep_repo?
         end
-
-        remove_capfile unless keep_capfile?
-        remove_repo unless keep_repo?
       end
     end
   end

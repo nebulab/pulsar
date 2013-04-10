@@ -13,6 +13,13 @@ describe Pulsar::MainCommand do
     expect { pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)
   end
 
+  it "removes the temp directory even if it's raised an error" do
+    Pulsar::MainCommand.any_instance.stub(:run_capistrano) { raise 'error' }
+    pulsar.run(base_args + [ "--tmp-dir", tmp_path, "--keep-capfile" ] + dummy_app) rescue nil
+
+    Dir.glob("#{tmp_path}/conf-repo*").should be_empty
+  end
+
   it "copies a the repo when there is a dir with same name" do
     system("mkdir #{tmp_path}/conf-repo")
     expect { pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)

@@ -12,6 +12,13 @@ describe Pulsar::ListCommand do
     expect { pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)
   end
 
+  it "removes the temp directory even if it's raised an error" do
+    Pulsar::ListCommand.any_instance.stub(:list_apps) { raise 'error' }
+    pulsar.run(full_list_args) rescue nil
+
+    Dir.glob("#{tmp_path}/conf-repo*").should be_empty
+  end
+
   context "--conf-repo option" do
     it "is required" do
       expect { pulsar.parse([]) }.to raise_error(Clamp::UsageError)
