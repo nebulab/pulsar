@@ -33,6 +33,12 @@ describe Pulsar::MainCommand do
     end
   end
 
+  it "supports multiple apps via comma separated argument" do
+    apps_to_deploy = [ 'dummy_app,other_dummy_app', 'production' ] 
+
+    expect { pulsar.run(full_cap_args + apps_to_deploy) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(2)
+  end
+
   context "Capfile" do
     it "uses base.rb in staging stage" do
       pulsar.run(full_cap_args + dummy_app(:staging))

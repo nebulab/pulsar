@@ -120,6 +120,10 @@ module Pulsar
         rm_rf(config_path, :verbose => verbose?)
       end
 
+      def reset_for_other_app!
+        @capfile_name = @configuration_path = @now = nil
+      end
+
       def run_capistrano(args)
         cd(config_path, :verbose => verbose?) do
           run_cmd("bundle exec cap CONFIG_PATH=#{config_path} --file #{capfile_path} #{args}", :verbose => verbose?)

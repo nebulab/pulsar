@@ -19,8 +19,12 @@ module Helpers
     File.join(File.dirname(__FILE__), "..", "dummies", "dummy_app")
   end
 
+  def tmp_dir
+    "tmp"
+  end
+
   def tmp_path
-    File.join(File.dirname(__FILE__), "..", "tmp")
+    File.join(File.dirname(__FILE__), "..", tmp_dir)
   end
 
   def dummy_app(stage = :production)
