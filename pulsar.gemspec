@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
     to store all your precious configurations and recipes to build Capistrano 
     deploys on it.
   }
-  gem.homepage       = "https://github.com/nebulab/pulsar"
+  gem.homepage       = "http://pulsar.nebulab.it"
 
   gem.files          = `git ls-files`.split($/)
   gem.executables    = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
