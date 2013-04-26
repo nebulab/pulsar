@@ -4,6 +4,10 @@ module Pulsar
   module Helpers
     module Clamp
       include FileUtils
+
+      def application_path
+        Dir.pwd if File.exists?("#{Dir.pwd}/config.ru")
+      end
       
       def build_capfile(args)
         app, stage = args.split(":")
@@ -125,8 +129,14 @@ module Pulsar
       end
 
       def run_capistrano(args)
+        cmd = "bundle exec cap"
+        env = "CONFIG_PATH=#{config_path}"
+        opts = "--file #{capfile_path}"
+
+        env += " APP_PATH=#{application_path}" unless application_path.nil?
+
         cd(config_path, :verbose => verbose?) do
-          run_cmd("bundle exec cap CONFIG_PATH=#{config_path} --file #{capfile_path} #{args}", :verbose => verbose?)
+          run_cmd("#{cmd} #{env} #{opts} #{args}", :verbose => verbose?)
         end
       end
 

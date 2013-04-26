@@ -27,4 +27,18 @@ describe Pulsar::Helpers::Capistrano do
       expect { load_recipes { generic :missing_recipe } }.to raise_error(RuntimeError, /no missing_recipe recipe/)
     end
   end
+
+  context "from_app_directory?" do
+    it "returns true if APP_PATH env variable is set" do
+      ENV['APP_PATH'] = "/app/path"
+
+      from_app_directory?.should be_true
+    end
+
+    it "returns false if APP_PATH env variable is not set" do
+      ENV.delete('APP_PATH')
+      
+      from_app_directory?.should be_false
+    end
+  end
 end

@@ -28,6 +28,10 @@ module Pulsar
       def load_recipes(&block)
         DSL.new(self, &block)
       end
+
+      def from_app_directory?
+        ENV.has_key?('APP_PATH')
+      end
     end
   end
 end
