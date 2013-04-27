@@ -130,6 +130,19 @@ module Pulsar
           end
         end
 
+        def load_configuration
+          conf_path = application_path || Dir.home
+          conf_file = File.join(conf_path, ".pulsar")
+
+          if File.file?(conf_file)
+            File.readlines(conf_file).each do |line|
+              conf, value = line.split("=")
+
+              ENV[conf] = value.chomp.gsub('"', '')
+            end
+          end
+        end
+
         def remove_capfile
           rm_rf(capfile_path, :verbose => verbose?)
         end

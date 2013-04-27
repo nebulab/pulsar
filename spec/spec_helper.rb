@@ -23,6 +23,7 @@ RSpec.configure do |config|
   config.include OutputCapture
 
   config.before(:all) do
+    ENV.delete("PULSAR_APP_NAME")
     ENV.delete("PULSAR_CONF_REPO")
   end
 

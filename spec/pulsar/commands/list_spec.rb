@@ -19,6 +19,34 @@ describe Pulsar::ListCommand do
     Dir.glob("#{tmp_path}/conf-repo*").should be_empty
   end
 
+  it "reads configuration variables from .pulsar file in home" do
+    env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+
+    pulsar.run(full_list_args)
+
+    ENV.should have_key('PULSAR_CONF_REPO')
+    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
+  end
+
+  it "reads configuration variables from .pulsar file in rack app directory" do
+    env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
+
+    FileUtils.cd(dummy_rack_app_path) do
+      reload_main_command
+
+      pulsar.run(full_list_args)
+    end
+
+    ENV.should have_key('PULSAR_CONF_REPO')
+    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
+  end
+
   context "--conf-repo option" do
     it "is required" do
       expect { pulsar.parse([]) }.to raise_error(Clamp::UsageError)

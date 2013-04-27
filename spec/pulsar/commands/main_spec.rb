@@ -40,7 +40,7 @@ describe Pulsar::MainCommand do
   end
 
   it "reads configuration variables from .pulsar file in home" do
-    env_vars = [ "PULSAR_APP_NAME=dummy_app\n", "PULSAR_CONF_REPO=#{dummy_conf_path}\n"] 
+    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
     File.stub(:file?).and_return(true)
     File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
@@ -55,7 +55,7 @@ describe Pulsar::MainCommand do
   end
 
   it "reads configuration variables from .pulsar file in rack app directory" do
-    env_vars = [ "PULSAR_APP_NAME=dummy_app\n", "PULSAR_CONF_REPO=#{dummy_conf_path}\n"] 
+    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
     File.stub(:file?).and_return(true)
     File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
