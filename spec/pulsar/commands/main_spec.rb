@@ -39,6 +39,40 @@ describe Pulsar::MainCommand do
     expect { pulsar.run(full_cap_args + apps_to_deploy) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(2)
   end
 
+  it "reads configuration variables from .pulsar file in home" do
+    env_vars = [ "PULSAR_APP_NAME=dummy_app\n", "PULSAR_CONF_REPO=#{dummy_conf_path}\n"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+
+    pulsar.run(full_cap_args + dummy_app)
+
+    ENV.should have_key('PULSAR_APP_NAME')
+    ENV['PULSAR_APP_NAME'].should == "dummy_app"
+
+    ENV.should have_key('PULSAR_CONF_REPO')
+    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
+  end
+
+  it "reads configuration variables from .pulsar file in rack app directory" do
+    env_vars = [ "PULSAR_APP_NAME=dummy_app\n", "PULSAR_CONF_REPO=#{dummy_conf_path}\n"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
+
+    FileUtils.cd(dummy_rack_app_path) do
+      reload_main_command
+
+      pulsar.run(full_cap_args + %w(production))
+    end
+
+    ENV.should have_key('PULSAR_APP_NAME')
+    ENV['PULSAR_APP_NAME'].should == "dummy_app"
+
+    ENV.should have_key('PULSAR_CONF_REPO')
+    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
+  end
+
   context "Capfile" do
     it "uses base.rb in staging stage" do
       pulsar.run(full_cap_args + dummy_app(:staging))
