@@ -103,6 +103,18 @@ describe Pulsar::MainCommand do
       latest_capfile.should include("# This is apps/dummy_app/recipes/production/custom_recipe.rb")
       latest_capfile.should_not include("# This is apps/dummy_app/recipes/staging/custom_recipe.rb")
     end
+
+    it "uses dirname from PULSAR_APP_NAME when inside a rack app directory" do
+      ENV["PULSAR_APP_NAME"] = "other_dummy_app"
+
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
+        pulsar.run(full_cap_args + %w(production))
+      end
+
+      latest_capfile.should include("# This is apps/other_dummy_app/defaults.rb")
+      latest_capfile.should include("# This is apps/other_dummy_app/production.rb")
+    end
   end
 
   context "--version option" do

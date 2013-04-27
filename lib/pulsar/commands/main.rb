@@ -48,7 +48,7 @@ module Pulsar
 
     def find_apps
       if from_application_path?
-        [ File.basename(application_path) ]
+        [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
       else
         application.split(',')
       end
