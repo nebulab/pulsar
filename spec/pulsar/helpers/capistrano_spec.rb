@@ -28,17 +28,17 @@ describe Pulsar::Helpers::Capistrano do
     end
   end
 
-  context "from_app_directory?" do
+  context "from_application_path?" do
     it "returns true if APP_PATH env variable is set" do
       ENV['APP_PATH'] = "/app/path"
 
-      from_app_directory?.should be_true
+      from_application_path?.should be_true
     end
 
     it "returns false if APP_PATH env variable is not set" do
       ENV.delete('APP_PATH')
       
-      from_app_directory?.should be_false
+      from_application_path?.should be_false
     end
   end
 end

@@ -12,7 +12,7 @@ module Pulsar
                                        "do everything pulsar does (build a Capfile) but don't run the cap command",
                                        :default => false
 
-    unless File.exists?("#{Dir.pwd}/config.ru")
+    if !from_application_path?
       parameter "APPLICATION", "the application which you would like to deploy. Pass a comma separated list to deploy multiple applications at once"
     end
 
@@ -23,7 +23,11 @@ module Pulsar
     parameter "[TASKS] ...", "the arguments and/or options that will be passed to capistrano", :default => "deploy"
 
     def execute
-      apps = application.split(',') rescue [ File.basename(Dir.pwd) ]
+      apps = if from_application_path?
+        [ File.basename(application_path) ]
+      else
+        application.split(',')
+      end
 
       apps.each do |app|
         target = "#{app}:#{environment}"

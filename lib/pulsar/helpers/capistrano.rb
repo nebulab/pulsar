@@ -29,7 +29,7 @@ module Pulsar
         DSL.new(self, &block)
       end
 
-      def from_app_directory?
+      def from_application_path?
         ENV.has_key?('APP_PATH')
       end
     end
