@@ -23,13 +23,7 @@ module Pulsar
     parameter "[TASKS] ...", "the arguments and/or options that will be passed to capistrano", :default => "deploy"
 
     def execute
-      apps = if from_application_path?
-        [ File.basename(application_path) ]
-      else
-        application.split(',')
-      end
-
-      apps.each do |app|
+      find_apps.each do |app|
         target = "#{app}:#{environment}"
 
         Bundler.with_clean_env do
@@ -40,17 +34,31 @@ module Pulsar
             build_capfile(target)
 
             unless skip_cap_run?
-              cap_args = [tasks_list].flatten.join(" ")
+              cap_args = [ tasks_list ].flatten.join(" ")
               run_capistrano(cap_args)
             end
           ensure
-            remove_capfile unless keep_capfile?
-            remove_repo unless keep_repo?
-
-            reset_for_other_app!
+            cleanup!
           end
         end
       end
+    end
+
+    private
+
+    def find_apps
+      if from_application_path?
+        [ File.basename(application_path) ]
+      else
+        application.split(',')
+      end
+    end
+
+    def cleanup!
+      remove_capfile unless keep_capfile?
+      remove_repo unless keep_repo?
+
+      reset_for_other_app!
     end
   end
 end
