@@ -23,6 +23,18 @@ module Pulsar
                                            "a directory where to put the configuration repo to build capfile with",
                                            :default => "/tmp/pulsar"
       end
+
+      #
+      # TODO: find a way to fix this hack. This is made so that
+      # load_configuration() is called before Clamp parses command
+      # line arguments (and runs into errors because no conf repo
+      # is defined).
+      #
+      def parse(arguments)
+        self.class.send(:include, Pulsar::Helpers::Clamp)
+        load_configuration
+        super
+      end
     end
   end
 end

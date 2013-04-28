@@ -22,18 +22,6 @@ module Pulsar
 
     parameter "[TASKS] ...", "the arguments and/or options that will be passed to capistrano", :default => "deploy"
 
-    #
-    # TODO: find a way to fix this hack. This is made so that
-    # load_configuration() is called before Clamp parses command
-    # line arguments (and runs into errors because no conf repo
-    # is defined).
-    #
-    def parse(arguments)
-      self.class.send(:include, Pulsar::Helpers::Clamp)
-      load_configuration
-      super
-    end
-
     def execute
       find_apps.each do |app|
         target = "#{app}:#{environment}"
