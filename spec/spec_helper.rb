@@ -22,7 +22,9 @@ RSpec.configure do |config|
   config.include Helpers
   config.include OutputCapture
 
-  config.before(:all) do
+  config.before(:each) do
+    Dir.stub(:home).and_return("/fake/home")
+    
     ENV.delete("PULSAR_APP_NAME")
     ENV.delete("PULSAR_CONF_REPO")
   end
