@@ -1,16 +1,36 @@
-# Pulsar
+# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.png)](http://badge.fury.io/rb/pulsar) [![Build Status](https://secure.travis-ci.org/nebulab/pulsar.png?branch=master)](http://travis-ci.org/nebulab/pulsar) [![Coverage Status](https://coveralls.io/repos/nebulab/pulsar/badge.png?branch=master)](https://coveralls.io/r/nebulab/pulsar) [![Code Climate](https://codeclimate.com/github/nebulab/pulsar.png)](https://codeclimate.com/github/nebulab/pulsar)
 
-[![Gem Version](https://badge.fury.io/rb/pulsar.png)](http://badge.fury.io/rb/pulsar)
-[![Build Status](https://secure.travis-ci.org/nebulab/pulsar.png?branch=master)](http://travis-ci.org/nebulab/pulsar)
-[![Coverage Status](https://coveralls.io/repos/nebulab/pulsar/badge.png?branch=master)](https://coveralls.io/r/nebulab/pulsar)
-[![Code Climate](https://codeclimate.com/github/nebulab/pulsar.png)](https://codeclimate.com/github/nebulab/pulsar)
+The easy [Capistrano](https://rubygems.org/gems/capistrano) deploy and configuration manager.
 
-Pulsar is a little tool that helps with deploys. Its main purpose is building capfiles for [Capistrano](https://rubygems.org/gems/capistrano) 
-to run. It makes it easy to manage a large number of apps via a separate configuration repository.
+Pulsar allows you to run capistrano tasks via a separate repository where all the configurations for the applications you work on are stored.
+Once you have your this repository, you can gradully add configurations and recipes so that you never have to duplicate something again.
 
-## Installation & Usage
+The way Pulsar works also mean that you can deploy without actually having the application on your local machine (and neither
+have all your application dependencies installed). This lets you integrate Pulsar with nearly any deploy strategy you can think of.
 
-Refer to the [GitHub Page](http://pulsar.nebulab.it).
+Some of the benefits of using Pulsar:
+* No capistrano configurations in the application code
+* No need to have the application locally to deploy
+* Multistage support by default
+* Every recipe can be shared between all applications
+* Can easily be integrated with other tools
+* Write the least possible code to deploy
+
+## Installation
+
+blabla
+
+## Configuration
+
+blabla
+
+## Usage
+
+blabla
+
+## Integrations
+
+blabla
 
 ## Contributing
 
