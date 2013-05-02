@@ -5,7 +5,7 @@ The easy [Capistrano](https://rubygems.org/gems/capistrano) deploy and configura
 Pulsar allows you to run capistrano tasks via a separate repository where all your deploy configurations are stored.
 Once you have your own repository, you can gradully add configurations and recipes so that you never have to duplicate code again.
 
-The way Pulsar works also mean that you can deploy without actually having the application on your local machine (and neither
+The way Pulsar works means that you can deploy without actually having the application on your local machine (and neither
 have all your application dependencies installed). This lets you integrate Pulsar with nearly any deploy strategy you can think of.
 
 Some of the benefits of using Pulsar:
@@ -80,9 +80,9 @@ Since Pulsar it's basically a capistrano wrapper, the content of these files is 
 This directory contains your application configurations. You'll have one directory per application.
 
 * `base.rb` has configurations that are shared by all applications
-* `my_application/defaults.rb` includes configuration shared by every application stage
+* `my_application/defaults.rb` includes configuration shared by every stage of the application
 * `my_application/staging.rb` and `my_application/production.rb` files include stage configurations
-* `my_application/recipes/` are recipes automatically included for that application
+* `my_application/recipes/` are recipes that are always included for that application (no need to use `load_recipes`)
 
 ### `recipes` directory
 
@@ -132,8 +132,8 @@ end
 Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
 as a full git path or a github repository path (`gh_user/pulsar-conf`).
 
-Since Pulsar requires the configurations repository for everything, there are multiple ways to store 
-this information so that you don't have to type it everytime.
+Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
+you don't have to type it everytime.
 
 You have three possibilities:
 
@@ -224,7 +224,12 @@ PULSAR_CONF_REPO="gh_user/pulsar-conf"
 
 ## Integrations
 
-blabla
+Pulsar is easy to integrate since you just need access to the configurations repository and the ability to
+run a command.
+
+### Hubot
+
+https://gist.github.com/mtylty/5324075
 
 ## Contributing
 
