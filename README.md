@@ -21,7 +21,7 @@ Some of the benefits of using Pulsar:
 The most useful way of installing Pulsar is as a system gem:
 
 ```bash
-gem install pulsar
+$ gem install pulsar
 ```
 
 This will install two commands: `pulsar` and `pulsar-utils`. The first command is required to run capistrano,
@@ -32,7 +32,7 @@ the other is for everything else.
 You'll need to create your own configuration repo:
 
 ```bash
-pulsar-utils init ~/Desktop/pulsar-conf
+$ pulsar-utils init ~/Desktop/pulsar-conf
 ```
 
 This will create a basic start point for building your configuration repository. As soon as you're done configuring
@@ -170,7 +170,57 @@ export PULSAR_CONF_REPO="gh_user/pulsar-conf"
 
 ## Usage
 
-blabla
+After the repository is ready, running Pulsar is straightforward. To deploy `my_application` to `production`:
+
+```bash
+$ pulsar my_application production
+```
+
+As a rule of thumb, anything that's added at the end of the command is passed to capistrano. Some examples:
+
+```bash
+$ pulsar my_application production --tasks
+
+$ pulsar my_application production invoke
+
+$ pulsar my_application staging deploy:migrations
+
+$ pulsar my_application staging deploy:pending
+
+$ pulsar my_application staging shell
+```
+
+### Running inside a Rack application
+
+In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar
+supports running from inside a Rack application directory.
+
+When deploying from inside a Rack application you can omit the application name:
+
+```bash
+$ cd /path/to/my_application
+
+$ pulsar production
+```
+
+---
+
+If you need a particular configuration for an application you can store a `.pulsar` file inside the application
+directory:
+
+```bash
+#
+# Inside /path/to/my_application/.pulsar
+#
+PULSAR_CONF_REPO="gh_user/pulsar-conf"
+
+#
+# Use it in case the application directory name
+# is different than what you configured inside the 
+# Pulsar configuration repository
+#
+# PULSAR_APP_NAME="my-application"
+```
 
 ## Integrations
 
