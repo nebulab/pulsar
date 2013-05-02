@@ -2,8 +2,8 @@
 
 The easy [Capistrano](https://rubygems.org/gems/capistrano) deploy and configuration manager.
 
-Pulsar allows you to run capistrano tasks via a separate repository where all the configurations for the applications you work on are stored.
-Once you have your this repository, you can gradully add configurations and recipes so that you never have to duplicate something again.
+Pulsar allows you to run capistrano tasks via a separate repository where all your deploy configurations are stored.
+Once you have your own repository, you can gradully add configurations and recipes so that you never have to duplicate code again.
 
 The way Pulsar works also mean that you can deploy without actually having the application on your local machine (and neither
 have all your application dependencies installed). This lets you integrate Pulsar with nearly any deploy strategy you can think of.
