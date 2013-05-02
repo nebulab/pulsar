@@ -74,10 +74,16 @@ pulsar-conf/
 ```
 
 Pulsar uses these files to build capistrano configurations on the fly, depending on how you invoke the `pulsar` command.
+Since Pulsar it's basically a capistrano wrapper, the content of these files is plain old capistrano syntax.
 
 ### `apps` directory
 
-blabla
+This directory contains your application configurations. You'll have one directory per application.
+
+* `base.rb` has configurations that are shared between all the apps
+* `my_application/defaults.rb` includes configuration shared for every application stage
+* `my_application/staging.rb` and `my_application/production.rb` files include stage configurations
+* `my_application/recipes/` are recipes which are automatically included for that application
 
 ### `recipes` directory
 
