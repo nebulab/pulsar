@@ -59,10 +59,14 @@ module Pulsar
         end
 
         def fetch_repo
-          if conf_repo =~ /\A[a-zA-Z-]+\/[a-zA-Z-]+\Z/
-            fetch_git_repo("git@github.com:#{conf_repo}.git")
-          else
+          if File.directory?(conf_repo)
             fetch_directory_repo(conf_repo)
+          else
+            if conf_repo =~ /\A[a-zA-Z-]+\/[a-zA-Z-]+\Z/
+              fetch_git_repo("git@github.com:#{conf_repo}.git")
+            else
+              fetch_git_repo(conf_repo)
+            end
           end
         end
 
