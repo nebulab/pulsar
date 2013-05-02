@@ -215,9 +215,8 @@ directory:
 PULSAR_CONF_REPO="gh_user/pulsar-conf"
 
 #
-# Use it in case the application directory name
-# is different than what you configured inside the 
-# Pulsar configuration repository
+# If the application directory name is different than what
+# you configured inside the Pulsar configuration repository
 #
 # PULSAR_APP_NAME="my-application"
 ```
