@@ -7,7 +7,7 @@ module Pulsar
 
       def self.included(base)
         base.extend(InstanceAndClassMethods)
-        include InstanceMethods
+        base.send(:include, InstanceMethods)
       end
 
       module InstanceAndClassMethods
