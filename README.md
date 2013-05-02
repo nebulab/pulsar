@@ -127,6 +127,47 @@ load_recipes do
 end
 ```
 
+### Loading the repository
+
+Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
+as a full git path or a github repository path (`gh_user/pulsar-conf`).
+
+Since Pulsar requires the configurations repository for everything, there are multiple ways to store 
+this information so that you don't have to type it everytime.
+
+You have three possibilities:
+
+* `-c` command line option
+* `PULSAR_CONF_REPO` environment variable
+* `~/.pulsar` configuration file
+
+The fastest way is probably the `.pulsar` hidden file inside your home directory:
+
+```bash
+#
+# Inside ~/.pulsar
+#
+PULSAR_CONF_REPO="gh_user/pulsar-conf" 
+
+#
+# Also supported
+#
+# PULSAR_CONF_REPO="git://github.com/gh_user/pulsar-conf.git"
+```
+
+Pulsar will read this file and set the environment variables properly.
+
+---
+
+If you don't want to add another file to your home directory you can export the variables yourself:
+
+```bash
+#
+# Inside ~/.bash_profile or ~/.zshrc
+#
+export PULSAR_CONF_REPO="gh_user/pulsar-conf" 
+```
+
 ## Usage
 
 blabla
