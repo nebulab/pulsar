@@ -138,7 +138,7 @@ module Pulsar
             File.readlines(conf_file).each do |line|
               conf, value = line.split("=")
 
-              ENV[conf] = value.chomp.gsub('"', '')
+              ENV[conf] = value.chomp.gsub('"', '') if !conf.nil? && !value.nil?
             end
           end
         end

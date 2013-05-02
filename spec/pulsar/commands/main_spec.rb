@@ -73,6 +73,19 @@ describe Pulsar::MainCommand do
     ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
   end
 
+  it "skips lines which cannot parse when reading .pulsar file" do
+    env_vars = [ "wrong_line", "# comment"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
+
+    FileUtils.cd(dummy_rack_app_path) do
+      reload_main_command
+
+      expect { pulsar.run(full_cap_args + %w(production)) }.not_to raise_error
+    end
+  end
+
   context "Capfile" do
     it "uses base.rb in staging stage" do
       pulsar.run(full_cap_args + dummy_app(:staging))
