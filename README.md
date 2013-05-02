@@ -103,7 +103,7 @@ This will use capistrano's `load` method to include recipes from `rails/` and `g
 
 ---
 
-Another way to include your recipes is by using the `Gemfile`. As many gems already include custom recipes for capistrano,
+Another way to include your recipes is by using the `Gemfile`. Many gems already include custom recipes for capistrano so
 you just need to require those. An example with [Whenever](https://github.com/javan/whenever):
 
 ```ruby
