@@ -27,64 +27,48 @@
         </ul>
       </header>
       <section>
-        <p><a href="http://badge.fury.io/rb/pulsar"><img src="https://badge.fury.io/rb/pulsar.png" alt="Gem Version"></a>
-<a href="http://travis-ci.org/nebulab/pulsar"><img src="https://secure.travis-ci.org/nebulab/pulsar.png?branch=master" alt="Build Status"></a>
-<a href="https://coveralls.io/r/nebulab/pulsar"><img src="https://coveralls.io/repos/nebulab/pulsar/badge.png?branch=master" alt="Coverage Status"></a>
-<a href="https://codeclimate.com/github/nebulab/pulsar"><img src="https://codeclimate.com/github/nebulab/pulsar.png" alt="Code Climate"></a></p>
+        <p><a href="http://badge.fury.io/rb/pulsar"><img src="https://badge.fury.io/rb/pulsar.png" alt="Gem Version"></a> <a href="http://travis-ci.org/nebulab/pulsar"><img src="https://secure.travis-ci.org/nebulab/pulsar.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/nebulab/pulsar"><img src="https://coveralls.io/repos/nebulab/pulsar/badge.png?branch=master" alt="Coverage Status"></a> <a href="https://codeclimate.com/github/nebulab/pulsar"><img src="https://codeclimate.com/github/nebulab/pulsar.png" alt="Code Climate"></a></p>
 
-<p>Pulsar is a little tool that helps with deploys. Its main purpose is building capfiles for <a href="https://rubygems.org/gems/capistrano">Capistrano</a> 
-to run. It makes it easy to manage a large number of apps via a separate configuration repository.</p>
+<p>The easy <a href="https://rubygems.org/gems/capistrano">Capistrano</a> deploy and configuration manager.</p>
 
-<p>Since we usually manage a lot of projects each with its own very special configuration, we got tired of copying-and-pasting
-Capistrano configurations around. A lot of people usually build a private gem with Capistrano recipes in it but we 
-wanted more.</p>
+<p>Pulsar allows you to run capistrano tasks via a separate repository where all your deploy configurations are stored.
+Once you have your own repository, you can gradully add configurations and recipes so that you never have to duplicate code again.</p>
 
-<p>Pulsar lets you keep all your configurations on a private repo (containing all your configurations/recipes) for all your
-servers and apps. As long as you have read access to the repo you'll be able, through Pulsar, to build a custom dynamic 
-Capfile on which Capistrano is executed.</p>
+<p>The way Pulsar works means that you can deploy without actually having the application on your local machine (and neither
+have all your application dependencies installed). This lets you integrate Pulsar with nearly any deploy strategy you can think of.</p>
 
-<p>These are some of the benefits of this approach:</p>
+<p>Some of the benefits of using Pulsar:</p>
 
 <ul>
-<li>No need to pollute the apps with custom configurations</li>
-<li>No need to have the app locally to deploy your application</li>
-<li>It has multistage support by default</li>
-<li>Everything you add to your recipes can be easily shared with every other app</li>
-<li>Can easily be integrated with a web framework to provide 1-click deploys</li>
-<li>Everything is structured so that you write the least code possible to deploy apps</li>
-</ul><p>Pulsar requires, as a minimal configuration, the gem installed and your configurations stored inside a local directory or git repository. 
-Pulsar will then use that repo to build temporary Capfiles.</p>
+<li>No capistrano configurations in the application code</li>
+<li>No need to have the application locally to deploy</li>
+<li>Multistage support by default</li>
+<li>Every recipe can be shared between all applications</li>
+<li>Can easily be integrated with other tools</li>
+<li>Write the least possible code to deploy</li>
+</ul><h2>Installation</h2>
 
-<h2>Installation</h2>
+<p>The most useful way of installing Pulsar is as a system gem:</p>
 
-<p>Pulsar can be used standalone or inside a <code>Rack</code> application installed via <code>Gemfile</code>.</p>
-
-<p>Standalone:</p>
-
-<div class="highlight"><pre>gem install pulsar
+<div class="highlight"><pre><span class="nv">$ </span>gem install pulsar
 </pre></div>
 
-<p>Rack application (inside your Gemfile):</p>
+<p>This will install two commands: <code>pulsar</code> and <code>pulsar-utils</code>. The first command is required to run capistrano,
+the other is for everything else.</p>
 
-<div class="highlight"><pre><span class="n">gem</span> <span class="s1">'pulsar'</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</pre></div>
-
-<h2>Usage</h2>
-
-<p>To use pulsar you'll need a configuration repository with a certain dir/file structure. The configurations can either be a plain directory or a git repository.</p>
-
-<p>An initial folder structure can be obtained with the <code>pulsar-utils init</code> command. For example:</p>
+<hr><p>You'll need to create your own configuration repo:</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>pulsar-utils init ~/Desktop/pulsar-conf
-Your starter configuration repo is in ~/Desktop/conf.
-Remember to run bundle install to add the needed Gemfile.lock.
 </pre></div>
 
-<p>You'll have a template of a working configuration inside <code>~/Desktop/conf</code>. You'll just need to add your apps and recipes.</p>
+<p>This will create a basic start point for building your configuration repository. As soon as you're done configuring
+you should consider storing this folder as an actual git repository.</p>
 
-<h3>Configurations repository</h3>
+<p><strong>NOTE</strong>: Pulsar only supports git and *nix systems.</p>
 
-<p>This is the required configuration repository layout:</p>
+<h2>Configuration</h2>
+
+<p>This is an example repository configuration layout:</p>
 
 <div class="highlight"><pre>pulsar-conf/
   |── Gemfile
@@ -104,10 +88,6 @@ Remember to run bundle install to add the needed Gemfile.lock.
       │   ├── notify.rb
       │   └── rake.rb
       ├── rails
-      │   ├── asset_pipeline.rb
-      │   ├── create_database_yml.rb
-      │   ├── create_mongoid_yml.rb
-      │   ├── delayed_job.rb
       │   ├── passenger.rb
       │   ├── repair_permissions.rb
       │   ├── symlink_configs.rb
@@ -117,116 +97,169 @@ Remember to run bundle install to add the needed Gemfile.lock.
           └── symlink_assets.rb
 </pre></div>
 
-<p>What pulsar does is use this configuration repository to build a Capfile by appending the configurations as needed. Here is a list of the main files it uses:</p>
+<p>Pulsar uses these files to build capistrano configurations on the fly, depending on how you invoke the <code>pulsar</code> command.
+Since Pulsar it's basically a capistrano wrapper, the content of these files is plain old capistrano syntax.</p>
+
+<h3>
+<code>apps</code> directory</h3>
+
+<p>This directory contains your application configurations. You'll have one directory per application.</p>
 
 <ul>
-<li>The <code>base.rb</code> file contains configurations that are shared between all the apps.</li>
-<li>The <code>apps/</code> directory contains configurations for your apps (no recipes as they're stored and included from the <code>recipes/</code> directory).</li>
-<li>The <code>apps/my_application/recipes/</code> directory includes recipes which are automatically included in the Capfile (there are some apps that require a special "dirty" recipe).</li>
-<li>The <code>apps/my_application/defaults.rb</code> file includes configuration shared between your app's stages.</li>
-<li>The <code>recipes/</code> directory contains all your precious recipes. </li>
-</ul><p>Pulsar also provides a little helper that lets you easily load recipes from the <code>recipes/</code> directory without worrying about the actual recipe path. To use it you need to:</p>
+<li>
+<code>base.rb</code> has configurations that are shared by all applications</li>
+<li>
+<code>my_application/defaults.rb</code> includes configuration shared by every stage of the application</li>
+<li>
+<code>my_application/staging.rb</code> and <code>my_application/production.rb</code> files include stage configurations</li>
+<li>
+<code>my_application/recipes/</code> are recipes that are always included for that application (no need to use <code>load_recipes</code>)</li>
+</ul><h3>
+<code>recipes</code> directory</h3>
 
-<ul>
-<li>extend your <code>base.rb</code> file with: <code>extend Pulsar::Helpers::Capistrano</code>
-</li>
-<li>use the <code>load_recipes</code> method wherever you want inside the <code>apps/</code> directory</li>
-</ul><p>An example of the <code>load_recipes</code> method:</p>
+<p>This directory contains your recipes. You can create any number of directories to organize your recipes.
+To load a recipe from your configurations you can use the <code>load_recipes</code> helper:</p>
 
 <div class="highlight"><pre><span class="c1">#</span>
-<span class="c1"># Load default recipes</span>
+<span class="c1"># Somewhere inside apps/</span>
 <span class="c1">#</span>
 <span class="n">load_recipes</span> <span class="k">do</span>
+  <span class="n">rails</span> <span class="ss">:repair_permissions</span><span class="p">,</span> <span class="ss">:unicorn</span>
   <span class="n">generic</span> <span class="ss">:cleanup</span><span class="p">,</span> <span class="ss">:rake</span>
 <span class="k">end</span>
 </pre></div>
 
-<p>This will load the recipes in <code>recipes/generic/cleanup.rb recipes/generic/rake.rb</code> by using Capistrano's <code>load</code> method.</p>
+<p>This will use capistrano's <code>load</code> method to include recipes from <code>rails/</code> and <code>generic/</code>.</p>
 
-<p>After you have your repository (I hope hosted somewhere safe), you can start using the <code>pulsar</code> command.</p>
+<hr><p>Another way to include your recipes is by using the <code>Gemfile</code>. Many gems already include custom recipes for capistrano so
+you just need to require those. An example with <a href="https://github.com/javan/whenever">Whenever</a>:</p>
 
-<p>Pulsar currently comes with two commands: <code>pulsar</code> and <code>pulsar-utils</code>.</p>
+<div class="highlight"><pre><span class="c1">#</span>
+<span class="c1"># Inside Gemfile</span>
+<span class="c1">#</span>
+<span class="n">gem</span> <span class="s1">'whenever'</span>
 
-<h3>pulsar command</h3>
+<span class="c1">#</span>
+<span class="c1"># Inside recipes/rails/whenever.rb</span>
+<span class="c1">#</span>
+<span class="nb">require</span> <span class="s1">'whenever/capistrano'</span>
 
-<p>The <code>pulsar</code> command is needed to run Capistrano. The syntax will be a little different to that of Capistrano since you're running it via <code>pulsar</code>.</p>
+<span class="n">set</span> <span class="ss">:whenever_command</span><span class="p">,</span> <span class="s2">"bundle exec whenever"</span>
 
-<p>This command can be used either "standalone" or from a "Rack app" directory.
- The main difference will be that you won't need to specify the application name for a Rack application because Pulsar will look for an app named as your current directory.</p>
-
-<p>For example to deploy a <code>my_app</code> in <code>production</code> by using Pulsar by itself you can run:</p>
-
-<div class="highlight"><pre>pulsar -c gh_user/pulsar-conf my_app production
+<span class="c1">#</span>
+<span class="c1"># Somewhere inside apps/</span>
+<span class="c1">#</span>
+<span class="n">load_recipes</span> <span class="k">do</span>
+  <span class="n">rails</span> <span class="ss">:whenever</span>
+<span class="k">end</span>
 </pre></div>
 
-<p>The same thing if you installed Pulsar in your Gemfile: </p>
+<h3>Loading the repository</h3>
 
-<div class="highlight"><pre>~/Code/my_app <span class="nv">$ </span>pulsar -c gh_user/pulsar-conf production
+<p>Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
+as a full git path or a github repository path (<code>gh_user/pulsar-conf</code>).</p>
+
+<p>Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
+you don't have to type it everytime.</p>
+
+<p>You have three possibilities:</p>
+
+<ul>
+<li>
+<code>-c</code> command line option</li>
+<li>
+<code>PULSAR_CONF_REPO</code> environment variable</li>
+<li>
+<code>~/.pulsar</code> configuration file</li>
+</ul><p>The fastest way is probably the <code>.pulsar</code> hidden file inside your home directory:</p>
+
+<div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Inside ~/.pulsar</span>
+<span class="c">#</span>
+<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span> 
+
+<span class="c">#</span>
+<span class="c"># Also supported</span>
+<span class="c">#</span>
+<span class="c"># PULSAR_CONF_REPO="git://github.com/gh_user/pulsar-conf.git"</span>
 </pre></div>
 
-<p>If you wish to type even less to deploy an application you can set the <code>$PULSAR_CONF_REPO</code> environment variable to specify your configuration repository.
-Just put in your <code>.bashrc</code> or <code>.zshrc</code> file:</p>
+<p>Pulsar will read this file and set the environment variables properly.</p>
 
-<div class="highlight"><pre><span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span>
+<hr><p>If you don't want to add another file to your home directory you can export the variables yourself:</p>
+
+<div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Inside ~/.bash_profile or ~/.zshrc</span>
+<span class="c">#</span>
+<span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span> 
 </pre></div>
 
-<p>Then to deploy an app in production the above command becomes:</p>
+<h2>Usage</h2>
 
-<div class="highlight"><pre>~/Code/my_app <span class="nv">$ </span>pulsar production
+<p>After the repository is ready, running Pulsar is straightforward. To deploy <code>my_application</code> to <code>production</code>:</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>pulsar my_application production
 </pre></div>
 
-<p>This is what Pulsar does when you run the <code>pulsar</code> command:</p>
+<p>As a rule of thumb, anything that's added at the end of the command is passed to capistrano. Some examples:</p>
 
-<ol>
-<li>fetch <code>git@github.com:gh_user/pulsar-conf.git</code> repo (just the latest <code>HEAD</code> to preserve bandwidth)</li>
-<li>use <code>cat</code> to append/prepend files from the configuration repo to build a Capfile with configurations for <code>my_app production</code>
-</li>
-<li>run <code>bundle install</code> to install all the dependencies you required via Gemfile</li>
-<li>run <code>cap</code> on that Capfile with whatever you passed as arguments to <code>pulsar</code> (it deaults to the <code>deploy</code> task)</li>
-</ol><p>As you can guess, you can append any kind of arguments to this command and it will execute it as if your're running <code>cap</code> inside your app.
-For example, to see the list of tasks (like running <code>cap --tasks</code>) you have available you can run:</p>
+<div class="highlight"><pre><span class="nv">$ </span>pulsar my_application production --tasks
 
-<div class="highlight"><pre>pulsar -c gh_user/pulsar-conf my_app production --tasks
+<span class="nv">$ </span>pulsar my_application production invoke
+
+<span class="nv">$ </span>pulsar my_application staging deploy:migrations
+
+<span class="nv">$ </span>pulsar my_application staging deploy:pending
+
+<span class="nv">$ </span>pulsar my_application staging shell
 </pre></div>
 
-<p>by default Pulsar will assume you want to run the <code>deploy</code> Capistrano task.</p>
+<h3>Running inside a Rack application</h3>
 
-<h3>pulsar-utils command</h3>
+<p>In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar
+supports running from inside a Rack application directory. If you use this a lot, you should consider installing
+Pulsar via the application <code>Gemfile</code>.</p>
 
-<p>Everything which is not related to running Capistrano you can do it with the <code>pulsar-utils</code> command. This command
-has the <code>list</code> and <code>init</code> subcommands.</p>
+<p>When deploying from inside a Rack application you can omit the application name:</p>
 
-<h4>list subcommand</h4>
+<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /path/to/my_application
 
-<p>The <code>list</code> subcommand will help you list the applications/environments you have configured. Running:</p>
-
-<div class="highlight"><pre>pulsar-utils list -c gh_user/pulsar-conf
+<span class="nv">$ </span>pulsar production
 </pre></div>
 
-<p>will output a list like this one:</p>
+<hr><p>If you need a particular configuration for an application you can store a <code>.pulsar</code> file inside the application
+directory:</p>
 
-<div class="highlight"><pre>my_app: production, staging
-my_other_app: staging
+<div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Inside /path/to/my_application/.pulsar</span>
+<span class="c">#</span>
+<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span>
+
+<span class="c">#</span>
+<span class="c"># If the application directory name is different than what</span>
+<span class="c"># you configured inside the Pulsar configuration repository</span>
+<span class="c">#</span>
+<span class="c"># PULSAR_APP_NAME="my-application"</span>
 </pre></div>
 
-<h4>init subcommand</h4>
+<h2>Integrations</h2>
 
-<p>The <code>init</code> subcommand will help you get started with Pulsar by providing a basic directory structure for your configuration repo. If you run:</p>
+<p>Pulsar is easy to integrate since you just need access to the configurations repository and the ability to
+run a command.</p>
 
-<div class="highlight"><pre>pulsar-utils init ./my_path
-</pre></div>
+<h3>Hubot</h3>
 
-<p>Pulsar will put a "starter" configuration repo inside <code>./my_path</code>. After that please remember that you need to:</p>
-
-<div class="highlight"><pre><span class="nb">cd</span> ./my_path
-bundle install
-</pre></div>
-
-<p>to add a <code>Gemfile.lock</code> file. If you'd like to keep your configurations under revision control you should also proceed to init the repo with <code>git</code>.</p>
+<p><a href="https://gist.github.com/mtylty/5324075">https://gist.github.com/mtylty/5324075</a></p>
 
 <h2>Contributing</h2>
 
-<p>Please visit the <a href="https://github.com/nebulab/pulsar">GitHub Project</a> for that.</p>
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes with tests (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
       </section>
     </div>
     <footer>
