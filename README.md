@@ -63,7 +63,6 @@ pulsar-conf/
       │   ├── notify.rb
       │   └── rake.rb
       ├── rails
-      │   ├── asset_pipeline.rb
       │   ├── passenger.rb
       │   ├── repair_permissions.rb
       │   ├── symlink_configs.rb
@@ -87,7 +86,46 @@ This directory contains your application configurations. You'll have one directo
 
 ### `recipes` directory
 
-blabla
+This directory contains your recipes. You can create any number of directories to organize your recipes.
+To load a recipe from your configurations you can use the `load_recipes` helper:
+
+```ruby
+#
+# Somewhere inside apps/
+#
+load_recipes do
+  rails :repair_permissions, :unicorn
+  generic :cleanup, :rake
+end
+```
+
+This will use capistrano's `load` method to include recipes from `rails/` and `generic/`.
+
+---
+
+Another way to include your recipes is by using the `Gemfile`. As many gems already include custom recipes for capistrano,
+you just need to require those. An example with [Whenever](https://github.com/javan/whenever):
+
+```ruby
+#
+# Inside Gemfile
+#
+gem 'whenever'
+
+#
+# Inside recipes/rails/whenever.rb
+#
+require 'whenever/capistrano'
+
+set :whenever_command, "bundle exec whenever"
+
+#
+# Somewhere inside apps/
+#
+load_recipes do
+  rails :whenever
+end
+```
 
 ## Usage
 
