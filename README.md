@@ -18,7 +18,27 @@ Some of the benefits of using Pulsar:
 
 ## Installation
 
-blabla
+The most useful way of installing Pulsar is as a system gem:
+
+```bash
+gem install pulsar
+```
+
+This will install two commands: `pulsar` and `pulsar-utils`. The first command is required to run capistrano,
+the other is for everything else.
+
+---
+
+You'll need to create your own configuration repo:
+
+```bash
+pulsar-utils init ~/Desktop/pulsar-conf
+```
+
+This will create a basic start point for building your configuration repository. As soon as you're done configuring
+you should consider storing this folder as an actual git repository.
+
+**NOTE**: Pulsar only supports git and *nix systems.
 
 ## Configuration
 
