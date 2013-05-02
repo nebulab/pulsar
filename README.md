@@ -193,7 +193,8 @@ $ pulsar my_application staging shell
 ### Running inside a Rack application
 
 In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar
-supports running from inside a Rack application directory.
+supports running from inside a Rack application directory. If you use this a lot, you should consider installing
+Pulsar via the application `Gemfile`.
 
 When deploying from inside a Rack application you can omit the application name:
 
