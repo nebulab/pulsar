@@ -42,6 +42,45 @@ you should consider storing this folder as an actual git repository.
 
 ## Configuration
 
+This is an example repository configuration layout:
+
+```bash
+pulsar-conf/
+  |── Gemfile
+  ├── Gemfile.lock
+  ├── apps
+  │   ├── base.rb
+  │   └── my_application
+  │       ├── defaults.rb
+  │       ├── production.rb
+  │       ├── recipes
+  │       │   └── custom_recipe.rb
+  │       └── staging.rb
+  └── recipes
+      ├── generic
+      │   ├── cleanup.rb
+      │   ├── maintenance_mode.rb
+      │   ├── notify.rb
+      │   └── rake.rb
+      ├── rails
+      │   ├── asset_pipeline.rb
+      │   ├── passenger.rb
+      │   ├── repair_permissions.rb
+      │   ├── symlink_configs.rb
+      │   ├── unicorn.rb
+      │   └── whenever.rb
+      └── spree_1
+          └── symlink_assets.rb
+```
+
+Pulsar uses these files to build capistrano configurations on the fly, depending on how you invoke the `pulsar` command.
+
+### `apps` directory
+
+blabla
+
+### `recipes` directory
+
 blabla
 
 ## Usage
