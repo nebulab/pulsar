@@ -64,6 +64,8 @@ the other is for everything else.</p>
 <p>This will create a basic start point for building your configuration repository. As soon as you're done configuring
 you should consider storing this folder as an actual git repository.</p>
 
+<p>Here it is possible to see how this configuration repository will look like: <a href="http://github.com/nebulab/pulsar-conf-demo">Pulsar Conf Demo</a> </p>
+
 <p><strong>NOTE</strong>: Pulsar only supports git and *nix systems.</p>
 
 <h2>Configuration</h2>
@@ -205,16 +207,17 @@ you don't have to type it everytime.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>pulsar my_application production --tasks
 
-<span class="nv">$ </span>pulsar my_application production invoke
-
 <span class="nv">$ </span>pulsar my_application staging deploy:migrations
 
-<span class="nv">$ </span>pulsar my_application staging deploy:pending
-
 <span class="nv">$ </span>pulsar my_application staging shell
+
+<span class="c">#</span>
+<span class="c"># Deploy multiple apps by using commas </span>
+<span class="c">#</span>
+<span class="nv">$ </span>pulsar my_app1,my_app2,my_app3 production
 </pre></div>
 
-<h3>Running inside a Rack application</h3>
+<h3>Running inside a Rack application (e.g. Ruby on Rails application)</h3>
 
 <p>In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar
 supports running from inside a Rack application directory. If you use this a lot, you should consider installing
@@ -225,6 +228,8 @@ Pulsar via the application <code>Gemfile</code>.</p>
 <div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /path/to/my_application
 
 <span class="nv">$ </span>pulsar production
+
+<span class="nv">$ </span>pulsar staging deploy:migrations
 </pre></div>
 
 <hr><p>If you need a particular configuration for an application you can store a <code>.pulsar</code> file inside the application
