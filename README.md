@@ -130,7 +130,7 @@ end
 ### Loading the repository
 
 Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
-as a full git path or a github repository path (`gh_user/pulsar-conf`).
+as a full git path or a github repository path (`gh-user/pulsar-conf`).
 
 Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
 you don't have to type it everytime.
@@ -147,12 +147,12 @@ The fastest way is probably the `.pulsar` hidden file inside your home directory
 #
 # Inside ~/.pulsar
 #
-PULSAR_CONF_REPO="gh_user/pulsar-conf" 
+PULSAR_CONF_REPO="gh-user/pulsar-conf" 
 
 #
 # Also supported
 #
-# PULSAR_CONF_REPO="git://github.com/gh_user/pulsar-conf.git"
+# PULSAR_CONF_REPO="git://github.com/gh-user/pulsar-conf.git"
 ```
 
 Pulsar will read this file and set the environment variables properly.
@@ -165,7 +165,7 @@ If you don't want to add another file to your home directory you can export the 
 #
 # Inside ~/.bash_profile or ~/.zshrc
 #
-export PULSAR_CONF_REPO="gh_user/pulsar-conf" 
+export PULSAR_CONF_REPO="gh-user/pulsar-conf" 
 ```
 
 ## Usage
@@ -213,7 +213,7 @@ directory:
 #
 # Inside /path/to/my_application/.pulsar
 #
-PULSAR_CONF_REPO="gh_user/pulsar-conf"
+PULSAR_CONF_REPO="gh-user/pulsar-conf"
 
 #
 # If the application directory name is different than what
@@ -224,7 +224,7 @@ PULSAR_CONF_REPO="gh_user/pulsar-conf"
 
 ## Integrations
 
-Pulsar is easy to integrate since you just need access to the configurations repository and the ability to
+Pulsar is easy to integrate, you just need access to the configurations repository and the ability to
 run a command.
 
 ### Hubot
