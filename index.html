@@ -157,7 +157,7 @@ you just need to require those. An example with <a href="https://github.com/java
 <h3>Loading the repository</h3>
 
 <p>Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
-as a full git path or a github repository path (<code>gh_user/pulsar-conf</code>).</p>
+as a full git path or a github repository path (<code>gh-user/pulsar-conf</code>).</p>
 
 <p>Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
 you don't have to type it everytime.</p>
@@ -176,12 +176,12 @@ you don't have to type it everytime.</p>
 <div class="highlight"><pre><span class="c">#</span>
 <span class="c"># Inside ~/.pulsar</span>
 <span class="c">#</span>
-<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span> 
+<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span> 
 
 <span class="c">#</span>
 <span class="c"># Also supported</span>
 <span class="c">#</span>
-<span class="c"># PULSAR_CONF_REPO="git://github.com/gh_user/pulsar-conf.git"</span>
+<span class="c"># PULSAR_CONF_REPO="git://github.com/gh-user/pulsar-conf.git"</span>
 </pre></div>
 
 <p>Pulsar will read this file and set the environment variables properly.</p>
@@ -191,7 +191,7 @@ you don't have to type it everytime.</p>
 <div class="highlight"><pre><span class="c">#</span>
 <span class="c"># Inside ~/.bash_profile or ~/.zshrc</span>
 <span class="c">#</span>
-<span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span> 
+<span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span> 
 </pre></div>
 
 <h2>Usage</h2>
@@ -233,7 +233,7 @@ directory:</p>
 <div class="highlight"><pre><span class="c">#</span>
 <span class="c"># Inside /path/to/my_application/.pulsar</span>
 <span class="c">#</span>
-<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh_user/pulsar-conf"</span>
+<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span>
 
 <span class="c">#</span>
 <span class="c"># If the application directory name is different than what</span>
@@ -244,7 +244,7 @@ directory:</p>
 
 <h2>Integrations</h2>
 
-<p>Pulsar is easy to integrate since you just need access to the configurations repository and the ability to
+<p>Pulsar is easy to integrate, you just need access to the configurations repository and the ability to
 run a command.</p>
 
 <h3>Hubot</h3>
