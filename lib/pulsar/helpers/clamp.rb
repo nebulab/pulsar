@@ -58,6 +58,12 @@ module Pulsar
           touch(capfile_path, :verbose => verbose?)
         end
 
+        def each_app
+          Dir["#{config_path}/apps/*"].each do |path|
+            yield(File.basename(path)) if File.directory?(path)
+          end
+        end
+
         def fetch_repo
           if File.directory?(conf_repo)
             fetch_directory_repo(conf_repo)
@@ -115,22 +121,8 @@ module Pulsar
         end
 
         def list_apps
-          apps = Dir["#{config_path}/apps/*"].each do |app|
-            if File.directory?(app)
-              app_name = File.basename(app)
-              app_envs = []
-
-              Dir["#{app}/*"].each do |env|
-                environments = %w(development staging production)
-                env_name = File.basename(env, '.rb')
-
-                if environments.include?(env_name)
-                  app_envs << env_name
-                end
-              end
-
-              puts "#{app_name.cyan}: #{app_envs.map(&:magenta).join(', ')}"
-            end
+          each_app do |name|
+            puts "#{name.cyan}: #{stages_for(name).map(&:magenta).join(', ')}"
           end
         end
 
@@ -192,6 +184,16 @@ module Pulsar
           cmd = "echo 'logger.level = logger.level = Capistrano::Logger::#{level}' >> #{capfile_path}"
 
           run_cmd(cmd, :verbose => verbose?)
+        end
+
+        def stages_for(app)
+          environments = %w(development staging production)
+
+          Dir["#{config_path}/apps/#{app}/*"].map do |env|
+            env_name = File.basename(env, '.rb')
+
+            env_name if environments.include?(env_name)
+          end.compact
         end
 
         def time_to_deploy

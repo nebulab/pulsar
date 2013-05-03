@@ -19,6 +19,16 @@ describe Pulsar::ListCommand do
     Dir.glob("#{tmp_path}/conf-repo*").should be_empty
   end
 
+  it "lists configured apps and stages" do
+    pulsar.run(full_list_args)
+
+    app_one = "dummy_app".cyan
+    app_two = "other_dummy_app".cyan
+    stages = [ "production".magenta, "staging".magenta ].join(', ')
+
+    stdout.should include("#{app_one}: #{stages}\n#{app_two}: #{stages}")
+  end
+
   it "reads configuration variables from .pulsar file in home" do
     env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
