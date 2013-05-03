@@ -38,6 +38,8 @@ $ pulsar-utils init ~/Desktop/pulsar-conf
 This will create a basic start point for building your configuration repository. As soon as you're done configuring
 you should consider storing this folder as an actual git repository.
 
+Here it is possible to see how this configuration repository will look like: [Pulsar Conf Demo](http://github.com/nebulab/pulsar-conf-demo) 
+
 **NOTE**: Pulsar only supports git and *nix systems.
 
 ## Configuration
@@ -181,16 +183,17 @@ As a rule of thumb, anything that's added at the end of the command is passed to
 ```bash
 $ pulsar my_application production --tasks
 
-$ pulsar my_application production invoke
-
 $ pulsar my_application staging deploy:migrations
 
-$ pulsar my_application staging deploy:pending
-
 $ pulsar my_application staging shell
+
+#
+# Deploy multiple apps by using commas 
+#
+$ pulsar my_app1,my_app2,my_app3 production
 ```
 
-### Running inside a Rack application
+### Running inside a Rack application (e.g. Ruby on Rails application)
 
 In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar
 supports running from inside a Rack application directory. If you use this a lot, you should consider installing
@@ -202,6 +205,8 @@ When deploying from inside a Rack application you can omit the application name:
 $ cd /path/to/my_application
 
 $ pulsar production
+
+$ pulsar staging deploy:migrations
 ```
 
 ---
