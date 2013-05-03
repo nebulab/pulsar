@@ -26,8 +26,8 @@ describe Pulsar::ListCommand do
     app_two = "other_dummy_app".cyan
     stages = [ "production".magenta, "staging".magenta ].join(', ')
 
-    stdout.should include("#{app_one}: #{stages}")
-    stdout.should include("#{app_two}: #{stages}")
+    stdout.match(%q{#{app_one}: (#{stages})|(#{stages.reverse})})
+    stdout.match(%q{#{app_two}: (#{stages})|(#{stages.reverse})})
   end
 
   it "reads configuration variables from .pulsar file in home" do
