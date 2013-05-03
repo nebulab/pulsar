@@ -20,14 +20,17 @@ describe Pulsar::ListCommand do
   end
 
   it "lists configured apps and stages" do
+    app_one = Regexp.escape("dummy_app".cyan)
+    app_two = Regexp.escape("other_dummy_app".cyan)
+    
+    stages = [ "production".magenta, "staging".magenta ]
+    escaped_stages = Regexp.escape(stages.join(', '))
+    reversed_stages = Regexp.escape(stages.reverse.join(', '))
+
     pulsar.run(full_list_args)
 
-    app_one = "dummy_app".cyan
-    app_two = "other_dummy_app".cyan
-    stages = [ "production".magenta, "staging".magenta ].join(', ')
-
-    stdout.match(%q{#{app_one}: (#{stages})|(#{stages.reverse})})
-    stdout.match(%q{#{app_two}: (#{stages})|(#{stages.reverse})})
+    stdout.should match(/#{app_one}: (#{escaped_stages})|(#{reversed_stages})/)
+    stdout.should match(/#{app_two}: (#{escaped_stages})|(#{reversed_stages})/)
   end
 
   it "reads configuration variables from .pulsar file in home" do
