@@ -1,8 +1,6 @@
 module Pulsar
   module Helpers
     module Capistrano
-      require "pulsar/helpers/clamp"
-
       class DSL
         include Pulsar::Helpers::Clamp
 

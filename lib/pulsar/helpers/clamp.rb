@@ -1,9 +1,7 @@
-require 'fileutils'
-
 module Pulsar
   module Helpers
     module Clamp
-      include FileUtils
+      include Pulsar::Helpers::Shell
 
       def self.included(base)
         base.extend(InstanceAndClassMethods)
@@ -43,11 +41,6 @@ module Pulsar
 
         def capfile_path
           @capfile_name ||= "#{tmp_dir}/capfile-#{time_to_deploy}"
-        end
-
-        def cd(path, opts, &block)
-          puts "Directory: #{path.white}".yellow if opts[:verbose]
-          FileUtils.cd(path) { yield }
         end
 
         def config_path
@@ -163,18 +156,6 @@ module Pulsar
           end
         end
 
-        def rm_rf(path, opts)
-          puts "Remove: #{path.white}".yellow if opts[:verbose]
-          FileUtils.rm_rf(path)
-        end
-
-        def run_cmd(cmd, opts)
-          puts "Command: #{cmd.white}".yellow if opts[:verbose]
-          system(cmd)
-
-          raise "Command #{cmd} Failed" if $? != 0
-        end
-
         def set_log_level
           level = log_level.upcase
           levels = %w(IMPORTANT INFO DEBUG)
@@ -198,11 +179,6 @@ module Pulsar
 
         def time_to_deploy
           @now ||= Time.now.strftime("%Y-%m-%d-%H%M%S-s#{rand(9999)}")
-        end
-
-        def touch(file, opts)
-          puts "Touch: #{file.white}".yellow if opts[:verbose]
-          FileUtils.touch(file)
         end
       end
     end

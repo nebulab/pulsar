@@ -50,12 +50,6 @@ describe Pulsar::Helpers::Clamp do
     end
   end
 
-  context "run_cmd" do
-    it "raises exception if command fails" do
-      expect { run_cmd("return 1", {}) }.to raise_error
-    end
-  end
-
   context "reset_for_other_app!" do
     it "resets instance variables written by the module" do
       cap, conf, time = capfile_path, config_path, time_to_deploy
