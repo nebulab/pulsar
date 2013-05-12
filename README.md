@@ -131,7 +131,7 @@ end
 
 ---
 
-You can specify some recipes to be loaded only when you run Pulsar from inside an application directory.
+You can specify some recipes to be loaded only when you run Pulsar from inside a Rack application directory.
 This is useful with recipes that require something inside that directory (like retrieving the database/assets
 from a staging environment). 
 
@@ -140,6 +140,11 @@ You can do that like this:
 ```ruby
 #
 # Somewhere inside apps/
+#
+
+#
+# These recipes will be available only if you're inside
+# a Rack application (like Rails)
 #
 load_recipes(only_app: true) do
   rails :assets_pull, :database_pull
