@@ -61,6 +61,34 @@ describe Pulsar::ListCommand do
     ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
   end
 
+  it "skips lines which cannot parse when reading .pulsar file" do
+    env_vars = [ "wrong_line", "# comment"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
+
+    FileUtils.cd(dummy_rack_app_path) do
+      reload_main_command
+
+      expect { pulsar.run(full_list_args) }.not_to raise_error
+    end
+  end
+
+  it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
+    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+
+    File.stub(:file?).and_return(true)
+    File.stub(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
+
+    File.should_receive(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+
+    FileUtils.cd(dummy_rack_app_path) do
+      reload_main_command
+
+      pulsar.run(full_list_args)
+    end
+  end
+
   context "--conf-repo option" do
     it "is required" do
       expect { pulsar.parse([]) }.to raise_error(Clamp::UsageError)
