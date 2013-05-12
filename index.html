@@ -156,6 +156,25 @@ you just need to require those. An example with <a href="https://github.com/java
 <span class="k">end</span>
 </pre></div>
 
+<hr><p>You can specify some recipes to be loaded only when you run Pulsar from inside a Rack application directory.
+This is useful with recipes that require something inside that directory (like retrieving the database/assets
+from a staging environment). </p>
+
+<p>You can do that like this:</p>
+
+<div class="highlight"><pre><span class="c1">#</span>
+<span class="c1"># Somewhere inside apps/</span>
+<span class="c1">#</span>
+
+<span class="c1">#</span>
+<span class="c1"># These recipes will be available only if you're running </span>
+<span class="c1"># Pulsar inside a Rack application (like Rails) directory</span>
+<span class="c1">#</span>
+<span class="n">load_recipes</span><span class="p">(</span><span class="n">only_app</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">rails</span> <span class="ss">:assets_pull</span><span class="p">,</span> <span class="ss">:database_pull</span>
+<span class="k">end</span>
+</pre></div>
+
 <h3>Loading the repository</h3>
 
 <p>Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
