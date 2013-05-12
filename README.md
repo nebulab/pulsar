@@ -129,6 +129,23 @@ load_recipes do
 end
 ```
 
+---
+
+You can specify some recipes to be loaded only when you run Pulsar from inside an application directory.
+This is useful with recipes that require something inside that directory (like retrieving the database/assets
+from a staging environment). 
+
+You can do that like this:
+
+```ruby
+#
+# Somewhere inside apps/
+#
+load_recipes(only_app: true) do
+  rails :assets_pull, :database_pull
+end
+```
+
 ### Loading the repository
 
 Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
