@@ -143,8 +143,8 @@ You can do that like this:
 #
 
 #
-# These recipes will be available only if you're inside
-# a Rack application (like Rails)
+# These recipes will be available only if you're running 
+# Pulsar inside a Rack application (like Rails) directory
 #
 load_recipes(only_app: true) do
   rails :assets_pull, :database_pull
