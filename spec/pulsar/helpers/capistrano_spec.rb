@@ -26,6 +26,26 @@ describe Pulsar::Helpers::Capistrano do
 
       expect { load_recipes { generic :missing_recipe } }.to raise_error(RuntimeError, /no missing_recipe recipe/)
     end
+
+    it "does not call load if :app_only is true and pulsar is not called from inside application" do
+      ENV.delete('APP_PATH')
+      File.stub(:directory?).and_return(true)
+      File.stub(:exists?).and_return(true)
+
+      self.should_not_receive(:load)
+
+      load_recipes(:app_only => true) { generic :recipe }
+    end
+
+    it "calls load if :app_only is true and pulsar is called from inside application" do
+      ENV['APP_PATH'] = "/app/path"
+      File.stub(:directory?).and_return(true)
+      File.stub(:exists?).and_return(true)
+      
+      self.should_receive(:load)
+
+      load_recipes(:app_only => true) { generic :recipe }
+    end
   end
 
   context "from_application_path?" do
