@@ -20,7 +20,7 @@ module Pulsar
         def application_path
           Dir.pwd if from_application_path?
         end
-        
+
         def build_capfile(args)
           app, stage = args.split(":")
 
@@ -120,16 +120,22 @@ module Pulsar
         end
 
         def load_configuration
-          conf_path = application_path || Dir.home
-          conf_file = File.join(conf_path, ".pulsar")
-
-          if File.file?(conf_file)
-            File.readlines(conf_file).each do |line|
+          unless pulsar_configuration.nil?
+            File.readlines(pulsar_configuration).each do |line|
               conf, value = line.split("=")
 
               ENV[conf] = value.chomp.gsub('"', '') if !conf.nil? && !value.nil?
             end
           end
+        end
+
+        def pulsar_configuration
+          conf_file = ".pulsar"
+          inside_app = File.join(application_path, conf_file) rescue nil
+          inside_home = File.join(Dir.home, conf_file) rescue nil
+
+          return inside_app if inside_app && File.file?(inside_app)
+          return inside_home if inside_home && File.file?(inside_home)
         end
 
         def remove_capfile
