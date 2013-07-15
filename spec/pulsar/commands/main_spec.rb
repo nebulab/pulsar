@@ -259,5 +259,11 @@ describe Pulsar::MainCommand do
 
       latest_capfile.should include("logger.level = logger.level = Capistrano::Logger::DEBUG")
     end
+
+    it "supports Capistrano TRACE" do
+      pulsar.run(full_cap_args + %w(--log-level trace) + dummy_app)
+
+      latest_capfile.should include("logger.level = logger.level = Capistrano::Logger::TRACE")
+    end
   end
 end
