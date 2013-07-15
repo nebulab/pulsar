@@ -164,7 +164,7 @@ module Pulsar
 
         def set_log_level
           level = log_level.upcase
-          levels = %w(IMPORTANT INFO DEBUG)
+          levels = %w(IMPORTANT INFO DEBUG TRACE)
 
           level = levels.first unless levels.include?(level)
 
