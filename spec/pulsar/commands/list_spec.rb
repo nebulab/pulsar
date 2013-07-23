@@ -23,7 +23,7 @@ describe Pulsar::ListCommand do
     app_one = Regexp.escape("dummy_app".cyan)
     app_two = Regexp.escape("other_dummy_app".cyan)
     
-    stages = [ "production".magenta, "staging".magenta ]
+    stages = [ "custom_stage".magenta, "production".magenta, "staging".magenta ]
     escaped_stages = Regexp.escape(stages.join(', '))
     reversed_stages = Regexp.escape(stages.reverse.join(', '))
 

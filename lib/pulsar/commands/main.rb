@@ -16,9 +16,7 @@ module Pulsar
       parameter "APPLICATION", "the application which you would like to deploy. Pass a comma separated list to deploy multiple applications at once"
     end
 
-    parameter "ENVIRONMENT", "the environment on which you would like to deploy" do |env|
-      %w(production staging development).include?(env) ? env : raise(ArgumentError)
-    end
+    parameter "ENVIRONMENT", "the environment on which you would like to deploy"
 
     parameter "[TASKS] ...", "the arguments and/or options that will be passed to capistrano", :default => "deploy"
 
@@ -27,6 +25,7 @@ module Pulsar
         Bundler.with_clean_env do
           begin
             fetch_repo
+            validate(app, environment)
             bundle_install
             create_capfile
             build_capfile(app, environment)

@@ -2,6 +2,7 @@ module Pulsar
   module Helpers
     module Clamp
       include Pulsar::Helpers::Shell
+      include Pulsar::Helpers::Path
 
       def self.included(base)
         base.extend(InstanceAndClassMethods)
@@ -37,20 +38,12 @@ module Pulsar
           end
         end
 
-        def capfile_path
-          @capfile_name ||= "#{tmp_dir}/capfile-#{time_to_deploy}"
-        end
-
-        def config_path
-          @configuration_path ||= "#{tmp_dir}/conf-repo-#{time_to_deploy}"
-        end
-
         def create_capfile
           touch(capfile_path, :verbose => verbose?)
         end
 
         def each_app
-          Dir["#{config_path}/apps/*"].each do |path|
+          Dir["#{config_apps_path}/*"].each do |path|
             yield(File.basename(path)) if File.directory?(path)
           end
         end
@@ -81,8 +74,8 @@ module Pulsar
         end
 
         def include_app(app, stage=nil)
-          app_file = "#{config_path}/apps/#{app}/defaults.rb"
-          stage_file = "#{config_path}/apps/#{app}/#{stage}.rb"
+          app_file = config_app_defaults_path(app)
+          stage_file = config_stage_path(app, stage)
 
           if File.exists?(app_file)
             run_cmd("cat #{app_file} >> #{capfile_path}", :verbose => verbose?)
@@ -94,21 +87,22 @@ module Pulsar
         end
 
         def include_app_recipes(app, stage=nil)
-          recipes_dir = "#{config_path}/apps/#{app}/recipes"
+          recipes_dir = config_app_recipes_path(app)
+          stage_recipes_dir = config_app_stage_recipes_path(app, stage)
 
           Dir.glob("#{recipes_dir}/*.rb").each do |recipe|
             run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
           end
 
           if stage
-            Dir.glob("#{recipes_dir}/#{stage}/*.rb").each do |recipe|
+            Dir.glob("#{stage_recipes_dir}/*.rb").each do |recipe|
               run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
             end
           end
         end
 
         def include_base_conf
-          run_cmd("cat #{config_path}/apps/base.rb >> #{capfile_path}", :verbose => verbose?)
+          run_cmd("cat #{config_base_path} >> #{capfile_path}", :verbose => verbose?)
         end
 
         def list_apps
@@ -172,17 +166,20 @@ module Pulsar
         end
 
         def stages_for(app)
-          environments = %w(development staging production)
+          exclude = %w(defaults recipes)
 
-          Dir["#{config_path}/apps/#{app}/*"].map do |env|
+          Dir["#{config_app_path(app)}/*"].map do |env|
             env_name = File.basename(env, '.rb')
 
-            env_name if environments.include?(env_name)
+            env_name unless exclude.include?(env_name)
           end.compact
         end
 
-        def time_to_deploy
-          @now ||= Time.now.strftime("%Y-%m-%d-%H%M%S-s#{rand(9999)}")
+        def validate(app, stage)
+          app_path = config_app_path(app)
+          stage_path = config_stage_path(app, stage)
+
+          raise(ArgumentError) unless File.exists?(app_path) && File.exists?(stage_path)
         end
       end
     end
