@@ -166,7 +166,7 @@ module Pulsar
         def stages_for(app)
           exclude = %w(defaults recipes)
 
-          Dir["#{config_app_path(app)}/*"].map do |env|
+          Dir["#{config_app_path(app)}/*"].sort.map do |env|
             env_name = File.basename(env, '.rb')
 
             env_name unless exclude.include?(env_name)

@@ -25,12 +25,11 @@ describe Pulsar::ListCommand do
     
     stages = [ "custom_stage".magenta, "production".magenta, "staging".magenta ]
     escaped_stages = Regexp.escape(stages.join(', '))
-    reversed_stages = Regexp.escape(stages.reverse.join(', '))
 
     pulsar.run(full_list_args)
 
-    stdout.should match(/#{app_one}: (#{escaped_stages})|(#{reversed_stages})/)
-    stdout.should match(/#{app_two}: (#{escaped_stages})|(#{reversed_stages})/)
+    stdout.should match(/#{app_one}: #{escaped_stages}/)
+    stdout.should match(/#{app_two}: #{escaped_stages}/)
   end
 
   it "reads configuration variables from .pulsar file in home" do
