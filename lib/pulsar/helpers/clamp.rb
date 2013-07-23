@@ -73,7 +73,7 @@ module Pulsar
           run_cmd("git clone #{git_options} #{repo} #{config_path}", :verbose => verbose?)
         end
 
-        def include_app(app, stage=nil)
+        def include_app(app, stage)
           app_file = config_app_defaults_path(app)
           stage_file = config_stage_path(app, stage)
 
@@ -81,12 +81,12 @@ module Pulsar
             run_cmd("cat #{app_file} >> #{capfile_path}", :verbose => verbose?)
           end
 
-          if stage
+          if File.exists?(stage_file)
             run_cmd("cat #{stage_file} >> #{capfile_path}", :verbose => verbose?)
           end
         end
 
-        def include_app_recipes(app, stage=nil)
+        def include_app_recipes(app, stage)
           recipes_dir = config_app_recipes_path(app)
           stage_recipes_dir = config_app_stage_recipes_path(app, stage)
 
@@ -94,10 +94,8 @@ module Pulsar
             run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
           end
 
-          if stage
-            Dir.glob("#{stage_recipes_dir}/*.rb").each do |recipe|
-              run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
-            end
+          Dir.glob("#{stage_recipes_dir}/*.rb").each do |recipe|
+            run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
           end
         end
 
