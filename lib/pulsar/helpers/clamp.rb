@@ -21,9 +21,7 @@ module Pulsar
           Dir.pwd if from_application_path?
         end
 
-        def build_capfile(args)
-          app, stage = args.split(":")
-
+        def build_capfile(app, stage)
           # Variables
           set_log_level
           include_base_conf

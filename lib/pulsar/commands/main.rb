@@ -24,14 +24,12 @@ module Pulsar
 
     def execute
       find_apps.each do |app|
-        target = "#{app}:#{environment}"
-
         Bundler.with_clean_env do
           begin
             fetch_repo
             bundle_install
             create_capfile
-            build_capfile(target)
+            build_capfile(app, environment)
 
             unless skip_cap_run?
               cap_args = [ tasks_list ].flatten.join(" ")
