@@ -157,7 +157,8 @@ Once the repository is ready, you'll need to tell Pulsar where it is. The reposi
 as a full git path or a github repository path (`gh-user/pulsar-conf`).
 
 Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
-you don't have to type it everytime.
+you don't have to type it everytime. You can also use local repository, which is useful while developing your
+deployment.
 
 You have three possibilities:
 
@@ -171,7 +172,13 @@ The fastest way is probably the `.pulsar` hidden file inside your home directory
 #
 # Inside ~/.pulsar
 #
-PULSAR_CONF_REPO="gh-user/pulsar-conf" 
+PULSAR_CONF_REPO="gh-user/pulsar-conf"
+
+#
+# You can use local repository for development so you don't need to push changes every time
+# If you don't want to commit every change you want to test, don't use git repository
+#
+PULSAR_CONF_REPO="/full/path/to/repository"
 
 #
 # Also supported
