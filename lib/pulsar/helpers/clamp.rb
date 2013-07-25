@@ -61,11 +61,7 @@ module Pulsar
         end
 
         def fetch_directory_repo(repo)
-          if File.directory?("#{repo}/.git")
-            fetch_git_repo(repo, true)
-          else
-            run_cmd("cp -rp #{repo} #{config_path}", :verbose => verbose?)
-          end
+          run_cmd("cp -rp #{repo} #{config_path}", :verbose => verbose?)
         end
 
         def fetch_git_repo(repo, local=false)
