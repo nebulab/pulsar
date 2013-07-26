@@ -1,3 +1,5 @@
+require "shellwords"
+
 module Pulsar
   class MainCommand < Clamp::Command
     include Pulsar::Helpers::Clamp
@@ -31,7 +33,7 @@ module Pulsar
             build_capfile(app, stage)
 
             unless skip_cap_run?
-              cap_args = [ tasks_list ].flatten.join(" ")
+              cap_args = [ tasks_list ].flatten.shelljoin
               run_capistrano(cap_args)
             end
           ensure
