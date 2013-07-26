@@ -38,7 +38,7 @@ $ pulsar-utils init ~/Desktop/pulsar-conf
 This will create a basic start point for building your configuration repository. As soon as you're done configuring
 you should consider storing this folder as an actual git repository.
 
-Here it is possible to see how this configuration repository will look like: [Pulsar Conf Demo](http://github.com/nebulab/pulsar-conf-demo) 
+Here it is possible to see how this configuration repository will look like: [Pulsar Conf Demo](http://github.com/nebulab/pulsar-conf-demo)
 
 **NOTE**: Pulsar only supports git and *nix systems.
 
@@ -133,7 +133,7 @@ end
 
 You can specify some recipes to be loaded only when you run Pulsar from inside a Rack application directory.
 This is useful with recipes that require something inside that directory (like retrieving the database/assets
-from a staging environment). 
+from a staging environment).
 
 You can do that like this:
 
@@ -143,7 +143,7 @@ You can do that like this:
 #
 
 #
-# These recipes will be available only if you're running 
+# These recipes will be available only if you're running
 # Pulsar inside a Rack application (like Rails) directory
 #
 load_recipes(app_only: true) do
@@ -156,8 +156,9 @@ end
 Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
 as a full git path or a github repository path (`gh-user/pulsar-conf`).
 
-Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
-you don't have to type it everytime.
+Since Pulsar requires the repository for everything, there are multiple ways to store this information so that
+you don't have to type it everytime. You can also use local repository, which is useful while developing your
+deployment.
 
 You have three possibilities:
 
@@ -171,7 +172,12 @@ The fastest way is probably the `.pulsar` hidden file inside your home directory
 #
 # Inside ~/.pulsar
 #
-PULSAR_CONF_REPO="gh-user/pulsar-conf" 
+PULSAR_CONF_REPO="gh-user/pulsar-conf"
+
+#
+# You can use local repository for development so you don't need to push changes every time
+#
+PULSAR_CONF_REPO="/full/path/to/repository"
 
 #
 # Also supported
@@ -189,7 +195,7 @@ If you don't want to add another file to your home directory you can export the 
 #
 # Inside ~/.bash_profile or ~/.zshrc
 #
-export PULSAR_CONF_REPO="gh-user/pulsar-conf" 
+export PULSAR_CONF_REPO="gh-user/pulsar-conf"
 ```
 
 ## Usage
@@ -210,7 +216,7 @@ $ pulsar my_application staging deploy:migrations
 $ pulsar my_application staging shell
 
 #
-# Deploy multiple apps by using commas 
+# Deploy multiple apps by using commas
 #
 $ pulsar my_app1,my_app2,my_app3 production
 ```
