@@ -1,5 +1,3 @@
-require "shellwords"
-
 module Pulsar
   class MainCommand < Clamp::Command
     include Pulsar::Helpers::Clamp
