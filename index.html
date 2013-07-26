@@ -46,7 +46,8 @@ have all your application dependencies installed). This lets you integrate Pulsa
 <li>Every recipe can be shared between all applications</li>
 <li>Can easily be integrated with other tools</li>
 <li>Write the least possible code to deploy</li>
-</ul><h2>Installation</h2>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>The most useful way of installing Pulsar is as a system gem:</p>
 
@@ -64,11 +65,12 @@ the other is for everything else.</p>
 <p>This will create a basic start point for building your configuration repository. As soon as you're done configuring
 you should consider storing this folder as an actual git repository.</p>
 
-<p>Here it is possible to see how this configuration repository will look like: <a href="http://github.com/nebulab/pulsar-conf-demo">Pulsar Conf Demo</a> </p>
+<p>Here it is possible to see how this configuration repository will look like: <a href="http://github.com/nebulab/pulsar-conf-demo">Pulsar Conf Demo</a></p>
 
 <p><strong>NOTE</strong>: Pulsar only supports git and *nix systems.</p>
 
-<h2>Configuration</h2>
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
 <p>This is an example repository configuration layout:</p>
 
@@ -103,7 +105,7 @@ you should consider storing this folder as an actual git repository.</p>
 Since Pulsar it's basically a capistrano wrapper, the content of these files is plain old capistrano syntax.</p>
 
 <h3>
-<em>apps</em> directory</h3>
+<a name="apps-directory" class="anchor" href="#apps-directory"><span class="octicon octicon-link"></span></a><em>apps</em> directory</h3>
 
 <p>This directory contains your application configurations. You'll have one directory per application.</p>
 
@@ -117,7 +119,7 @@ Since Pulsar it's basically a capistrano wrapper, the content of these files is 
 <li>
 <code>my_application/recipes/</code> are recipes that are always included for that application (no need to use <code>load_recipes</code>)</li>
 </ul><h3>
-<em>recipes</em> directory</h3>
+<a name="recipes-directory" class="anchor" href="#recipes-directory"><span class="octicon octicon-link"></span></a><em>recipes</em> directory</h3>
 
 <p>This directory contains your recipes. You can create any number of directories to organize your recipes.
 To load a recipe from your configurations you can use the <code>load_recipes</code> helper:</p>
@@ -158,7 +160,7 @@ you just need to require those. An example with <a href="https://github.com/java
 
 <hr><p>You can specify some recipes to be loaded only when you run Pulsar from inside a Rack application directory.
 This is useful with recipes that require something inside that directory (like retrieving the database/assets
-from a staging environment). </p>
+from a staging environment).</p>
 
 <p>You can do that like this:</p>
 
@@ -167,7 +169,7 @@ from a staging environment). </p>
 <span class="c1">#</span>
 
 <span class="c1">#</span>
-<span class="c1"># These recipes will be available only if you're running </span>
+<span class="c1"># These recipes will be available only if you're running</span>
 <span class="c1"># Pulsar inside a Rack application (like Rails) directory</span>
 <span class="c1">#</span>
 <span class="n">load_recipes</span><span class="p">(</span><span class="n">app_only</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span>
@@ -175,13 +177,15 @@ from a staging environment). </p>
 <span class="k">end</span>
 </pre></div>
 
-<h3>Loading the repository</h3>
+<h3>
+<a name="loading-the-repository" class="anchor" href="#loading-the-repository"><span class="octicon octicon-link"></span></a>Loading the repository</h3>
 
 <p>Once the repository is ready, you'll need to tell Pulsar where it is. The repository location can be specified either
 as a full git path or a github repository path (<code>gh-user/pulsar-conf</code>).</p>
 
-<p>Since Pulsar requires the repository for everything, there are multiple ways to store this information so that 
-you don't have to type it everytime.</p>
+<p>Since Pulsar requires the repository for everything, there are multiple ways to store this information so that
+you don't have to type it everytime. You can also use local repository, which is useful while developing your
+deployment.</p>
 
 <p>You have three possibilities:</p>
 
@@ -197,7 +201,12 @@ you don't have to type it everytime.</p>
 <div class="highlight"><pre><span class="c">#</span>
 <span class="c"># Inside ~/.pulsar</span>
 <span class="c">#</span>
-<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span> 
+<span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span>
+
+<span class="c">#</span>
+<span class="c"># You can use local repository for development so you don't need to push changes every time</span>
+<span class="c">#</span>
+<span class="c"># PULSAR_CONF_REPO="/full/path/to/repository"</span>
 
 <span class="c">#</span>
 <span class="c"># Also supported</span>
@@ -212,10 +221,11 @@ you don't have to type it everytime.</p>
 <div class="highlight"><pre><span class="c">#</span>
 <span class="c"># Inside ~/.bash_profile or ~/.zshrc</span>
 <span class="c">#</span>
-<span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span> 
+<span class="nb">export </span><span class="nv">PULSAR_CONF_REPO</span><span class="o">=</span><span class="s2">"gh-user/pulsar-conf"</span>
 </pre></div>
 
-<h2>Usage</h2>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>After the repository is ready, running Pulsar is straightforward. To deploy <code>my_application</code> to <code>production</code>:</p>
 
@@ -231,12 +241,13 @@ you don't have to type it everytime.</p>
 <span class="nv">$ </span>pulsar my_application staging shell
 
 <span class="c">#</span>
-<span class="c"># Deploy multiple apps by using commas </span>
+<span class="c"># Deploy multiple apps by using commas</span>
 <span class="c">#</span>
 <span class="nv">$ </span>pulsar my_app1,my_app2,my_app3 production
 </pre></div>
 
-<h3>Running inside a Rack application (e.g. Ruby on Rails application)</h3>
+<h3>
+<a name="running-inside-a-rack-application-eg-ruby-on-rails-application" class="anchor" href="#running-inside-a-rack-application-eg-ruby-on-rails-application"><span class="octicon octicon-link"></span></a>Running inside a Rack application (e.g. Ruby on Rails application)</h3>
 
 <p>In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar
 supports running from inside a Rack application directory. If you use this a lot, you should consider installing
@@ -266,16 +277,19 @@ directory:</p>
 <span class="c"># PULSAR_APP_NAME="my-application"</span>
 </pre></div>
 
-<h2>Integrations</h2>
+<h2>
+<a name="integrations" class="anchor" href="#integrations"><span class="octicon octicon-link"></span></a>Integrations</h2>
 
 <p>Pulsar is easy to integrate, you just need access to the configurations repository and the ability to
 run a command.</p>
 
-<h3>Hubot</h3>
+<h3>
+<a name="hubot" class="anchor" href="#hubot"><span class="octicon octicon-link"></span></a>Hubot</h3>
 
 <p><a href="https://gist.github.com/mtylty/5324075">https://gist.github.com/mtylty/5324075</a></p>
 
-<h2>Contributing</h2>
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
