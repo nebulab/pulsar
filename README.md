@@ -177,7 +177,7 @@ PULSAR_CONF_REPO="gh-user/pulsar-conf"
 #
 # You can use local repository for development so you don't need to push changes every time
 #
-PULSAR_CONF_REPO="/full/path/to/repository"
+# PULSAR_CONF_REPO="/full/path/to/repository"
 
 #
 # Also supported
