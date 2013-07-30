@@ -19,7 +19,7 @@ require 'bundler/capistrano'
 # Load default recipes
 #
 load_recipes do
-  generic :cleanup, :rake
+  generic :cleanup, :utils
 end
 
 #

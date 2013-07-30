@@ -63,7 +63,7 @@ pulsar-conf/
       │   ├── cleanup.rb
       │   ├── maintenance_mode.rb
       │   ├── notify.rb
-      │   └── rake.rb
+      │   └── utils.rb
       ├── rails
       │   ├── passenger.rb
       │   ├── repair_permissions.rb
@@ -97,7 +97,7 @@ To load a recipe from your configurations you can use the `load_recipes` helper:
 #
 load_recipes do
   rails :repair_permissions, :unicorn
-  generic :cleanup, :rake
+  generic :cleanup, :utils
 end
 ```
 
