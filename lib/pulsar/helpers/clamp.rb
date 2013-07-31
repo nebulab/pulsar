@@ -174,8 +174,8 @@ module Pulsar
         def validate(app, stage)
           app_path = config_app_path(app)
           stage_path = config_stage_path(app, stage)
-
-          raise(ArgumentError) unless File.exists?(app_path) && File.exists?(stage_path)
+          valid_paths = File.exists?(app_path) && File.exists?(stage_path)
+          raise(ArgumentError, "no pulsar config available for app=#{app}, stage=#{stage}") unless valid_paths
         end
       end
     end
