@@ -88,11 +88,7 @@ module Pulsar
           recipes_dir = config_app_recipes_path(app)
           stage_recipes_dir = config_app_stage_recipes_path(app, stage)
 
-          Dir.glob("#{recipes_dir}/*.rb").each do |recipe|
-            run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
-          end
-
-          Dir.glob("#{stage_recipes_dir}/*.rb").each do |recipe|
+          Dir["#{recipes_dir}/*.rb", "#{stage_recipes_dir}/*.rb"].each do |recipe|
             run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
           end
         end
