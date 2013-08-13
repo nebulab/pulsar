@@ -102,11 +102,11 @@ describe Pulsar::MainCommand do
   end
 
   it "errors out if application does not exist in configuration repository" do
-    expect { pulsar.run(full_cap_args + %w(non_existant_app production)) }.to raise_error(ArgumentError)
+    expect { pulsar.run(full_cap_args + %w(non_existent_app production)) }.to raise_error(ArgumentError)
   end
 
   it "errors out if stage does not exist in configuration repository" do
-    expect { pulsar.run(full_cap_args + dummy_app(:non_existant_stage)) }.to raise_error(ArgumentError)
+    expect { pulsar.run(full_cap_args + dummy_app(:non_existent_stage)) }.to raise_error(ArgumentError)
   end
 
   context "Capfile" do
