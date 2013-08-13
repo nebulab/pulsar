@@ -23,8 +23,8 @@ module Helpers
     "tmp"
   end
 
-  def tmp_path
-    File.join(File.dirname(__FILE__), "..", tmp_dir)
+  def tmp_path(dir=tmp_dir)
+    File.join(File.dirname(__FILE__), "..", dir)
   end
 
   def dummy_app(stage = :production)

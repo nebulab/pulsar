@@ -225,6 +225,12 @@ describe Pulsar::MainCommand do
     it "is supported" do
       expect { pulsar.parse(base_args + %w(--tmp-dir dummy_tmp) + dummy_app) }.to_not raise_error(Clamp::UsageError)
     end
+
+    it "creates the tmp directory if it doesn't exist" do
+      run_options = base_args + [ "--tmp-dir", tmp_path("tmp/non_existent"), "--skip-cap-run" ] + dummy_app
+
+      expect { pulsar.run(run_options) }.not_to raise_error
+    end
   end
 
   context "--keep-capfile option" do

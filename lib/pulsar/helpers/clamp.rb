@@ -42,6 +42,10 @@ module Pulsar
           touch(capfile_path, :verbose => verbose?)
         end
 
+        def create_tmp_dir
+          run_cmd("mkdir -p #{tmp_dir}", :verbose => verbose?)
+        end
+
         def each_app
           Dir["#{config_apps_path}/*"].each do |path|
             yield(File.basename(path)) if File.directory?(path)

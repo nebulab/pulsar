@@ -5,6 +5,7 @@ module Pulsar
     def execute
       Bundler.with_clean_env do
         begin
+          create_tmp_dir
           fetch_repo
 
           list_apps

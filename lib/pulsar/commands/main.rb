@@ -24,6 +24,7 @@ module Pulsar
       find_apps.each do |app|
         Bundler.with_clean_env do
           begin
+            create_tmp_dir
             fetch_repo
             validate(app, stage)
             bundle_install
