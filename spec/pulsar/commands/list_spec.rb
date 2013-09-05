@@ -32,59 +32,61 @@ describe Pulsar::ListCommand do
     stdout.should match(/#{app_two}: #{escaped_stages}/)
   end
 
-  it "reads configuration variables from .pulsar file in home" do
-    env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+  context "dotfile options" do
+    it "reads configuration variables from .pulsar file in home" do
+      env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
-
-    pulsar.run(full_list_args)
-
-    ENV.should have_key('PULSAR_CONF_REPO')
-    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
-  end
-
-  it "reads configuration variables from .pulsar file in rack app directory" do
-    env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
-
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
-
-    FileUtils.cd(dummy_rack_app_path) do
-      reload_main_command
+      File.stub(:file?).and_return(true)
+      File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
 
       pulsar.run(full_list_args)
+
+      ENV.should have_key('PULSAR_CONF_REPO')
+      ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
     end
 
-    ENV.should have_key('PULSAR_CONF_REPO')
-    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
-  end
+    it "reads configuration variables from .pulsar file in rack app directory" do
+      env_vars = [ "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
-  it "skips lines which cannot parse when reading .pulsar file" do
-    env_vars = [ "wrong_line", "# comment"] 
+      File.stub(:file?).and_return(true)
+      File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
 
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
 
-    FileUtils.cd(dummy_rack_app_path) do
-      reload_main_command
+        pulsar.run(full_list_args)
+      end
 
-      expect { pulsar.run(full_list_args) }.not_to raise_error
+      ENV.should have_key('PULSAR_CONF_REPO')
+      ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
     end
-  end
 
-  it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
-    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+    it "skips lines which cannot parse when reading .pulsar file" do
+      env_vars = [ "wrong_line", "# comment"] 
 
-    File.stub(:file?).and_return(true)
-    File.stub(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
+      File.stub(:file?).and_return(true)
+      File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
 
-    File.should_receive(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
 
-    FileUtils.cd(dummy_rack_app_path) do
-      reload_main_command
+        expect { pulsar.run(full_list_args) }.not_to raise_error
+      end
+    end
 
-      pulsar.run(full_list_args)
+    it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
+      env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+
+      File.stub(:file?).and_return(true)
+      File.stub(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
+
+      File.should_receive(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
+
+        pulsar.run(full_list_args)
+      end
     end
   end
 

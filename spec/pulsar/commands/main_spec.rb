@@ -39,65 +39,67 @@ describe Pulsar::MainCommand do
     expect { pulsar.run(full_cap_args + apps_to_deploy) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(2)
   end
 
-  it "reads configuration variables from .pulsar file in home" do
-    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+  context "dotfile options" do
+    it "reads configuration variables from .pulsar file in home" do
+      env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+      File.stub(:file?).and_return(true)
+      File.stub(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
 
-    pulsar.run(full_cap_args + dummy_app)
+      pulsar.run(full_cap_args + dummy_app)
 
-    ENV.should have_key('PULSAR_APP_NAME')
-    ENV['PULSAR_APP_NAME'].should == "dummy_app"
+      ENV.should have_key('PULSAR_APP_NAME')
+      ENV['PULSAR_APP_NAME'].should == "dummy_app"
 
-    ENV.should have_key('PULSAR_CONF_REPO')
-    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
-  end
-
-  it "reads configuration variables from .pulsar file in rack app directory" do
-    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
-
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
-
-    FileUtils.cd(dummy_rack_app_path) do
-      reload_main_command
-
-      pulsar.run(full_cap_args + %w(production))
+      ENV.should have_key('PULSAR_CONF_REPO')
+      ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
     end
 
-    ENV.should have_key('PULSAR_APP_NAME')
-    ENV['PULSAR_APP_NAME'].should == "dummy_app"
+    it "reads configuration variables from .pulsar file in rack app directory" do
+      env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
 
-    ENV.should have_key('PULSAR_CONF_REPO')
-    ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
-  end
+      File.stub(:file?).and_return(true)
+      File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
 
-  it "skips lines which cannot parse when reading .pulsar file" do
-    env_vars = [ "wrong_line", "# comment"] 
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
 
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
+        pulsar.run(full_cap_args + %w(production))
+      end
 
-    FileUtils.cd(dummy_rack_app_path) do
-      reload_main_command
+      ENV.should have_key('PULSAR_APP_NAME')
+      ENV['PULSAR_APP_NAME'].should == "dummy_app"
 
-      expect { pulsar.run(full_cap_args + %w(production)) }.not_to raise_error
+      ENV.should have_key('PULSAR_CONF_REPO')
+      ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
     end
-  end
 
-  it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
-    env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+    it "skips lines which cannot parse when reading .pulsar file" do
+      env_vars = [ "wrong_line", "# comment"] 
 
-    File.stub(:file?).and_return(true)
-    File.stub(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
+      File.stub(:file?).and_return(true)
+      File.stub(:readlines).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(env_vars)
 
-    File.should_receive(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
 
-    FileUtils.cd(dummy_rack_app_path) do
-      reload_main_command
+        expect { pulsar.run(full_cap_args + %w(production)) }.not_to raise_error
+      end
+    end
 
-      pulsar.run(full_cap_args + %w(production))
+    it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
+      env_vars = [ "PULSAR_APP_NAME=\"dummy_app\"\n", "PULSAR_CONF_REPO=\"#{dummy_conf_path}\"\n"] 
+
+      File.stub(:file?).and_return(true)
+      File.stub(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
+
+      File.should_receive(:readlines).with("#{Dir.home}/.pulsar").and_return(env_vars)
+
+      FileUtils.cd(dummy_rack_app_path) do
+        reload_main_command
+
+        pulsar.run(full_cap_args + %w(production))
+      end
     end
   end
 
