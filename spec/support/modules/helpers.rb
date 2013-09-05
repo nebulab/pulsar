@@ -3,12 +3,8 @@ module Helpers
     [ "--conf-repo", dummy_conf_path ]
   end
 
-  def full_cap_args
-    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
-  end
-
-  def full_list_args
-    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile" ]
+  def dummy_app(stage = :production)
+    [ "dummy_app", stage.to_s ]
   end
 
   def dummy_conf_path
@@ -19,16 +15,12 @@ module Helpers
     File.join(File.dirname(__FILE__), "..", "dummies", "dummy_app")
   end
 
-  def tmp_dir
-    "tmp"
+  def full_cap_args
+    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
   end
 
-  def tmp_path(dir=tmp_dir)
-    File.join(File.dirname(__FILE__), "..", dir)
-  end
-
-  def dummy_app(stage = :production)
-    [ "dummy_app", stage.to_s ]
+  def full_list_args
+    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile" ]
   end
 
   def latest_capfile
@@ -48,5 +40,13 @@ module Helpers
 
   def stub_bundle_install
     Pulsar::MainCommand.any_instance.stub(:bundle_install)
+  end
+
+  def tmp_dir
+    "tmp"
+  end
+
+  def tmp_path(dir=tmp_dir)
+    File.join(File.dirname(__FILE__), "..", dir)
   end
 end
