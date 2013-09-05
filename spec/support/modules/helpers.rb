@@ -42,6 +42,22 @@ module Helpers
     Pulsar::MainCommand.any_instance.stub(:bundle_install)
   end
 
+  def stub_dotfile(path, options)
+    extended_path = "#{File.expand_path(path)}/.pulsar"
+    dotfile_lines = []
+
+    options.each do |option, value|
+      if value.nil?
+        dotfile_lines << option
+      else
+        dotfile_lines << "#{option}=\"#{value}\"\n"
+      end
+    end
+
+    File.stub(:file?).and_return(true)
+    File.stub(:readlines).with(extended_path).and_return(dotfile_lines)
+  end
+
   def tmp_dir
     "tmp"
   end
