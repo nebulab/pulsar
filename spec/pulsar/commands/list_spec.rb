@@ -34,16 +34,15 @@ describe Pulsar::ListCommand do
 
   context "dotfile options" do
     it "reads configuration variables from .pulsar file in home" do
-      stub_dotfile(Dir.home, :PULSAR_CONF_REPO => dummy_conf_path)
+      stub_dotfile(Dir.home, dummy_dotfile_options)
 
       pulsar.run(full_list_args)
 
-      ENV.should have_key('PULSAR_CONF_REPO')
-      ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
+      ENV.to_hash.should include(dummy_dotfile_options)
     end
 
     it "reads configuration variables from .pulsar file in rack app directory" do
-      stub_dotfile(dummy_rack_app_path, :PULSAR_CONF_REPO => dummy_conf_path)
+      stub_dotfile(dummy_rack_app_path, dummy_dotfile_options)
 
       FileUtils.cd(dummy_rack_app_path) do
         reload_main_command
@@ -51,8 +50,7 @@ describe Pulsar::ListCommand do
         pulsar.run(full_list_args)
       end
 
-      ENV.should have_key('PULSAR_CONF_REPO')
-      ENV['PULSAR_CONF_REPO'].should == dummy_conf_path
+      ENV.to_hash.should include(dummy_dotfile_options)
     end
 
     it "skips lines which cannot parse when reading .pulsar file" do
@@ -66,8 +64,8 @@ describe Pulsar::ListCommand do
     end
 
     it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
-      stub_dotfile(Dir.home, :PULSAR_CONF_REPO => dummy_conf_path)
-      
+      stub_dotfile(Dir.home, dummy_dotfile_options)
+
       File.stub(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
 
       FileUtils.cd(dummy_rack_app_path) do

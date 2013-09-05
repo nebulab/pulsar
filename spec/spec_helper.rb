@@ -25,8 +25,9 @@ RSpec.configure do |config|
   config.before(:each) do
     Dir.stub(:home).and_return("/fake/home")
     
-    ENV.delete("PULSAR_APP_NAME")
-    ENV.delete("PULSAR_CONF_REPO")
+    dummy_dotfile_options.keys.each do |variable|
+      ENV.delete(variable.to_s)
+    end
   end
 
   config.after(:each) do

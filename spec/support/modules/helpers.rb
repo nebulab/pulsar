@@ -11,6 +11,13 @@ module Helpers
     File.join(File.dirname(__FILE__), "..", "dummies", "dummy_conf")
   end
 
+  def dummy_dotfile_options
+    {
+      "PULSAR_APP_NAME" => "dummy_app",
+      "PULSAR_CONF_REPO" => dummy_conf_path
+    }
+  end
+
   def dummy_rack_app_path
     File.join(File.dirname(__FILE__), "..", "dummies", "dummy_app")
   end
