@@ -262,4 +262,17 @@ describe Pulsar::MainCommand do
       latest_capfile.should include("logger.level = logger.level = Capistrano::Logger::TRACE")
     end
   end
+
+  context "TASKS parameter" do
+    it "defaults to deploy" do
+      pulsar.tasks_list.should == "deploy"
+    end
+
+    it "supports environment variable" do
+      ENV["PULSAR_DEFAULT_TASK"] = "custom:task"
+      pulsar.run(full_cap_args + dummy_app)
+
+      pulsar.tasks_list.should == [ "custom:task" ]
+    end
+  end
 end

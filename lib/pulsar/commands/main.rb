@@ -18,7 +18,10 @@ module Pulsar
 
     parameter "STAGE", "the stage on which you would like to deploy"
 
-    parameter "[TASKS] ...", "the arguments and/or options that will be passed to capistrano", :default => "deploy"
+    parameter "[TASKS] ...",
+              "the arguments and/or options that will be passed to capistrano",
+              :environment_variable => "PULSAR_DEFAULT_TASK",
+              :default => "deploy"
 
     def execute
       find_apps.each do |app|

@@ -14,7 +14,8 @@ module Helpers
   def dummy_dotfile_options
     {
       "PULSAR_APP_NAME" => "dummy_app",
-      "PULSAR_CONF_REPO" => dummy_conf_path
+      "PULSAR_CONF_REPO" => dummy_conf_path,
+      "PULSAR_DEFAULT_TASK" => "capistrano:task"
     }
   end
 
