@@ -219,6 +219,17 @@ $ pulsar my_application staging shell
 # Deploy multiple apps by using commas
 #
 $ pulsar my_app1,my_app2,my_app3 production
+
+
+#
+# Deploy multiple apps by using pattern matching
+# (uses Dir.glob)
+#
+
+$ pulsar my_app* production
+# or
+$ pulsar *worker staging
+
 ```
 
 ### Running inside a Rack application (e.g. Ruby on Rails application)
