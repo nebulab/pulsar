@@ -51,7 +51,6 @@ module Pulsar
                expand_app_list application
              end
 
-      # require 'pry'; binding.pry
       apps
     end
 
@@ -74,15 +73,28 @@ module Pulsar
     #
     # [ app1, app2, app3-web, app3-worker ]
     def expand_app_list applications
-      applications.split(',').flat_map do |application|
-        if application =~ /\*/
-          Dir["#{@conf_repo}/apps/#{application}"].map do |matched_apps|
-            File.basename(matched_apps)
+      app_list = Set.new
+
+      applications.split(',').each do |application_name|
+        # application_name has a pattern!
+        if application_name["*"]
+          # get all directories which match it
+          pattern = "#{@conf_repo}/apps/#{application_name}"
+          Dir.glob(pattern).each do |matched|
+            path = File.expand_path matched
+
+            # only add application to set if it's a directory
+            if File.directory? path
+              app_list << File.basename(path)
+            end
           end
         else
-          application
+          # normal, single arg mode
+          app_list << application_name
         end
       end
+
+      app_list.to_a
     end
   end
 end
