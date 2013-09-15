@@ -3,7 +3,7 @@ module Pulsar
     include Pulsar::Helpers::Clamp
     include Pulsar::Options::Shared
     include Pulsar::Options::ConfRepo
-    
+
     option [ "-l", "--log-level" ], "LOG LEVEL",
                                     "how much output will Capistrano print out. Can be any of: important, info, debug, trace",
                                     :default => "important"
@@ -45,11 +45,14 @@ module Pulsar
     private
 
     def find_apps
-      if from_application_path?
-        [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
-      else
-        application.split(',')
-      end
+      apps = if from_application_path?
+               [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
+             else
+               expand_app_list application
+             end
+
+      # require 'pry'; binding.pry
+      apps
     end
 
     def cleanup!
@@ -57,6 +60,29 @@ module Pulsar
       remove_repo unless keep_repo?
 
       reset_for_other_app!
+    end
+
+    # Given following applications:
+    # pulsar_repo/
+    #   apps/
+    #     app1
+    #     app2
+    #     app3-web
+    #     app3-worker
+    #     app4
+    # it turns app1,app2,app3* into
+    #
+    # [ app1, app2, app3-web, app3-worker ]
+    def expand_app_list applications
+      applications.split(',').flat_map do |application|
+        if application =~ /\*/
+          Dir["#{@conf_repo}/apps/#{application}"].map do |matched_apps|
+            File.basename(matched_apps)
+          end
+        else
+          application
+        end
+      end
     end
   end
 end
