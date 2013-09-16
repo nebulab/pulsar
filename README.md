@@ -225,7 +225,6 @@ $ pulsar my_app1,my_app2,my_app3 production
 # Deploy multiple apps by using pattern matching
 # (uses Dir.glob)
 #
-
 $ pulsar my_app* production
 # or
 $ pulsar *worker staging
