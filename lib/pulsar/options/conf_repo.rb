@@ -7,7 +7,7 @@ module Pulsar
                                              :environment_variable => "PULSAR_CONF_REPO",
                                              :required => true
 
-        base.option [ "-k", "--keep-capfile" ], :flag, 
+        base.option [ "-k", "--keep-capfile" ], :flag,
                                                 "don't remove the generated capfile in the TMP DIR directory",
                                                 :default => false
 

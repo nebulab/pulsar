@@ -22,7 +22,7 @@ describe Pulsar::ListCommand do
   it "lists configured apps and stages" do
     app_one = Regexp.escape("dummy_app".cyan)
     app_two = Regexp.escape("other_dummy_app".cyan)
-    
+
     stages = [ "custom_stage".magenta, "production".magenta, "staging".magenta ]
     escaped_stages = Regexp.escape(stages.join(', '))
 
@@ -85,7 +85,7 @@ describe Pulsar::ListCommand do
       ENV["PULSAR_CONF_REPO"] = dummy_conf_path
       expect { pulsar.parse([]) }.not_to raise_error(Clamp::UsageError)
     end
-    
+
     it "supports directories" do
       expect { pulsar.run(full_list_args) }.not_to raise_error(Errno::ENOENT)
     end

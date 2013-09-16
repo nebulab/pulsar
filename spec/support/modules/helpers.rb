@@ -35,7 +35,7 @@ module Helpers
     capfile = File.open(Dir.glob("#{tmp_path}/capfile-*").first)
     content = capfile.read
     capfile.close
-    
+
     content
   end
 

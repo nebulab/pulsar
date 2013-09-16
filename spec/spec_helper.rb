@@ -13,7 +13,7 @@ Coveralls.wear!
 
 #
 # Require all helper modules
-# 
+#
 Dir[File.join(File.dirname(__FILE__), 'support/modules/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
@@ -24,7 +24,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Dir.stub(:home).and_return("/fake/home")
-    
+
     dummy_dotfile_options.keys.each do |variable|
       ENV.delete(variable.to_s)
     end

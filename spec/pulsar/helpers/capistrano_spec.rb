@@ -41,7 +41,7 @@ describe Pulsar::Helpers::Capistrano do
       ENV['APP_PATH'] = "/app/path"
       File.stub(:directory?).and_return(true)
       File.stub(:exists?).and_return(true)
-      
+
       self.should_receive(:load)
 
       load_recipes(:app_only => true) { generic :recipe }
@@ -57,7 +57,7 @@ describe Pulsar::Helpers::Capistrano do
 
     it "returns false if APP_PATH env variable is not set" do
       ENV.delete('APP_PATH')
-      
+
       from_application_path?.should be_false
     end
   end

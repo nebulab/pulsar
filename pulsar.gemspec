@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.description    = %q{Manage your Capistrano deployments with ease}
   gem.summary        = %q{
     Pulsar helps with Capistrano configuration management. It uses a repository
-    to store all your precious configurations and recipes to build Capistrano 
+    to store all your precious configurations and recipes to build Capistrano
     deploys on it.
   }
   gem.homepage       = "http://pulsar.nebulab.it"

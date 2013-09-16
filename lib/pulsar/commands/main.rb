@@ -3,7 +3,7 @@ module Pulsar
     include Pulsar::Helpers::Clamp
     include Pulsar::Options::Shared
     include Pulsar::Options::ConfRepo
-    
+
     option [ "-l", "--log-level" ], "LOG LEVEL",
                                     "how much output will Capistrano print out. Can be any of: important, info, debug, trace",
                                     :default => "important"

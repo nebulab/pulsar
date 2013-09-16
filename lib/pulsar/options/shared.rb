@@ -7,7 +7,7 @@ module Pulsar
           exit(0)
         end
 
-        base.option [ "-v", "--verbose" ], :flag, "print out what pulsar is doing", :default => false 
+        base.option [ "-v", "--verbose" ], :flag, "print out what pulsar is doing", :default => false
       end
     end
   end

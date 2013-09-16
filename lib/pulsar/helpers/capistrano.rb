@@ -27,12 +27,12 @@ module Pulsar
       end
 
       #
-      # This method can be called directly inside 
+      # This method can be called directly inside
       # capistrano configurations but needs:
       #
       # defer { from_application_path? }
       #
-      # otherwise capistrano will interpret it 
+      # otherwise capistrano will interpret it
       # as a variable and error out
       #
       def from_application_path?
