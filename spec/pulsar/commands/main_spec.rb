@@ -33,7 +33,7 @@ describe Pulsar::MainCommand do
     end
   end
 
-  context "Multiple applications", focus: true do
+  context "Multiple applications" do
     let :stage do
       "production"
     end
