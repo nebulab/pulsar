@@ -82,7 +82,7 @@ module Pulsar
         # application_name has a pattern!
         if application_name["*"]
           # get all directories which match it
-          pattern = "#{@conf_repo}/apps/#{application_name}"
+          pattern = "#{conf_repo}/apps/#{application_name}"
           Dir.glob(pattern).each do |matched|
             path = File.expand_path(matched)
 
