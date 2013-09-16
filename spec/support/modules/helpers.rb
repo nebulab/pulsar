@@ -39,6 +39,10 @@ module Helpers
     content
   end
 
+  def capfile_count
+    Dir.glob("#{tmp_path}/capfile-*").length
+  end
+
   def reload_main_command
     Pulsar.instance_eval{ remove_const :MainCommand }
     load "pulsar/commands/main.rb"

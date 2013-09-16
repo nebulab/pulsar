@@ -6,11 +6,11 @@ describe Pulsar::MainCommand do
   before(:each) { reload_main_command }
 
   it "builds a Capfile file in tmp dir" do
-    expect { pulsar.run(full_cap_args + dummy_app) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(1)
+    expect { pulsar.run(full_cap_args + dummy_app) }.to change{ capfile_count }.by(1)
   end
 
   it "copies a the repo over to temp directory" do
-    expect { pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)
+    expect { pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{capfile_count }.by(1)
   end
 
   it "removes the temp directory even if it's raised an error" do
@@ -29,14 +29,46 @@ describe Pulsar::MainCommand do
     FileUtils.cd(dummy_rack_app_path) do
       reload_main_command
 
-      expect { pulsar.run(full_cap_args + %w(production)) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(1)
+      expect { pulsar.run(full_cap_args + %w(production)) }.to change{ capfile_count }.by(1)
     end
   end
 
-  it "supports multiple apps via comma separated argument" do
-    apps_to_deploy = [ 'dummy_app,other_dummy_app', 'production' ]
+  context "Multiple applications", focus: true do
+    let :stage do
+      "production"
+    end
 
-    expect { pulsar.run(full_cap_args + apps_to_deploy) }.to change{ Dir.glob("#{tmp_path}/capfile-*").length }.by(2)
+    let :comma_separated_list do
+      [ 'dummy_app,other_dummy_app', stage ]
+    end
+
+    let :pattern_list do
+      [ 'dummy*', stage ]
+    end
+
+    let :pattern_match_all do
+      [ '*', stage ]
+    end
+
+    let :double_pattern do
+      [ 'dummy*,*app', stage ]
+    end
+
+    it "supports multiple apps via comma separated argument" do
+      expect { pulsar.run(full_cap_args + comma_separated_list) }.to change{ capfile_count }.by(2)
+    end
+
+    it "supports pattern matching on app names" do
+      expect { pulsar.run(full_cap_args + pattern_list) }.to change{ capfile_count }.by(1)
+    end
+
+    it "matches all apps with *" do
+      expect { pulsar.run(full_cap_args + pattern_match_all) }.to change { capfile_count }.by(2)
+    end
+
+    it "matches application only once" do
+      expect { pulsar.run(full_cap_args + double_pattern) }.to change { capfile_count }.by(2)
+    end
   end
 
   context "dotfile options" do

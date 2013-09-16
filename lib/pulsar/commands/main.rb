@@ -48,11 +48,13 @@ module Pulsar
     private
 
     def find_apps
-      if from_application_path?
-        [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
-      else
-        application.split(',')
-      end
+      apps = if from_application_path?
+               [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
+             else
+               expand_app_list application
+             end
+
+      apps
     end
 
     def cleanup!
@@ -60,6 +62,42 @@ module Pulsar
       remove_repo unless keep_repo?
 
       reset_for_other_app!
+    end
+
+    # Given following applications:
+    # pulsar_repo/
+    #   apps/
+    #     app1
+    #     app2
+    #     app3-web
+    #     app3-worker
+    #     app4
+    # it turns app1,app2,app3* into
+    #
+    # [ app1, app2, app3-web, app3-worker ]
+    def expand_app_list applications
+      app_list = Set.new
+
+      applications.split(',').each do |application_name|
+        # application_name has a pattern!
+        if application_name["*"]
+          # get all directories which match it
+          pattern = "#{@conf_repo}/apps/#{application_name}"
+          Dir.glob(pattern).each do |matched|
+            path = File.expand_path matched
+
+            # only add application to set if it's a directory
+            if File.directory? path
+              app_list << File.basename(path)
+            end
+          end
+        else
+          # normal, single arg mode
+          app_list << application_name
+        end
+      end
+
+      app_list.to_a
     end
   end
 end
