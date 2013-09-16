@@ -3,6 +3,10 @@ module Helpers
     [ "--conf-repo", dummy_conf_path ]
   end
 
+  def capfile_count
+    Dir.glob("#{tmp_path}/capfile-*").length
+  end
+
   def dummy_app(stage = :production)
     [ "dummy_app", stage.to_s ]
   end
@@ -37,10 +41,6 @@ module Helpers
     capfile.close
 
     content
-  end
-
-  def capfile_count
-    Dir.glob("#{tmp_path}/capfile-*").length
   end
 
   def reload_main_command
