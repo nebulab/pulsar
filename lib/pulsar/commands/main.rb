@@ -51,7 +51,7 @@ module Pulsar
       apps = if from_application_path?
                [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
              else
-               expand_app_list application
+               expand_app_list(application)
              end
 
       apps
@@ -75,7 +75,7 @@ module Pulsar
     # it turns app1,app2,app3* into
     #
     # [ app1, app2, app3-web, app3-worker ]
-    def expand_app_list applications
+    def expand_app_list(applications)
       app_list = Set.new
 
       applications.split(',').each do |application_name|
@@ -84,10 +84,10 @@ module Pulsar
           # get all directories which match it
           pattern = "#{@conf_repo}/apps/#{application_name}"
           Dir.glob(pattern).each do |matched|
-            path = File.expand_path matched
+            path = File.expand_path(matched)
 
             # only add application to set if it's a directory
-            if File.directory? path
+            if File.directory?(path)
               app_list << File.basename(path)
             end
           end

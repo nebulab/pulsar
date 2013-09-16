@@ -10,7 +10,7 @@ describe Pulsar::MainCommand do
   end
 
   it "copies a the repo over to temp directory" do
-    expect { pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{capfile_count }.by(1)
+    expect { pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{ capfile_count }.by(1)
   end
 
   it "removes the temp directory even if it's raised an error" do
