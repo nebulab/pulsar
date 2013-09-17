@@ -2,11 +2,11 @@ module Pulsar
   module Helpers
     module Path
       def capfile_path
-        @capfile_name ||= "#{tmp_dir}/capfile-#{time_to_deploy}"
+        "#{tmp_dir}/capfile-#{time_to_deploy}"
       end
 
       def config_path
-        @configuration_path ||= "#{tmp_dir}/conf-repo-#{time_to_deploy}"
+        "#{tmp_dir}/conf-repo-#{time_to_deploy}"
       end
 
       def config_app_path(app)

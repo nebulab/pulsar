@@ -3,7 +3,7 @@ module Pulsar
     parameter "CONFIGURATION_PATH", "where to generate your configuration repository"
 
     def execute
-      Bundler.with_clean_env do
+      with_clean_env_and_supported_vars do
         destination_path = File.expand_path(configuration_path)
 
         pulsar_cmd_path = File.expand_path(File.dirname(__FILE__))

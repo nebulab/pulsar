@@ -52,6 +52,32 @@ module Pulsar
           end
         end
 
+        def expand_applications
+          if from_application_path?
+            [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
+           else
+            #
+            # Given following applications:
+            # pulsar_repo/
+            #   apps/
+            #     app1
+            #     app2
+            #     app3-web
+            #     app3-worker
+            #     app4
+            # it turns app1,app2,app3* into
+            #
+            # [ app1, app2, app3-web, app3-worker ]
+            #
+            applications.split(',').flat_map do |glob|
+              expanded = Dir.glob(config_app_path("#{glob}/"))
+              found_apps = expanded.map { |path| File.basename(path) }
+              found_apps = glob if found_apps.empty?
+              found_apps
+            end
+          end
+        end
+
         def fetch_repo
           if File.directory?(conf_repo)
             fetch_directory_repo(conf_repo)
@@ -161,6 +187,10 @@ module Pulsar
           run_cmd(cmd, :verbose => verbose?)
         end
 
+        def supported_env_vars
+          %w(PULSAR_APP_NAME PULSAR_CONF_REPO PULSAR_DEFAULT_TASK)
+        end
+
         def stages_for(app)
           exclude = %w(defaults recipes)
 
@@ -176,6 +206,15 @@ module Pulsar
           stage_path = config_stage_path(app, stage)
           valid_paths = File.exists?(app_path) && File.exists?(stage_path)
           raise(ArgumentError, "no pulsar config available for app=#{app}, stage=#{stage}") unless valid_paths
+        end
+
+        def with_clean_env_and_supported_vars
+          vars_from_original_env = ENV.select { |var| supported_env_vars.include?(var) }
+
+          Bundler.with_clean_env do
+            vars_from_original_env.each { |var, val| ENV[var] = val }
+            yield
+          end
         end
       end
     end

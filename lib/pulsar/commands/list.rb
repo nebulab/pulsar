@@ -3,7 +3,7 @@ module Pulsar
     include Pulsar::Options::ConfRepo
 
     def execute
-      Bundler.with_clean_env do
+      with_clean_env_and_supported_vars do
         begin
           create_tmp_dir
           fetch_repo
