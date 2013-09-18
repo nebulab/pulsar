@@ -55,7 +55,7 @@ module Pulsar
         def expand_applications
           if from_application_path?
             [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
-           else
+          else
             #
             # Given following applications:
             # pulsar_repo/
@@ -69,12 +69,7 @@ module Pulsar
             #
             # [ app1, app2, app3-web, app3-worker ]
             #
-            applications.split(',').flat_map do |glob|
-              expanded = Dir.glob(config_app_path("#{glob}/"))
-              found_apps = expanded.map { |path| File.basename(path) }
-              found_apps = glob if found_apps.empty?
-              found_apps
-            end
+            applications.split(',').flat_map { |glob| find_apps_from_pattern(glob) }.uniq
           end
         end
 
@@ -99,6 +94,17 @@ module Pulsar
           git_options = "#{git_options} --depth=1" unless local
 
           run_cmd("git clone #{git_options} #{repo} #{config_path}", :verbose => verbose?)
+        end
+
+        def find_apps_from_pattern(glob)
+          found_apps = []
+
+          Dir.glob(config_app_path("#{glob}/")).each do |path|
+            found_apps << File.basename(path)
+          end
+
+          found_apps << glob if found_apps.empty?
+          found_apps
         end
 
         def include_app(app, stage)
@@ -158,10 +164,6 @@ module Pulsar
 
         def remove_repo
           rm_rf(config_path, :verbose => verbose?)
-        end
-
-        def reset_for_other_app!
-          @capfile_name = @configuration_path = @now = nil
         end
 
         def run_capistrano(args)

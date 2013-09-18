@@ -28,10 +28,10 @@ module Pulsar
         begin
           create_tmp_dir
           fetch_repo
+          bundle_install
 
           expand_applications.each do |app|
             validate(app, stage)
-            bundle_install
             create_capfile
             build_capfile(app, stage)
 
@@ -39,20 +39,15 @@ module Pulsar
               cap_args = [ tasks_list ].flatten.shelljoin
               run_capistrano(cap_args)
             end
+
+            remove_capfile unless keep_capfile?
+            reset_capfile_path!
           end
         ensure
-          cleanup!
+          remove_capfile unless keep_capfile?
+          remove_repo unless keep_repo?
         end
       end
-    end
-
-    private
-
-    def cleanup!
-      remove_capfile unless keep_capfile?
-      remove_repo unless keep_repo?
-
-      reset_for_other_app!
     end
   end
 end

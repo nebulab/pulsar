@@ -2,11 +2,11 @@ module Pulsar
   module Helpers
     module Path
       def capfile_path
-        "#{tmp_dir}/capfile-#{time_to_deploy}"
+        "#{tmp_dir}/capfile-#{deploy_time}"
       end
 
       def config_path
-        "#{tmp_dir}/conf-repo-#{time_to_deploy}"
+        "#{tmp_dir}/conf-repo-#{setup_time}"
       end
 
       def config_app_path(app)
@@ -37,9 +37,21 @@ module Pulsar
         "#{config_app_path(app)}/#{stage}.rb"
       end
 
+      def reset_capfile_path!
+        clear_deploy_time
+      end
+
       private
-      def time_to_deploy
-        @now ||= Time.now.strftime("%Y-%m-%d-%H%M%S-s#{rand(9999)}")
+      def clear_deploy_time
+        @deploy = nil
+      end
+
+      def deploy_time
+        @deploy ||= Time.now.strftime("%Y-%m-%d-%H%M%S-s#{rand(9999)}")
+      end
+
+      def setup_time
+        @setup ||= Time.now.strftime("%Y-%m-%d-%H%M%S-s#{rand(9999)}")
       end
     end
   end
