@@ -5,7 +5,7 @@ describe Pulsar::Helpers::Shell do
 
   context "run_cmd" do
     it "raises exception if command fails" do
-      expect { run_cmd("return 1", {}) }.to raise_error
+      expect { run_cmd("false", {}) }.to raise_error
     end
   end
 end
