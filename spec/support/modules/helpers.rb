@@ -51,7 +51,7 @@ module Helpers
   end
 
   def stub_bundle_install
-    Pulsar::MainCommand.any_instance.stub(:bundle_install)
+    allow_any_instance_of(Pulsar::MainCommand).to receive(:bundle_install)
   end
 
   def stub_dotfile(path, options)
@@ -66,8 +66,8 @@ module Helpers
       end
     end
 
-    File.stub(:file?).and_return(true)
-    File.stub(:readlines).with(extended_path).and_return(dotfile_lines)
+    allow(File).to receive(:file?).and_return(true)
+    allow(File).to receive(:readlines).with(extended_path).and_return(dotfile_lines)
   end
 
   def tmp_dir

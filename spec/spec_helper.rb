@@ -18,12 +18,13 @@ Dir[File.join(File.dirname(__FILE__), 'support/modules/**/*.rb')].each { |f| req
 
 RSpec.configure do |config|
   config.mock_with :rspec
+  config.raise_errors_for_deprecations!
 
   config.include Helpers
   config.include OutputCapture
 
   config.before(:each) do
-    Dir.stub(:home).and_return("/fake/home")
+    allow(Dir).to receive(:home).and_return("/fake/home")
 
     dummy_dotfile_options.keys.each do |variable|
       ENV.delete(variable.to_s)

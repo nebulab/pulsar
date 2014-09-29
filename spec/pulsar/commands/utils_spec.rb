@@ -13,21 +13,21 @@ describe Pulsar::UtilsCommand do
     end
 
     it "shows version" do
-      stdout.should include(Pulsar::VERSION)
+      expect(stdout).to include(Pulsar::VERSION)
     end
 
     it "exits with a zero status" do
-      @system_exit.should_not be_nil
-      @system_exit.status.should == 0
+      expect(@system_exit).not_to be_nil
+      expect(@system_exit.status).to be 0
     end
   end
 
   context "subcommands" do
     it "should be cap and list and init" do
       help = pulsar.help
-      help.should =~ /Subcommands:/
-      help.should =~ /list/
-      help.should =~ /init/
+      expect(help).to match(/Subcommands:/)
+      expect(help).to match(/list/)
+      expect(help).to match(/init/)
     end
   end
 end
