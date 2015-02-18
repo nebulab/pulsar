@@ -10,16 +10,16 @@ module Pulsar
           instance_eval(&dsl_code)
         end
 
-        def method_missing(meth, *args, &block)
+        def method_missing(meth, *args)
           return if !@capistrano.from_application_path? && @options[:app_only]
 
           recipes = "#{ENV['CONFIG_PATH']}/recipes/#{meth}"
 
-          File.directory?(recipes) || raise("There are no recipes of type #{meth}")
+          File.directory?(recipes) || fail("There are no recipes of type #{meth}")
 
           args.each do |arg|
             recipe = "#{recipes}/#{arg}.rb"
-            File.exists?(recipe) || raise("There is no #{arg} recipe")
+            File.exist?(recipe) || fail("There is no #{arg} recipe")
 
             @capistrano.send(:load, recipe)
           end
@@ -36,7 +36,7 @@ module Pulsar
       # as a variable and error out
       #
       def from_application_path?
-        ENV.has_key?('APP_PATH')
+        ENV.key?('APP_PATH')
       end
 
       def load_recipes(opts = {}, &block)

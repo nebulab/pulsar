@@ -11,7 +11,7 @@ module Pulsar
 
       module InstanceAndClassMethods
         def from_application_path?
-          File.exists?("#{Dir.pwd}/config.ru")
+          File.exist?("#{Dir.pwd}/config.ru")
         end
       end
 
@@ -33,17 +33,17 @@ module Pulsar
         end
 
         def bundle_install
-          cd(config_path, :verbose => verbose?) do
-            run_cmd("bundle install --quiet", :verbose => verbose?)
+          cd(config_path, verbose: verbose?) do
+            run_cmd('bundle install --quiet', verbose: verbose?)
           end
         end
 
         def create_capfile
-          touch(capfile_path, :verbose => verbose?)
+          touch(capfile_path, verbose: verbose?)
         end
 
         def create_tmp_dir
-          run_cmd("mkdir -p #{tmp_dir}", :verbose => verbose?)
+          run_cmd("mkdir -p #{tmp_dir}", verbose: verbose?)
         end
 
         def each_app
@@ -86,14 +86,14 @@ module Pulsar
         end
 
         def fetch_directory_repo(repo)
-          run_cmd("cp -rp #{repo} #{config_path}", :verbose => verbose?)
+          run_cmd("cp -rp #{repo} #{config_path}", verbose: verbose?)
         end
 
         def fetch_git_repo(repo, local=false)
           git_options = "--quiet --branch #{conf_branch}"
           git_options = "#{git_options} --depth=1" unless local
 
-          run_cmd("git clone #{git_options} #{repo} #{config_path}", :verbose => verbose?)
+          run_cmd("git clone #{git_options} #{repo} #{config_path}", verbose: verbose?)
         end
 
         def find_apps_from_pattern(glob)
@@ -111,12 +111,12 @@ module Pulsar
           app_file = config_app_defaults_path(app)
           stage_file = config_stage_path(app, stage)
 
-          if File.exists?(app_file)
-            run_cmd("cat #{app_file} >> #{capfile_path}", :verbose => verbose?)
+          if File.exist?(app_file)
+            run_cmd("cat #{app_file} >> #{capfile_path}", verbose: verbose?)
           end
 
-          if File.exists?(stage_file)
-            run_cmd("cat #{stage_file} >> #{capfile_path}", :verbose => verbose?)
+          if File.exist?(stage_file)
+            run_cmd("cat #{stage_file} >> #{capfile_path}", verbose: verbose?)
           end
         end
 
@@ -125,12 +125,12 @@ module Pulsar
           stage_recipes_dir = config_app_stage_recipes_path(app, stage)
 
           Dir["#{recipes_dir}/*.rb", "#{stage_recipes_dir}/*.rb"].each do |recipe|
-            run_cmd("cat #{recipe} >> #{capfile_path}", :verbose => verbose?)
+            run_cmd("cat #{recipe} >> #{capfile_path}", verbose: verbose?)
           end
         end
 
         def include_base_conf
-          run_cmd("cat #{config_base_path} >> #{capfile_path}", :verbose => verbose?)
+          run_cmd("cat #{config_base_path} >> #{capfile_path}", verbose: verbose?)
         end
 
         def list_apps
@@ -140,17 +140,17 @@ module Pulsar
         end
 
         def load_configuration
-          unless pulsar_configuration.nil?
-            File.readlines(pulsar_configuration).each do |line|
-              conf, value = line.split("=")
+          return if pulsar_configuration.nil?
 
-              ENV[conf] = value.chomp.gsub('"', '') if !conf.nil? && !value.nil?
-            end
+          File.readlines(pulsar_configuration).each do |line|
+            conf, value = line.split('=')
+
+            ENV[conf] = value.chomp.gsub('"', '') if !conf.nil? && !value.nil?
           end
         end
 
         def pulsar_configuration
-          conf_file = ".pulsar"
+          conf_file = '.pulsar'
           inside_app = File.join(application_path, conf_file) rescue nil
           inside_home = File.join(Dir.home, conf_file) rescue nil
 
@@ -159,22 +159,22 @@ module Pulsar
         end
 
         def remove_capfile
-          rm_rf(capfile_path, :verbose => verbose?)
+          rm_rf(capfile_path, verbose: verbose?)
         end
 
         def remove_repo
-          rm_rf(config_path, :verbose => verbose?)
+          rm_rf(config_path, verbose: verbose?)
         end
 
         def run_capistrano(args)
-          cmd = "bundle exec cap"
+          cmd = 'bundle exec cap'
           env = "CONFIG_PATH=#{config_path}"
           opts = "--file #{capfile_path}"
 
           env += " APP_PATH=#{application_path}" unless application_path.nil?
 
-          cd(config_path, :verbose => verbose?) do
-            run_cmd("#{cmd} #{env} #{opts} #{args}", :verbose => verbose?)
+          cd(config_path, verbose: verbose?) do
+            run_cmd("#{cmd} #{env} #{opts} #{args}", verbose: verbose?)
           end
         end
 
@@ -186,7 +186,7 @@ module Pulsar
 
           cmd = "echo 'logger.level = logger.level = Capistrano::Logger::#{level}' >> #{capfile_path}"
 
-          run_cmd(cmd, :verbose => verbose?)
+          run_cmd(cmd, verbose: verbose?)
         end
 
         def supported_env_vars
@@ -206,8 +206,8 @@ module Pulsar
         def validate(app, stage)
           app_path = config_app_path(app)
           stage_path = config_stage_path(app, stage)
-          valid_paths = File.exists?(app_path) && File.exists?(stage_path)
-          raise(ArgumentError, "no pulsar config available for app=#{app}, stage=#{stage}") unless valid_paths
+          valid_paths = File.exist?(app_path) && File.exist?(stage_path)
+          fail(ArgumentError, "no pulsar config available for app=#{app}, stage=#{stage}") unless valid_paths
         end
 
         def with_clean_env_and_supported_vars

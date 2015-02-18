@@ -42,6 +42,7 @@ module Pulsar
       end
 
       private
+
       def clear_deploy_time
         @deploy = nil
       end

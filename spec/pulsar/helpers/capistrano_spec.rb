@@ -7,7 +7,7 @@ describe Pulsar::Helpers::Capistrano do
     it "loads capistrano recipes from CONFIG_PATH env variable" do
       ENV['CONFIG_PATH'] = "/config/path"
       allow(File).to receive(:directory?).and_return(true)
-      allow(File).to receive(:exists?).and_return(true)
+      allow(File).to receive(:exist?).and_return(true)
       allow(self).to receive(:load)
 
       load_recipes { generic :recipe }
@@ -23,7 +23,7 @@ describe Pulsar::Helpers::Capistrano do
 
     it "raises a missing recipe exception when no recipe is found" do
       allow(File).to receive(:directory?).and_return(true)
-      allow(File).to receive(:exists?).and_return(false)
+      allow(File).to receive(:exist?).and_return(false)
 
       expect{ load_recipes { generic :missing_recipe } }.to raise_error(RuntimeError, /no missing_recipe recipe/)
     end
@@ -31,7 +31,7 @@ describe Pulsar::Helpers::Capistrano do
     it "does not call load if :app_only is true and pulsar is not called from inside application" do
       ENV.delete('APP_PATH')
       allow(File).to receive(:directory?).and_return(true)
-      allow(File).to receive(:exists?).and_return(true)
+      allow(File).to receive(:exist?).and_return(true)
       allow(self).to receive(:load)
 
       load_recipes(:app_only => true) { generic :recipe }
@@ -42,7 +42,7 @@ describe Pulsar::Helpers::Capistrano do
     it "calls load if :app_only is true and pulsar is called from inside application" do
       ENV['APP_PATH'] = "/app/path"
       allow(File).to receive(:directory?).and_return(true)
-      allow(File).to receive(:exists?).and_return(true)
+      allow(File).to receive(:exist?).and_return(true)
       allow(self).to receive(:load)
 
       load_recipes(:app_only => true) { generic :recipe }

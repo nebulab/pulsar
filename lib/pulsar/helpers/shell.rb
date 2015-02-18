@@ -1,11 +1,12 @@
-require "fileutils"
+require 'english'
+require 'fileutils'
 
 module Pulsar
   module Helpers
     module Shell
       include FileUtils
 
-      def cd(path, opts, &block)
+      def cd(path, opts)
         puts "Directory: #{path.white}".yellow if opts[:verbose]
         FileUtils.cd(path) { yield }
       end
@@ -19,7 +20,7 @@ module Pulsar
         puts "Command: #{cmd.white}".yellow if opts[:verbose]
         system(cmd)
 
-        raise "Command #{cmd} Failed" if $? != 0
+        fail "Command #{cmd} Failed" if $CHILD_STATUS != 0
       end
 
       def touch(file, opts)
