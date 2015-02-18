@@ -1,4 +1,3 @@
-require 'english'
 require 'fileutils'
 
 module Pulsar
@@ -20,7 +19,7 @@ module Pulsar
         puts "Command: #{cmd.white}".yellow if opts[:verbose]
         system(cmd)
 
-        fail "Command #{cmd} Failed" if $CHILD_STATUS != 0
+        fail "Command #{cmd} Failed" if $? != 0
       end
 
       def touch(file, opts)
