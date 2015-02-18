@@ -1,4 +1,4 @@
-# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.png)](http://badge.fury.io/rb/pulsar) [![Build Status](https://secure.travis-ci.org/nebulab/pulsar.png?branch=master)](http://travis-ci.org/nebulab/pulsar) [![Coverage Status](https://coveralls.io/repos/nebulab/pulsar/badge.png?branch=master)](https://coveralls.io/r/nebulab/pulsar) [![Code Climate](https://codeclimate.com/github/nebulab/pulsar.png)](https://codeclimate.com/github/nebulab/pulsar)
+# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.png)](http://badge.fury.io/rb/pulsar) [![Build Status](https://secure.travis-ci.org/nebulab/pulsar.png?branch=master)](http://travis-ci.org/nebulab/pulsar) [![Test Coverage](https://codeclimate.com/github/nebulab/pulsar/badges/coverage.svg)](https://codeclimate.com/github/nebulab/pulsar) [![Code Climate](https://codeclimate.com/github/nebulab/pulsar.png)](https://codeclimate.com/github/nebulab/pulsar)
 
 The easy [Capistrano](https://rubygems.org/gems/capistrano) deploy and configuration manager.
 

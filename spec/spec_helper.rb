@@ -1,7 +1,7 @@
 require "rspec"
 require "stringio"
 require "fileutils"
-require "coveralls"
+require "codeclimate-test-reporter"
 require "pulsar"
 require "pulsar/commands/main"
 require "pulsar/commands/utils"
@@ -9,7 +9,7 @@ require "pulsar/commands/utils"
 #
 # Code coverage
 #
-Coveralls.wear!
+CodeClimate::TestReporter.start
 
 #
 # Require all helper modules
