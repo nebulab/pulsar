@@ -72,8 +72,8 @@ describe Pulsar::MainCommand do
   end
 
   context "dotfile options" do
-    it "reads configuration variables from .pulsar file in home" do
-      stub_dotfile(Dir.home, dummy_dotfile_options)
+    it "reads configuration variables from config file in home" do
+      stub_config(File.join(pulsar.home_path, 'config'), dummy_dotfile_options)
 
       pulsar.run(full_cap_args + dummy_app)
 
@@ -81,7 +81,7 @@ describe Pulsar::MainCommand do
     end
 
     it "reads configuration variables from .pulsar file in rack app directory" do
-      stub_dotfile(dummy_rack_app_path, dummy_dotfile_options)
+      stub_config(File.join(dummy_rack_app_path, '.pulsar'), dummy_dotfile_options)
 
       FileUtils.cd(dummy_rack_app_path) do
         reload_main_command
@@ -93,7 +93,7 @@ describe Pulsar::MainCommand do
     end
 
     it "skips lines which cannot parse when reading .pulsar file" do
-      stub_dotfile(dummy_rack_app_path, [ "wrong_line", "# comment"])
+      stub_config(File.join(dummy_rack_app_path, '.pulsar'), [ "wrong_line", "# comment"])
 
       FileUtils.cd(dummy_rack_app_path) do
         reload_main_command
@@ -103,7 +103,7 @@ describe Pulsar::MainCommand do
     end
 
     it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
-      stub_dotfile(Dir.home, dummy_dotfile_options)
+      stub_config(File.join(spec_tmp_path, 'config'), dummy_dotfile_options)
 
       allow(File).to receive(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
 

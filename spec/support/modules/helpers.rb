@@ -54,8 +54,8 @@ module Helpers
     allow_any_instance_of(Pulsar::MainCommand).to receive(:bundle_install)
   end
 
-  def stub_dotfile(path, options)
-    extended_path = "#{File.expand_path(path)}/.pulsar"
+  def stub_config(path, options)
+    extended_path = File.expand_path(path)
     dotfile_lines = []
 
     options.each do |option, value|
@@ -66,7 +66,8 @@ module Helpers
       end
     end
 
-    allow(File).to receive(:file?).and_return(true)
+    allow(File).to receive(:file?).and_return(false)
+    allow(File).to receive(:file?).with(extended_path).and_return(true)
     allow(File).to receive(:readlines).with(extended_path).and_return(dotfile_lines)
   end
 

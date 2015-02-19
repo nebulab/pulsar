@@ -150,12 +150,11 @@ module Pulsar
         end
 
         def pulsar_configuration
-          conf_file = '.pulsar'
-          inside_app = File.join(application_path, conf_file) rescue nil
-          inside_home = File.join(Dir.home, conf_file) rescue nil
+          path_list = []
+          path_list << File.join(application_path, ".pulsar")  unless application_path.nil?
+          path_list << File.join(home_path, "config")
 
-          return inside_app if inside_app && File.file?(inside_app)
-          return inside_home if inside_home && File.file?(inside_home)
+          path_list.find { |path| File.file?(path) }
         end
 
         def remove_capfile

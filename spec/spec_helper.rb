@@ -24,8 +24,6 @@ RSpec.configure do |config|
   config.include OutputCapture
 
   config.before(:each) do
-    allow(Dir).to receive(:home).and_return("/fake/home")
-
     dummy_dotfile_options.keys.each do |variable|
       ENV.delete(variable.to_s)
     end
