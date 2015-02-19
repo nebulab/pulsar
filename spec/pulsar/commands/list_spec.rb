@@ -4,19 +4,19 @@ describe Pulsar::ListCommand do
   let(:pulsar) { Pulsar::ListCommand.new("list") }
 
   it "copies a the repo over to temp directory" do
-    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/pulsar-conf-repo*").length }.by(1)
+    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{spec_tmp_path}/tmp/conf-repo*").length }.by(1)
   end
 
   it "copies a the repo when there is a dir with same name" do
-    system("mkdir #{tmp_path}/pulsar-conf-repo")
-    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/pulsar-conf-repo*").length }.by(1)
+    system("mkdir -p #{spec_tmp_path}/conf-repo")
+    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{spec_tmp_path}/tmp/conf-repo*").length }.by(1)
   end
 
   it "removes the temp directory even if it's raised an error" do
     allow_any_instance_of(Pulsar::ListCommand).to receive(:list_apps) { raise 'error' }
     pulsar.run(full_list_args) rescue nil
 
-    expect(Dir.glob("#{tmp_path}/pulsar-conf-repo*")).to be_empty
+    expect(Dir.glob("#{spec_tmp_path}/tmp/conf-repo*")).to be_empty
   end
 
   it "lists configured apps and stages" do
@@ -91,15 +91,18 @@ describe Pulsar::ListCommand do
     end
   end
 
-  context "--tmp-dir option" do
+  context "--home-dir option" do
     it "is supported" do
-      expect{ pulsar.parse(base_args + %w(--tmp-dir dummy_tmp)) }.not_to raise_error
+      expect{ pulsar.parse(base_args + %w(--home-dir dummy_tmp)) }.not_to raise_error
     end
 
     it "creates the tmp directory if it doesn't exist" do
-      run_options = base_args + [ "--tmp-dir", tmp_path("tmp/non_existent") ]
+      Dir.mktmpdir do |dir|
+        run_options = base_args + [ "--home-dir", dir ]
 
-      expect{ pulsar.run(run_options) }.not_to raise_error
+        expect{ pulsar.run(run_options) }.not_to raise_error
+        expect( File.directory?(pulsar.tmp_path) ).to be(true)
+      end
     end
   end
 

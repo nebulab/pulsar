@@ -4,7 +4,7 @@ module Helpers
   end
 
   def capfile_count
-    Dir.glob("#{tmp_path}/pulsar-capfile-*").length
+    Dir.glob("#{spec_tmp_path}/tmp/capfile-*").length
   end
 
   def dummy_app(stage = :production)
@@ -28,15 +28,15 @@ module Helpers
   end
 
   def full_cap_args
-    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile", "--skip-cap-run" ]
+    base_args + [ "--home-dir", spec_tmp_path, "--keep-capfile", "--skip-cap-run" ]
   end
 
   def full_list_args
-    base_args + [ "--tmp-dir", tmp_path, "--keep-capfile" ]
+    base_args + [ "--home-dir", spec_tmp_path, "--keep-capfile" ]
   end
 
   def latest_capfile
-    capfile = File.open(Dir.glob("#{tmp_path}/pulsar-capfile-*").first)
+    capfile = File.open(Dir.glob("#{spec_tmp_path}/tmp/capfile-*").first)
     content = capfile.read
     capfile.close
 
@@ -70,11 +70,7 @@ module Helpers
     allow(File).to receive(:readlines).with(extended_path).and_return(dotfile_lines)
   end
 
-  def tmp_dir
-    "tmp"
-  end
-
-  def tmp_path(dir=tmp_dir)
-    File.join(File.dirname(__FILE__), "..", dir)
+  def spec_tmp_path
+    File.join(File.dirname(__FILE__), "..", "tmp")
   end
 end

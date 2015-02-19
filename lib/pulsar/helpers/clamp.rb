@@ -43,7 +43,7 @@ module Pulsar
         end
 
         def create_tmp_dir
-          run_cmd("mkdir -p #{tmp_dir.shellescape}", verbose: verbose?)
+          run_cmd("mkdir -p #{tmp_path.shellescape}", verbose: verbose?)
         end
 
         def each_app
