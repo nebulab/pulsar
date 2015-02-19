@@ -21,7 +21,7 @@ module Pulsar
 
         base.option ['-d', '--tmp-dir'], 'TMP DIR',
                     'a directory where to put the configuration repo to build capfile with',
-                    default: File.join(Dir.tmpdir, 'pulsar')
+                    default: Dir.tmpdir
 
         base.option ['-h', '--home-dir'], 'HOME DIR',
                     'a directory to store per-user state',

@@ -4,19 +4,19 @@ describe Pulsar::ListCommand do
   let(:pulsar) { Pulsar::ListCommand.new("list") }
 
   it "copies a the repo over to temp directory" do
-    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)
+    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/pulsar-conf-repo*").length }.by(1)
   end
 
   it "copies a the repo when there is a dir with same name" do
-    system("mkdir #{tmp_path}/conf-repo")
-    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)
+    system("mkdir #{tmp_path}/pulsar-conf-repo")
+    expect{ pulsar.run(full_list_args + %w(--keep-repo)) }.to change{ Dir.glob("#{tmp_path}/pulsar-conf-repo*").length }.by(1)
   end
 
   it "removes the temp directory even if it's raised an error" do
     allow_any_instance_of(Pulsar::ListCommand).to receive(:list_apps) { raise 'error' }
     pulsar.run(full_list_args) rescue nil
 
-    expect(Dir.glob("#{tmp_path}/conf-repo*")).to be_empty
+    expect(Dir.glob("#{tmp_path}/pulsar-conf-repo*")).to be_empty
   end
 
   it "lists configured apps and stages" do

@@ -4,7 +4,7 @@ module Helpers
   end
 
   def capfile_count
-    Dir.glob("#{tmp_path}/capfile-*").length
+    Dir.glob("#{tmp_path}/pulsar-capfile-*").length
   end
 
   def dummy_app(stage = :production)
@@ -36,7 +36,7 @@ module Helpers
   end
 
   def latest_capfile
-    capfile = File.open(Dir.glob("#{tmp_path}/capfile-*").first)
+    capfile = File.open(Dir.glob("#{tmp_path}/pulsar-capfile-*").first)
     content = capfile.read
     capfile.close
 

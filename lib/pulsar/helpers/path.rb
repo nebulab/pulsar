@@ -2,11 +2,11 @@ module Pulsar
   module Helpers
     module Path
       def capfile_path
-        "#{tmp_dir}/capfile-#{deploy_time}"
+        "#{tmp_dir}/pulsar-capfile-#{deploy_time}"
       end
 
       def config_path
-        "#{tmp_dir}/conf-repo-#{setup_time}"
+        "#{tmp_dir}/pulsar-conf-repo-#{setup_time}"
       end
 
       def config_app_path(app)
