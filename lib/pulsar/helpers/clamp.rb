@@ -34,7 +34,7 @@ module Pulsar
 
         def bundle_install
           cd(config_path, verbose: verbose?) do
-            run_cmd('bundle install --quiet', verbose: verbose?)
+            run_cmd("bundle install --quiet --path=#{bundle_path.shellescape}", verbose: verbose?)
           end
         end
 

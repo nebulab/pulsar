@@ -41,6 +41,10 @@ module Pulsar
         clear_deploy_time
       end
 
+      def bundle_path
+        File.join(home_dir, 'bundle')
+      end
+
       private
 
       def clear_deploy_time
