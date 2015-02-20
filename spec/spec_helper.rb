@@ -1,10 +1,10 @@
-require "rspec"
-require "stringio"
-require "fileutils"
-require "codeclimate-test-reporter"
-require "pulsar"
-require "pulsar/commands/main"
-require "pulsar/commands/utils"
+require 'rspec'
+require 'stringio'
+require 'fileutils'
+require 'codeclimate-test-reporter'
+require 'pulsar'
+require 'pulsar/commands/main'
+require 'pulsar/commands/utils'
 
 #
 # Code coverage
@@ -14,7 +14,9 @@ CodeClimate::TestReporter.start
 #
 # Require all helper modules
 #
-Dir[File.join(File.dirname(__FILE__), 'support/modules/**/*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), 'support/modules/**/*.rb')].each do |f|
+  require f
+end
 
 RSpec.configure do |config|
   config.mock_with :rspec
