@@ -36,10 +36,10 @@ module Pulsar
 
     private
 
-    def cleanup(full: true)
+    def cleanup(opts = { full: true })
       remove_capfile unless keep_capfile?
       reset_capfile_path!
-      remove_repo if full && !keep_repo?
+      remove_repo if opts[:full] && !keep_repo?
     end
 
     def fetch_repo_and_bundle
