@@ -2,11 +2,11 @@ module Pulsar
   module Helpers
     module Path
       def capfile_path
-        "#{tmp_dir}/capfile-#{deploy_time}"
+        "#{tmp_path}/capfile-#{deploy_time}"
       end
 
       def config_path
-        "#{tmp_dir}/conf-repo-#{setup_time}"
+        "#{tmp_path}/conf-repo-#{setup_time}"
       end
 
       def config_app_path(app)
@@ -39,6 +39,18 @@ module Pulsar
 
       def reset_capfile_path!
         clear_deploy_time
+      end
+
+      def home_path
+        home_dir
+      end
+
+      def bundle_path
+        File.join(home_path, 'bundle')
+      end
+
+      def tmp_path
+        File.join(home_path, 'tmp')
       end
 
       private

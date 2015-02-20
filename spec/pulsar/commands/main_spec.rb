@@ -15,14 +15,14 @@ describe Pulsar::MainCommand do
 
   it "removes the temp directory even if it's raised an error" do
     allow_any_instance_of(Pulsar::MainCommand).to receive(:run_capistrano) { raise 'error' }
-    pulsar.run(base_args + [ "--tmp-dir", tmp_path, "--keep-capfile" ] + dummy_app) rescue nil
+    pulsar.run(base_args + [ "--home-dir", spec_tmp_path, "--keep-capfile" ] + dummy_app) rescue nil
 
-    expect(Dir.glob("#{tmp_path}/conf-repo*")).to be_empty
+    expect(Dir.glob("#{spec_tmp_path}/tmp/conf-repo*")).to be_empty
   end
 
   it "copies a the repo when there is a dir with same name" do
-    system("mkdir #{tmp_path}/conf-repo")
-    expect{ pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{ Dir.glob("#{tmp_path}/conf-repo*").length }.by(1)
+    system("mkdir -p #{spec_tmp_path}/tmp/conf-repo")
+    expect{ pulsar.run(full_cap_args + %w(--keep-repo) + dummy_app) }.to change{ Dir.glob("#{spec_tmp_path}/tmp/conf-repo*").length }.by(1)
   end
 
   it "uses dirname when inside a rack app directory" do
@@ -72,8 +72,8 @@ describe Pulsar::MainCommand do
   end
 
   context "dotfile options" do
-    it "reads configuration variables from .pulsar file in home" do
-      stub_dotfile(Dir.home, dummy_dotfile_options)
+    it "reads configuration variables from config file in home" do
+      stub_config(File.join(pulsar.home_path, 'config'), dummy_dotfile_options)
 
       pulsar.run(full_cap_args + dummy_app)
 
@@ -81,7 +81,7 @@ describe Pulsar::MainCommand do
     end
 
     it "reads configuration variables from .pulsar file in rack app directory" do
-      stub_dotfile(dummy_rack_app_path, dummy_dotfile_options)
+      stub_config(File.join(dummy_rack_app_path, '.pulsar'), dummy_dotfile_options)
 
       FileUtils.cd(dummy_rack_app_path) do
         reload_main_command
@@ -93,7 +93,7 @@ describe Pulsar::MainCommand do
     end
 
     it "skips lines which cannot parse when reading .pulsar file" do
-      stub_dotfile(dummy_rack_app_path, [ "wrong_line", "# comment"])
+      stub_config(File.join(dummy_rack_app_path, '.pulsar'), [ "wrong_line", "# comment"])
 
       FileUtils.cd(dummy_rack_app_path) do
         reload_main_command
@@ -103,7 +103,7 @@ describe Pulsar::MainCommand do
     end
 
     it "falls back to .pulsar file in home directory if it's not in the rack app directory" do
-      stub_dotfile(Dir.home, dummy_dotfile_options)
+      stub_config(File.join(spec_tmp_path, 'config'), dummy_dotfile_options)
 
       allow(File).to receive(:file?).with("#{File.expand_path(dummy_rack_app_path)}/.pulsar").and_return(false)
 
@@ -235,15 +235,18 @@ describe Pulsar::MainCommand do
     end
   end
 
-  context "--tmp-dir option" do
+  context "--home-dir option" do
     it "is supported" do
-      expect{ pulsar.parse(base_args + %w(--tmp-dir dummy_tmp) + dummy_app) }.not_to raise_error
+      expect{ pulsar.parse(base_args + %w(--home-dir dummy_tmp) + dummy_app) }.not_to raise_error
     end
 
     it "creates the tmp directory if it doesn't exist" do
-      run_options = base_args + [ "--tmp-dir", tmp_path("tmp/non_existent"), "--skip-cap-run" ] + dummy_app
+      Dir.mktmpdir do |dir|
+        run_options = base_args + [ "--home-dir", dir, "--skip-cap-run" ] + dummy_app
 
-      expect{ pulsar.run(run_options) }.not_to raise_error
+        expect{ pulsar.run(run_options) }.not_to raise_error
+        expect( File.directory?(pulsar.tmp_path) ).to be(true)
+      end
     end
   end
 

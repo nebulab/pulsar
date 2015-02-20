@@ -164,13 +164,13 @@ You have three possibilities:
 
 * `-c` command line option
 * `PULSAR_CONF_REPO` environment variable
-* `~/.pulsar` configuration file
+* `~/.pulsar/config` configuration file
 
-The fastest way is probably the `.pulsar` hidden file inside your home directory:
+The fastest way is probably the `.pulsar/config` file inside your home directory:
 
 ```bash
 #
-# Inside ~/.pulsar
+# Inside ~/.pulsar/config
 #
 PULSAR_CONF_REPO="gh-user/pulsar-conf"
 

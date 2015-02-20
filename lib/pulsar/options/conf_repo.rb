@@ -19,9 +19,10 @@ module Pulsar
                     'specify a branch for the configuration repository',
                     default: 'master'
 
-        base.option ['-d', '--tmp-dir'], 'TMP DIR',
-                    'a directory where to put the configuration repo to build capfile with',
-                    default: '/tmp/pulsar'
+        base.option ['-h', '--home-dir'], 'HOME DIR',
+                    'a directory to store per-user state',
+                    environment_variable: 'PULSAR_HOME',
+                    default: File.join(Dir.home, '.pulsar')
       end
 
       #
