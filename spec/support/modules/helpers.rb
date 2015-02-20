@@ -59,7 +59,7 @@ module Helpers
   end
 
   def reload_main_command
-    Pulsar.instance_eval{ remove_const :MainCommand }
+    Pulsar.instance_eval { remove_const :MainCommand }
     load 'pulsar/commands/main.rb'
 
     stub_bundle_install

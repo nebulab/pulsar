@@ -54,7 +54,7 @@ module Pulsar
 
         def expand_applications
           if from_application_path?
-            [ ENV['PULSAR_APP_NAME'] || File.basename(application_path) ]
+            [ENV['PULSAR_APP_NAME'] || File.basename(application_path)]
           else
             #
             # Given following applications:
@@ -89,7 +89,7 @@ module Pulsar
           run_cmd("cp -rp #{repo} #{config_path}", verbose: verbose?)
         end
 
-        def fetch_git_repo(repo, local=false)
+        def fetch_git_repo(repo, local = false)
           git_options = "--quiet --branch #{conf_branch}"
           git_options = "#{git_options} --depth=1" unless local
 
@@ -151,8 +151,8 @@ module Pulsar
 
         def pulsar_configuration
           path_list = []
-          path_list << File.join(application_path, ".pulsar")  unless application_path.nil?
-          path_list << File.join(home_path, "config")
+          path_list << File.join(application_path, '.pulsar')  unless application_path.nil?
+          path_list << File.join(home_path, 'config')
 
           path_list.find { |path| File.file?(path) }
         end

@@ -29,18 +29,18 @@ end
 #
 set :scm, :git
 
-set :ssh_options, { :forward_agent => true }
+set :ssh_options, forward_agent: true
 
-set :default_run_options, { :pty => true }
+set :default_run_options, pty: true
 
 set :deploy_to, defer { "/var/www/#{application}" }
 
 set :deploy_via, :remote_cache
 
-set :user, "www-data"
+set :user, 'www-data'
 
 set :use_sudo, false
 
-set :rake, "bundle exec rake"
+set :rake, 'bundle exec rake'
 
-set :rails_env, defer { "#{stage}" }
+set :rails_env, defer { stage }

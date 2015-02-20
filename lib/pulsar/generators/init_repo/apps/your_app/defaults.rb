@@ -1,4 +1,4 @@
-set :application, "your_app"
+set :application, 'your_app'
 
 load_recipes do
   #

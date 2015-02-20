@@ -1,6 +1,6 @@
-server "staging.your_app.com", :db, :web, :app, :primary => true
+server 'staging.your_app.com', :db, :web, :app, primary: true
 
-set :stage, "staging"
+set :stage, 'staging'
 
 load_recipes do
   #
