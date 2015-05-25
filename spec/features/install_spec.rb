@@ -4,7 +4,7 @@ RSpec.feature 'Install' do
   let(:command) { system('ruby ./bin/pulsar install') }
 
   context 'is run' do
-    scenario 'via an executable named pulsar-list' do
+    scenario 'via a command named install' do
       expect { command }
         .not_to output(/Could not find command/).to_stderr_from_any_process
     end
