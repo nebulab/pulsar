@@ -8,7 +8,8 @@ module Pulsar
       You can optionally specify a second parameter, which will be the
       destination directory in which to install the repository.
     LONGDESC
-    def install
+    def install(directory = '.')
+      Install.call(directory: directory)
     end
   end
 end

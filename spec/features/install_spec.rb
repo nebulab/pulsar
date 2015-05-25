@@ -10,8 +10,14 @@ RSpec.feature 'Install' do
     end
   end
 
-  context 'creates a directory' do
-    scenario 'with the basic pulsar configuration repository'
+  context 'creates a directory named pulsar-conf' do
+    scenario 'with the basic pulsar configuration repository' do
+      pending('to be completed...')
+
+      expect { command }
+        .to change { File.exist?('./pulsar-conf') }.from(false).to(true)
+    end
+
     scenario 'inside the current directory by default'
     scenario 'to a directory if passed as an argument'
   end
