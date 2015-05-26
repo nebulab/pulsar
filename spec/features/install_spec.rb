@@ -1,24 +1,29 @@
 require 'spec_helper'
 
 RSpec.feature 'Install' do
-  let(:command) { system('ruby ./bin/pulsar install') }
+  subject { `ruby #{RSpec.configuration.pulsar_command} install #{arguments}` }
 
-  context 'is run' do
-    scenario 'via a command named install' do
-      expect { command }
-        .not_to output(/Could not find command/).to_stderr_from_any_process
-    end
+  let(:arguments) { nil }
+
+  scenario 'is run via a command named install' do
+    is_expected.not_to match(/Could not find command/)
   end
 
   context 'creates a directory named pulsar-conf' do
-    scenario 'with the basic pulsar configuration repository' do
-      pending('to be completed...')
+    scenario 'with the basic pulsar configuration repository'
 
-      expect { command }
+    scenario 'inside the current directory by default' do
+      expect { subject }
         .to change { File.exist?('./pulsar-conf') }.from(false).to(true)
     end
+  end
 
-    scenario 'inside the current directory by default'
-    scenario 'to a directory if passed as an argument'
+  context 'creates a directory named as the passed argument' do
+    let(:arguments) { './my-dir' }
+
+    scenario 'if passed as an argument' do
+      expect { subject }
+        .to change { File.exist?('./my-dir') }.from(false).to(true)
+    end
   end
 end

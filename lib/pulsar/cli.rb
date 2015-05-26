@@ -8,8 +8,14 @@ module Pulsar
       You can optionally specify a second parameter, which will be the
       destination directory in which to install the repository.
     LONGDESC
-    def install(directory = '.')
-      Install.call(directory: directory)
+    def install(directory = './pulsar-conf')
+      result = Pulsar::Install.call(directory: directory)
+
+      if result.success?
+        puts 'Successfully created intial repo!'
+      else
+        puts 'Failed to create intial repo.'
+      end
     end
   end
 end
