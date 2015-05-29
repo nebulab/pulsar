@@ -3,6 +3,8 @@ module Pulsar
     include Interactor
 
     def call
+      context.fail! if context.directory.nil?
+
       current_path = File.dirname(__FILE__)
       initial_repo = "#{current_path}/../generators/initial_repo"
 

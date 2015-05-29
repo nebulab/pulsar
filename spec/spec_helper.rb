@@ -16,7 +16,10 @@ RSpec.configure do |config|
   config.alias_example_to :scenario
 
   config.add_setting :pulsar_command
-  config.pulsar_command =  File.expand_path('./bin/pulsar')
+  config.add_setting :pulsar_conf_path
+
+  config.pulsar_command = File.expand_path('./bin/pulsar')
+  config.pulsar_conf_path = File.expand_path('./spec/support/dummies/pulsar-conf')
 
   config.before(:suite) do
     Dir.chdir('./spec/support/tmp')

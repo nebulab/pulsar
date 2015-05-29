@@ -7,5 +7,6 @@ module Pulsar
   require 'fileutils'
 
   require 'pulsar/interactors/install'
+  require 'pulsar/interactors/list'
   require 'pulsar/cli'
 end

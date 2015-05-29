@@ -23,7 +23,15 @@ module Pulsar
       `pulsar list` will list the applications and environments available in
       the configured pulsar repository.
     LONGDESC
+    option :conf_repo, required: true
     def list
+      result = Pulsar::List.call(repository: options[:conf_repo])
+
+      if result.success?
+        puts result.applications
+      else
+        puts 'Failed to list application and stages.'
+      end
     end
   end
 end
