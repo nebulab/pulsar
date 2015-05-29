@@ -50,7 +50,7 @@ RSpec.describe Pulsar::CLI do
     before do
       allow($stdout).to receive(:puts)
       allow(Pulsar::List).to receive(:call).and_return(result)
-      allow(subject).to receive(:options).and_return({ conf_repo: './conf' })
+      allow(subject).to receive(:options).and_return(conf_repo: './conf')
     end
 
     it 'calls Pulsar::List' do

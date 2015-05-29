@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.feature 'List' do
   subject do
     cmd  = RSpec.configuration.pulsar_command
-    path = RSpec.configuration.pulsar_conf_path 
+    path = RSpec.configuration.pulsar_conf_path
 
     `ruby #{cmd} list --conf-repo #{path}`
   end
@@ -13,7 +13,7 @@ RSpec.feature 'List' do
       expect { subject }
         .not_to output(/Could not find command/).to_stderr_from_any_process
     end
-    
+
     context 'requires a --conf-repo option' do
       subject { `ruby #{RSpec.configuration.pulsar_command} list` }
 

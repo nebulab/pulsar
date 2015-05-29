@@ -1,21 +1,21 @@
 module Pulsar
   class List
     include Interactor
-    
-    before do
+
+    around do |interactor|
       context.applications = []
+
+      context.fail! if context.repository.nil?
+      interactor.call
+      context.fail! if context.applications.empty?
     end
 
     def call
-      context.fail! if context.repository.nil?
-      
       Dir["#{context.repository}/*"].each do |app|
         stages = Dir["#{app}/*.rb"].map { |file| File.basename(file, '.rb') }
 
         context.applications << "#{File.basename(app)}: #{stages.join(', ')}"
       end
-      
-      context.fail! if context.applications.empty?
     rescue
       context.fail!
     end
