@@ -15,7 +15,12 @@ RSpec.feature 'Install' do
     end
 
     context 'creates a directory named pulsar-conf' do
-      scenario 'with the basic pulsar configuration repository'
+      let(:initial_repo) { './../../../lib/pulsar/generators/initial_repo/' }
+
+      scenario 'with the basic pulsar configuration repository' do
+        subject
+        expect(Dir.entries(initial_repo)).to eql Dir.entries('./pulsar-conf')
+      end
 
       scenario 'inside the current directory by default' do
         expect { subject }
