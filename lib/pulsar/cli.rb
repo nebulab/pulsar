@@ -17,5 +17,13 @@ module Pulsar
         puts 'Failed to create intial repo.'
       end
     end
+
+    desc 'list', 'list available applications and environments'
+    long_desc <<-LONGDESC
+      `pulsar list` will list the applications and environments available in
+      the configured pulsar repository.
+    LONGDESC
+    def list
+    end
   end
 end

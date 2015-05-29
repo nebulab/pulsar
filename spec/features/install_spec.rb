@@ -6,7 +6,8 @@ RSpec.feature 'Install' do
   let(:arguments) { nil }
 
   scenario 'is run via a command named install' do
-    is_expected.not_to match(/Could not find command/)
+    expect { subject }
+      .not_to output(/Could not find command/).to_stderr_from_any_process
   end
 
   context 'when succeeds' do
