@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.feature 'Capistrano' do
-  scenario 'via an executable named pulsar'
-  scenario 'with no subcommand'
+RSpec.describe 'Capistrano' do
+  context 'via an executable named pulsar'
+  context 'with no subcommand'
 end
