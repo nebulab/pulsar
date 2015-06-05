@@ -20,31 +20,34 @@ RSpec.describe 'Install' do
   context 'when succeeds' do
     it { is_expected.to match(/Successfully created intial repo!/) }
 
-    context 'creates a directory named pulsar-conf' do
-      context 'with the basic pulsar configuration repository' do
+    context 'creates a directory' do
+      subject { -> { command } }
+
+      context 'with the basic configuration' do
         subject(:initial_pulsar_repo) do
           Dir.entries('./../../../lib/pulsar/generators/initial_repo/')
         end
 
         before { command }
 
-        it { is_expected.to eql Dir.entries('./pulsar-conf') }
+        it 'contains the initial directory structure' do
+          is_expected.to eql Dir.entries('./pulsar-conf')
+        end
       end
 
       context 'inside the current directory by default' do
-        subject { -> { command } }
-
-        it { is_expected.to change { File.exist?('./pulsar-conf') }.from(false) }
+        it 'named pulsar-conf' do
+          is_expected
+            .to change { File.exist?('./pulsar-conf') }.from(false).to(true)
+        end
       end
-    end
 
-    context 'creates a directory named as the passed argument' do
-      let(:arguments) { './my-dir' }
+      context 'inside a directory passed as argument' do
+        let(:arguments) { './my-dir' }
 
-      context 'if passed as an argument' do
-        subject { -> { command } }
-
-        it { is_expected.to change { File.exist?('./my-dir') }.from(false) }
+        it 'named as the argument' do
+          is_expected.to change { File.exist?('./my-dir') }.from(false).to(true)
+        end
       end
     end
   end
