@@ -1,5 +1,5 @@
 module Pulsar
-  class Install
+  class CloneInitialRepository
     include Interactor
 
     before do

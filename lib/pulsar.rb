@@ -6,7 +6,11 @@ module Pulsar
   require 'interactor'
   require 'fileutils'
 
-  require 'pulsar/interactors/install'
-  require 'pulsar/interactors/list'
+  require 'pulsar/interactors/add_applications'
+  require 'pulsar/interactors/clone_initial_repository'
+
+  require 'pulsar/organizers/list'
+  require 'pulsar/organizers/install'
+
   require 'pulsar/cli'
 end

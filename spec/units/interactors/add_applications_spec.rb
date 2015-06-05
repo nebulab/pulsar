@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Pulsar::List do
+RSpec.describe Pulsar::AddApplications do
   subject { described_class.new }
 
   it { is_expected.to be_kind_of(Interactor) }

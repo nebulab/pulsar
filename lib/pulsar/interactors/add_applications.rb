@@ -1,5 +1,5 @@
 module Pulsar
-  class List
+  class AddApplications
     include Interactor
 
     around do |interactor|
