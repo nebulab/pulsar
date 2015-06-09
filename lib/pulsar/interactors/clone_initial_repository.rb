@@ -2,9 +2,7 @@ module Pulsar
   class CloneInitialRepository
     include Interactor
 
-    before do
-      context.fail! if context.directory.nil?
-    end
+    before :validate_input!
 
     def call
       current_path = File.dirname(__FILE__)
@@ -13,6 +11,12 @@ module Pulsar
       FileUtils.cp_r(File.expand_path(initial_repo), context.directory)
     rescue
       context.fail!
+    end
+
+    private
+
+    def validate_input!
+      context.fail! if context.directory.nil?
     end
   end
 end
