@@ -2,6 +2,6 @@ module Pulsar
   class List
     include Interactor::Organizer
 
-    organize ::Pulsar::AddApplications
+    organize AddApplications
   end
 end

@@ -8,6 +8,10 @@ RSpec.describe Pulsar::List do
   context 'organizes interactors' do
     subject { described_class.organized }
 
-    it { is_expected.to eql [Pulsar::AddApplications] }
+    let(:interactors) do
+      [Pulsar::AddApplications]
+    end
+
+    it { is_expected.to eql interactors }
   end
 end

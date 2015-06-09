@@ -2,13 +2,8 @@ module Pulsar
   class AddApplications
     include Interactor
 
-    around do |interactor|
-      context.applications = []
-
-      context.fail! if context.repository.nil?
-      interactor.call
-      context.fail! if context.applications.empty?
-    end
+    before :validate_input!, :prepare_context
+    after :validate_output!
 
     def call
       Dir["#{context.repository}/*"].each do |app|
@@ -18,6 +13,20 @@ module Pulsar
       end
     rescue
       context.fail!
+    end
+
+    private
+
+    def prepare_context
+      context.applications = []
+    end
+
+    def validate_input!
+      context.fail! if context.repository.nil?
+    end
+
+    def validate_output!
+      context.fail! if context.applications.empty?
     end
   end
 end
