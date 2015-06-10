@@ -33,7 +33,7 @@ RSpec.describe 'List' do
         it { is_expected.to match(output) }
       end
 
-      xcontext 'from a local repository' do
+      context 'from a local repository' do
         let(:repo) { RSpec.configuration.pulsar_local_conf_repo_path }
 
         before do

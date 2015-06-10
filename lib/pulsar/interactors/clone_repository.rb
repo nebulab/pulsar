@@ -25,8 +25,7 @@ module Pulsar
     end
 
     def prepare_local_git
-      Rake.sh("git clone #{context.repository} #{context.config_path}")
-      FileUtils.cp_r(context.repository, context.config_path)
+      Rake.sh("git clone #{context.repository} #{context.config_path} 2>&1")
     end
 
     def prepare_local_folder
