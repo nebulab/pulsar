@@ -2,6 +2,6 @@ module Pulsar
   class Install
     include Interactor::Organizer
 
-    organize CloneInitialRepository
+    organize CopyInitialRepository
   end
 end

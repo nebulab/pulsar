@@ -1,5 +1,5 @@
 module Pulsar
-  class CloneInitialRepository
+  class CopyInitialRepository
     include Interactor
 
     before :validate_input!

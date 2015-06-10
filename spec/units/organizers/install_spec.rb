@@ -8,6 +8,6 @@ RSpec.describe Pulsar::Install do
   context 'organizes interactors' do
     subject { described_class.organized }
 
-    it { is_expected.to eql [Pulsar::CloneInitialRepository] }
+    it { is_expected.to eql [Pulsar::CopyInitialRepository] }
   end
 end
