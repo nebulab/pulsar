@@ -6,7 +6,7 @@ RSpec.describe Pulsar::AddApplications do
   it { is_expected.to be_kind_of(Interactor) }
 
   describe '.call' do
-    subject { described_class.call(repository: './my-conf') }
+    subject { described_class.call(config_path: './my-conf') }
 
     before do
       allow(Dir).to receive(:[])
@@ -17,14 +17,14 @@ RSpec.describe Pulsar::AddApplications do
       it { is_expected.to be_a_success }
 
       context 'returns a list of applications and stages' do
-        subject { described_class.call(repository: './my-conf').applications }
+        subject { described_class.call(config_path: './my-conf').applications }
 
         it { is_expected.to eql(['blog: production, staging']) }
       end
     end
 
     context 'failure' do
-      context 'when no repository context is passed' do
+      context 'when no config_path context is passed' do
         subject { described_class.call }
 
         it { is_expected.to be_a_failure }

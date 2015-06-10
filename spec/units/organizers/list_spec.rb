@@ -9,7 +9,10 @@ RSpec.describe Pulsar::List do
     subject { described_class.organized }
 
     let(:interactors) do
-      [Pulsar::AddApplications]
+      [
+        Pulsar::IdentifyRepositoryType, Pulsar::CloneRepository,
+        Pulsar::AddApplications
+      ]
     end
 
     it { is_expected.to eql interactors }

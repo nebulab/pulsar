@@ -2,6 +2,6 @@ module Pulsar
   class List
     include Interactor::Organizer
 
-    organize AddApplications
+    organize IdentifyRepositoryType, CloneRepository, AddApplications
   end
 end

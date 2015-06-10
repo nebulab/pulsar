@@ -6,7 +6,7 @@ module Pulsar
     after :validate_output!
 
     def call
-      Dir["#{context.repository}/*"].each do |app|
+      Dir["#{context.config_path}/*"].each do |app|
         stages = Dir["#{app}/*.rb"].map { |file| File.basename(file, '.rb') }
 
         context.applications << "#{File.basename(app)}: #{stages.join(', ')}"
@@ -22,7 +22,7 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.repository.nil?
+      context.fail! if context.config_path.nil?
     end
 
     def validate_output!
