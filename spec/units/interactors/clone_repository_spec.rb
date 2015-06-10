@@ -24,19 +24,35 @@ RSpec.describe Pulsar::CloneRepository do
         end
 
         it { is_expected.to be_a_success }
+
+        context 'returns a config_path path' do
+          subject do
+            described_class
+              .call(repository: repo, repository_type: type).config_path
+          end
+
+          it { is_expected.to match tmp_config }
+        end
       end
 
       context 'when repository_type is a :local_git' do
         let(:type) { :local_git }
 
         before do
-          expect(Rake).to receive(:sh)
-            .with(/git clone #{repo} #{tmp_config}/).ordered
-
-          expect(FileUtils).to receive(:cp_r).with(repo, tmp_config).ordered
+          expect(Rake)
+            .to receive(:sh).with(/git clone #{repo} #{tmp_config}/).ordered
         end
 
         it { is_expected.to be_a_success }
+
+        context 'returns a config_path path' do
+          subject do
+            described_class
+              .call(repository: repo, repository_type: type).config_path
+          end
+
+          it { is_expected.to match tmp_config }
+        end
       end
     end
 
