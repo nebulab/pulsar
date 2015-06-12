@@ -31,6 +31,14 @@ RSpec.describe 'List' do
 
       context 'from a local folder' do
         it { is_expected.to match(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
 
       context 'from a local repository' do
@@ -43,17 +51,30 @@ RSpec.describe 'List' do
 
         context 'uncommitted changes' do
           it { is_expected.not_to match(output) }
+
+          context 'leaves the tmp folder empty' do
+            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+            before { command }
+
+            it { is_expected.to be_empty }
+          end
         end
 
         context 'committed changes' do
           before do
-            FileUtils.cd(repo) do
-              `git add .`
-              `git commit -m 'Initial Commit'`
-            end
+            `git -C #{repo} add . && git -C #{repo} commit -m 'Initial Commit'`
           end
 
           it { is_expected.to match(output) }
+
+          context 'leaves the tmp folder empty' do
+            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+            before { command }
+
+            it { is_expected.to be_empty }
+          end
         end
       end
 

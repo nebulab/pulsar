@@ -78,4 +78,20 @@ RSpec.describe Pulsar::CloneRepository do
       end
     end
   end
+
+  describe '.rollback' do
+    subject { FileUtils }
+
+    let(:config_path) { '~/.pulsar/tmp/config' }
+
+    before do
+      allow(subject).to receive(:rm_rf)
+      allow_any_instance_of(Interactor::Context)
+        .to receive(:config_path).and_return(config_path)
+
+      described_class.new.rollback
+    end
+
+    it { is_expected.to have_received(:rm_rf).with(config_path) }
+  end
 end

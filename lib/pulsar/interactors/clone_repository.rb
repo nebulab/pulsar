@@ -13,6 +13,10 @@ module Pulsar
       context.fail!
     end
 
+    def rollback
+      FileUtils.rm_rf(context.config_path)
+    end
+
     private
 
     def prepare_context

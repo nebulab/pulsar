@@ -29,5 +29,6 @@ RSpec.configure do |config|
 
   config.after(:each) do
     FileUtils.rm_rf(Dir.glob("#{File.dirname(__FILE__)}/support/tmp/*"))
+    FileUtils.rm_rf(Dir.glob("#{Pulsar::PULSAR_TMP}/*"))
   end
 end

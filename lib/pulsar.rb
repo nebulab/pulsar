@@ -7,6 +7,7 @@ module Pulsar
   require 'interactor'
   require 'fileutils'
 
+  require 'pulsar/interactors/cleanup'
   require 'pulsar/interactors/add_applications'
   require 'pulsar/interactors/clone_repository'
   require 'pulsar/interactors/identify_repository_type'
