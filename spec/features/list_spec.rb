@@ -80,9 +80,9 @@ RSpec.describe 'List' do
 
       context 'from a remote Git repository' do
         let(:repo)   { RSpec.configuration.pulsar_remote_git_conf }
-        let(:output) { /your_app: production, staging/ }
+        let(:output) { "your_app: production, staging\n" }
 
-        it { is_expected.to match(output) }
+        it { is_expected.to eql output }
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }

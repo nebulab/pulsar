@@ -28,7 +28,11 @@ module Pulsar
     end
 
     def each_application_path
-      Dir["#{context.config_path}/apps/*"].each { |app| yield(app) }
+      Dir["#{context.config_path}/apps/*"].each do |app|
+        next if File.basename(app, '.rb') == 'defaults'
+
+        yield(app)
+      end
     end
 
     def stages_for(app)
