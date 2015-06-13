@@ -6,10 +6,8 @@ module Pulsar
     after :validate_output!
 
     def call
-      Dir["#{context.config_path}/*"].each do |app|
-        stages = Dir["#{app}/*.rb"].map { |file| File.basename(file, '.rb') }
-
-        context.applications << "#{File.basename(app)}: #{stages.join(', ')}"
+      each_application_path do |app|
+        context.applications << "#{File.basename(app)}: #{stages_for(app)}"
       end
     rescue
       context.fail!
@@ -27,6 +25,16 @@ module Pulsar
 
     def validate_output!
       context.fail! if context.applications.empty?
+    end
+
+    def each_application_path
+      Dir["#{context.config_path}/apps/*"].each { |app| yield(app) }
+    end
+
+    def stages_for(app)
+      stage_files = Dir["#{app}/*.rb"].map { |file| File.basename(file, '.rb') }
+
+      stage_files.reject { |stage| stage == 'defaults' }.join(', ')
     end
   end
 end
