@@ -40,7 +40,7 @@ RSpec.describe Pulsar::CloneRepository do
 
         before do
           expect(Rake).to receive(:sh)
-            .with(/git clone --depth 1 #{repo} #{tmp_config}/).ordered
+            .with(/git clone --quiet --depth 1 #{repo} #{tmp_config}/).ordered
         end
 
         it { is_expected.to be_a_success }
