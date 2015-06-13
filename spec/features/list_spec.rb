@@ -78,7 +78,7 @@ RSpec.describe 'List' do
         end
       end
 
-      xcontext 'from a remote Git repository' do
+      context 'from a remote Git repository' do
         let(:repo)   { RSpec.configuration.pulsar_remote_git_conf }
         let(:output) { /your_app: production, staging/ }
 

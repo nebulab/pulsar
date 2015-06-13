@@ -16,8 +16,8 @@ RSpec.describe Pulsar::CloneRepository do
 
       before { expect(FileUtils).to receive(:mkdir_p).with(tmp_path).ordered }
 
-      context 'when repository_type is :local_folder' do
-        let(:type) { :local_folder }
+      context 'when repository_type is :folder' do
+        let(:type) { :folder }
 
         before do
           expect(FileUtils).to receive(:cp_r).with(repo, tmp_config).ordered
@@ -35,12 +35,12 @@ RSpec.describe Pulsar::CloneRepository do
         end
       end
 
-      context 'when repository_type is a :local_git' do
-        let(:type) { :local_git }
+      context 'when repository_type is a :git' do
+        let(:type) { :git }
 
         before do
-          expect(Rake)
-            .to receive(:sh).with(/git clone #{repo} #{tmp_config}/).ordered
+          expect(Rake).to receive(:sh)
+            .with(/git clone --depth 1 #{repo} #{tmp_config}/).ordered
         end
 
         it { is_expected.to be_a_success }
@@ -70,7 +70,7 @@ RSpec.describe Pulsar::CloneRepository do
       end
 
       context 'when an exception is triggered' do
-        let(:type) { :local_folder }
+        let(:type) { :folder }
 
         before { allow(FileUtils).to receive(:cp_r).and_raise(RuntimeError) }
 

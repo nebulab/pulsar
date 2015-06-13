@@ -10,8 +10,8 @@ RSpec.describe Pulsar::List do
 
     let(:interactors) do
       [
-        Pulsar::IdentifyRepositoryType, Pulsar::CloneRepository,
-        Pulsar::AddApplications, Pulsar::Cleanup
+        Pulsar::IdentifyRepositoryLocation, Pulsar::IdentifyRepositoryType,
+        Pulsar::CloneRepository, Pulsar::AddApplications, Pulsar::Cleanup
       ]
     end
 

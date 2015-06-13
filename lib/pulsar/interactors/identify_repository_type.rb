@@ -5,11 +5,11 @@ module Pulsar
     before :validate_input!
 
     def call
-      if Rake.sh("git -C #{context.repository} status") &&
-         File.exist?("#{context.repository}/.git")
-        context.repository_type = :local_git
-      else
-        context.repository_type = :local_folder
+      case context.repository_location
+      when :local
+        context.repository_type = git_repository? ? :git : :folder
+      when :remote
+        context.repository_type = :git
       end
     rescue
       context.fail!
@@ -19,7 +19,12 @@ module Pulsar
 
     def validate_input!
       context.fail! if context.repository.nil?
-      context.fail! unless File.exist?(context.repository)
+      context.fail! if context.repository_location.nil?
+    end
+
+    def git_repository?
+      Rake.sh("git -C #{context.repository} status") &&
+        File.exist?("#{context.repository}/.git")
     end
   end
 end

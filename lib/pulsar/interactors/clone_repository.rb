@@ -6,8 +6,8 @@ module Pulsar
 
     def call
       case context.repository_type
-      when :local_git    then prepare_local_git
-      when :local_folder then prepare_local_folder
+      when :git    then clone_git_repository
+      when :folder then copy_local_folder
       end
     rescue
       context.fail!
@@ -28,11 +28,12 @@ module Pulsar
       context.fail! if context.repository.nil? || context.repository_type.nil?
     end
 
-    def prepare_local_git
-      Rake.sh("git clone #{context.repository} #{context.config_path} 2>&1")
+    def clone_git_repository
+      Rake.sh(
+        "git clone --depth 1 #{context.repository} #{context.config_path} 2>&1")
     end
 
-    def prepare_local_folder
+    def copy_local_folder
       FileUtils.cp_r(context.repository, context.config_path)
     end
   end
