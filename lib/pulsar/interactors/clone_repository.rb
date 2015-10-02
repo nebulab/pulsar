@@ -30,18 +30,22 @@ module Pulsar
     end
 
     def clone_git_repository
-      opts = '--quiet --depth 1'
+      cmd   = 'git clone'
+      opts  = '--quiet --depth 1'
+      quiet = '>/dev/null 2>&1'
 
       Rake.sh(
-        "git clone #{opts} #{context.repository} #{context.config_path} 2>&1")
+        "#{cmd} #{opts} #{context.repository} #{context.config_path} #{quiet}")
     end
 
     def clone_github_repository
-      opts = '--quiet --depth 1'
-      repo = "git@github.com:#{context.repository}.git"
+      cmd   = 'git clone'
+      opts  = '--quiet --depth 1'
+      quiet = '>/dev/null 2>&1'
+      repo  = "git@github.com:#{context.repository}.git"
 
       Rake.sh(
-        "git clone #{opts} #{repo} #{context.config_path} 2>&1")
+        "#{cmd} #{opts} #{repo} #{context.config_path} #{quiet}")
     end
 
     def copy_local_folder

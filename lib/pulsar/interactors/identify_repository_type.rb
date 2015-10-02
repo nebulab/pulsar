@@ -23,7 +23,7 @@ module Pulsar
     end
 
     def git_repository?
-      Rake.sh("git -C #{context.repository} status") &&
+      Rake.sh("git -C #{context.repository} status >/dev/null 2>&1") &&
         File.exist?("#{context.repository}/.git")
     end
 

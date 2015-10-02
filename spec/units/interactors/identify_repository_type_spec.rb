@@ -15,7 +15,8 @@ RSpec.describe Pulsar::IdentifyRepositoryType do
     context 'success' do
       context 'when local' do
         before do
-          expect(Rake).to receive(:sh).with("git -C #{repo} status")
+          expect(Rake)
+            .to receive(:sh).with("git -C #{repo} status >/dev/null 2>&1")
         end
 
         it { is_expected.to be_a_success }

@@ -27,10 +27,10 @@ RSpec.describe 'List' do
     subject { command }
 
     context 'lists applications in the pulsar configuration' do
-      let(:output) { /blog: production, staging\necommerce: staging/ }
+      let(:output) { "blog: production, staging\necommerce: staging\n" }
 
       context 'from a local folder' do
-        it { is_expected.to match(output) }
+        it { is_expected.to eql(output) }
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -50,7 +50,7 @@ RSpec.describe 'List' do
         end
 
         context 'uncommitted changes' do
-          it { is_expected.not_to match(output) }
+          it { is_expected.not_to eql(output) }
 
           context 'leaves the tmp folder empty' do
             subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -66,7 +66,7 @@ RSpec.describe 'List' do
             `git -C #{repo} add . && git -C #{repo} commit -m 'Initial Commit'`
           end
 
-          it { is_expected.to match(output) }
+          it { is_expected.to eql(output) }
 
           context 'leaves the tmp folder empty' do
             subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -116,13 +116,13 @@ RSpec.describe 'List' do
     context 'because of wrong directory' do
       let(:repo) { './some-wrong-directory' }
 
-      it { is_expected.to match(/Failed to list application and stages./) }
+      it { is_expected.to eql "Failed to list application and stages.\n" }
     end
 
     context 'because of empty directory' do
       let(:repo) { RSpec.configuration.pulsar_empty_conf_path }
 
-      it { is_expected.to match(/Failed to list application and stages./) }
+      it { is_expected.to eql "Failed to list application and stages.\n" }
     end
   end
 end
