@@ -268,7 +268,8 @@ PULSAR_CONF_REPO="gh-user/pulsar-conf"
 
 Pulsar is easy to integrate, you just need access to the configurations repository and the ability to
 run a command.
-A real-life example of how you can make easier your pulsar workflow http://www.cargomedia.ch/2015/06/23/pulsar-rest-api.html.
+
+Here is a [real-life example](http://www.cargomedia.ch/2015/06/23/pulsar-rest-api.html) of how you can integrate and simplify your pulsar workflow.
 
 ### Chat Bots
 
