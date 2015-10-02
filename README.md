@@ -273,7 +273,7 @@ A real-life example of how you can make easier your pulsar workflow http://www.c
 ### Chat Bots
 
 - https://gist.github.com/mtylty/5324075: a [hubot](https://hubot.github.com) script that runs Pulsar via the command line
-- [hubot-pulsar](https://github.com/cargomedia/hubot-pulsar): a [hubot](https://hubot.github.com) plugin for integrating via [Pulsar REST API](https://github.com/cargomedia/pulsar-rest-api
+- [hubot-pulsar](https://github.com/cargomedia/hubot-pulsar): a [hubot](https://hubot.github.com) plugin for integrating via [Pulsar REST API](https://github.com/cargomedia/pulsar-rest-api)
 - [lita-pulsar](http://github.com/nebulab/lita-pulsar): a [Lita](https://www.lita.io) plugin for integrating via the command line
 
 
