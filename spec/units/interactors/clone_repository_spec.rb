@@ -54,6 +54,30 @@ RSpec.describe Pulsar::CloneRepository do
           it { is_expected.to match tmp_config }
         end
       end
+
+      context 'when repository_type is a :github' do
+        let(:type) { :github }
+        let(:repo) { 'github-account/my-conf' }
+
+        let(:github_regex) do
+          /git clone --quiet --depth 1 git@github.com:#{repo}.git #{tmp_config}/
+        end
+
+        before do
+          expect(Rake).to receive(:sh).with(github_regex).ordered
+        end
+
+        it { is_expected.to be_a_success }
+
+        context 'returns a config_path path' do
+          subject do
+            described_class
+              .call(repository: repo, repository_type: type).config_path
+          end
+
+          it { is_expected.to match tmp_config }
+        end
+      end
     end
 
     context 'failure' do

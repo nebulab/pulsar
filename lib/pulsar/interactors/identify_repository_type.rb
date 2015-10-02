@@ -9,7 +9,7 @@ module Pulsar
       when :local
         context.repository_type = git_repository? ? :git : :folder
       when :remote
-        context.repository_type = :git
+        context.repository_type = github_repository? ? :github : :git
       end
     rescue
       context.fail!
@@ -25,6 +25,10 @@ module Pulsar
     def git_repository?
       Rake.sh("git -C #{context.repository} status") &&
         File.exist?("#{context.repository}/.git")
+    end
+
+    def github_repository?
+      context.repository =~ /^[\w-]+\/[\w-]+$/
     end
   end
 end

@@ -51,6 +51,12 @@ RSpec.describe Pulsar::IdentifyRepositoryType do
           context 'is a git repository' do
             it { is_expected.to eql :git }
           end
+
+          context 'is a GitHub repository' do
+            let(:repo) { 'github-account/my-conf' }
+
+            it { is_expected.to eql :github }
+          end
         end
       end
     end

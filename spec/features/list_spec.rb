@@ -92,6 +92,21 @@ RSpec.describe 'List' do
           it { is_expected.to be_empty }
         end
       end
+
+      context 'from a remote GitHub repository' do
+        let(:repo)   { RSpec.configuration.pulsar_remote_github_conf }
+        let(:output) { "your_app: production, staging\n" }
+
+        it { is_expected.to eql output }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
+      end
     end
   end
 

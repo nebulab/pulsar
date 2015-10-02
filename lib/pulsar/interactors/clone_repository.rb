@@ -7,6 +7,7 @@ module Pulsar
     def call
       case context.repository_type
       when :git    then clone_git_repository
+      when :github then clone_github_repository
       when :folder then copy_local_folder
       end
     rescue
@@ -33,6 +34,14 @@ module Pulsar
 
       Rake.sh(
         "git clone #{opts} #{context.repository} #{context.config_path} 2>&1")
+    end
+
+    def clone_github_repository
+      opts = '--quiet --depth 1'
+      repo = "git@github.com:#{context.repository}.git"
+
+      Rake.sh(
+        "git clone #{opts} #{repo} #{context.config_path} 2>&1")
     end
 
     def copy_local_folder
