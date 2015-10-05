@@ -1,6 +1,6 @@
 module Pulsar
   class CLI < Thor
-    desc 'install [DIRECTORY]', 'install initial repository in DIRECTORY'
+    desc 'install [DIRECTORY]', 'Install initial repository in DIRECTORY'
     long_desc <<-LONGDESC
       `pulsar install` will install the initial pulsar repository in the
       current working directory.
@@ -18,7 +18,7 @@ module Pulsar
       end
     end
 
-    desc 'list', 'list available applications and environments'
+    desc 'list', 'List available applications and environments'
     long_desc <<-LONGDESC
       `pulsar list` will list the applications and environments available in
       the configured pulsar repository.
@@ -35,7 +35,7 @@ module Pulsar
       end
     end
 
-    desc 'deploy', 'runs Capistrano to deploy applications on environments'
+    desc 'deploy', 'Run Capistrano to deploy applications on environments'
     long_desc <<-LONGDESC
       `pulsar deploy` will generate the configuration for the specified
       application and environment from the configuration repo and run Capistrano
