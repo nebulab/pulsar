@@ -21,6 +21,12 @@ RSpec.describe 'List' do
     let(:error)     { /No value provided for required options '--conf-repo'/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
+
+    context 'even when using the alias -c' do
+      let(:arguments) { "-c #{repo}" }
+
+      it { is_expected.not_to output(error).to_stderr_from_any_process }
+    end
   end
 
   context 'when succeeds' do
