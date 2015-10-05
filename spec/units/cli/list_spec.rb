@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe Pulsar::CLI do
-  subject { described_class.new }
+  subject { Pulsar::List }
+
+  let(:described_instance) { described_class.new }
+  let(:fail_text) { /Failed to list application and stages./ }
 
   context '#list' do
     let(:result) { spy }
@@ -14,39 +17,35 @@ RSpec.describe Pulsar::CLI do
 
     context 'when using --conf-repo' do
       before do
-        allow(subject).to receive(:options).and_return(conf_repo: repo)
+        allow(described_instance)
+          .to receive(:options).and_return(conf_repo: repo)
+        described_instance.list
       end
 
-      it 'calls Pulsar::List' do
-        subject.list
-
-        expect(Pulsar::List)
-          .to have_received(:call).with(repository: repo)
-      end
+      it { is_expected.to have_received(:call).with(repository: repo) }
 
       context 'success' do
+        subject { -> { described_instance.list } }
+
         let(:applications) { 'blog: staging' }
         let(:result) { spy(success?: true, applications: applications) }
 
-        it 'outputs a list of applications and stages' do
-          expect { subject.list }
-            .to output(/#{applications}/).to_stdout
-        end
+        it { is_expected.to output(/#{applications}/).to_stdout }
       end
 
       context 'failure' do
+        subject { -> { described_instance.list } }
+
         let(:result) { spy(success?: false) }
 
-        it 'outputs failure text' do
-          expect { subject.list }
-            .to output(/Failed to list application and stages./).to_stdout
-        end
+        it { is_expected.to output(fail_text).to_stdout }
       end
     end
 
     context 'when using configuration file' do
       before do
-        allow(subject).to receive(:options).and_return({})
+        allow(described_instance).to receive(:options).and_return({})
+        described_instance.list
       end
 
       around do |example|
@@ -58,63 +57,50 @@ RSpec.describe Pulsar::CLI do
         Pulsar::PULSAR_CONF = old_const
       end
 
-      it 'calls Pulsar::List' do
-        subject.list
-
-        expect(Pulsar::List)
-          .to have_received(:call).with(repository: repo)
-      end
+      it { is_expected.to have_received(:call).with(repository: repo) }
 
       context 'success' do
+        subject { -> { described_instance.list } }
+
         let(:applications) { 'blog: staging' }
         let(:result) { spy(success?: true, applications: applications) }
 
-        it 'outputs a list of applications and stages' do
-          expect { subject.list }
-            .to output(/#{applications}/).to_stdout
-        end
+        it { is_expected.to output(/#{applications}/).to_stdout }
       end
 
       context 'failure' do
+        subject { -> { described_instance.list } }
+
         let(:result) { spy(success?: false) }
 
-        it 'outputs failure text' do
-          expect { subject.list }
-            .to output(/Failed to list application and stages./).to_stdout
-        end
+        it { is_expected.to output(fail_text).to_stdout }
       end
     end
 
     context 'when using PULSAR_CONF_REPO' do
       before do
-        allow(subject).to receive(:options).and_return({})
+        allow(described_instance).to receive(:options).and_return({})
         ENV['PULSAR_CONF_REPO'] = repo
+        described_instance.list
       end
 
-      it 'calls Pulsar::List' do
-        subject.list
-
-        expect(Pulsar::List)
-          .to have_received(:call).with(repository: repo)
-      end
+      it { is_expected.to have_received(:call).with(repository: repo) }
 
       context 'success' do
+        subject { -> { described_instance.list } }
+
         let(:applications) { 'blog: staging' }
         let(:result) { spy(success?: true, applications: applications) }
 
-        it 'outputs a list of applications and stages' do
-          expect { subject.list }
-            .to output(/#{applications}/).to_stdout
-        end
+        it { is_expected.to output(/#{applications}/).to_stdout }
       end
 
       context 'failure' do
+        subject { -> { described_instance.list } }
+
         let(:result) { spy(success?: false) }
 
-        it 'outputs failure text' do
-          expect { subject.list }
-            .to output(/Failed to list application and stages./).to_stdout
-        end
+        it { is_expected.to output(fail_text).to_stdout }
       end
     end
   end

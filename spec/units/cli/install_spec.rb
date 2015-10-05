@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Pulsar::CLI do
-  subject { described_class.new }
+  subject { Pulsar::Install }
+
+  let(:described_instance) { described_class.new }
 
   context '#install' do
     let(:result) { spy }
@@ -11,36 +13,32 @@ RSpec.describe Pulsar::CLI do
       allow($stdout).to receive(:puts)
     end
 
-    it 'calls Pulsar::Install with ./pulsar-conf by default' do
-      subject.install
+    context 'calls Pulsar::Install with ./pulsar-conf by default' do
+      before { described_instance.install }
 
-      expect(Pulsar::Install)
-        .to have_received(:call).with(directory: './pulsar-conf')
+      it { is_expected.to have_received(:call).with(directory: './pulsar-conf') }
     end
 
-    it 'calls Pulsar::Install with an argument' do
-      subject.install('./a-dir')
+    context 'calls Pulsar::Install with an argument' do
+      before { described_instance.install('./a-dir') }
 
-      expect(Pulsar::Install)
-        .to have_received(:call).with(directory: './a-dir')
+      it { is_expected.to have_received(:call).with(directory: './a-dir') }
     end
 
     context 'success' do
+      subject { -> { described_instance.install } }
+
       let(:result) { spy(success?: true) }
 
-      it 'outputs success text' do
-        expect { subject.install }
-          .to output(/Successfully created intial repo!/).to_stdout
-      end
+      it { is_expected.to output(/Successfully created intial repo!/).to_stdout }
     end
 
     context 'failure' do
+      subject { -> { described_instance.install } }
+
       let(:result) { spy(success?: false) }
 
-      it 'outputs failure text' do
-        expect { subject.install }
-          .to output(/Failed to create intial repo./).to_stdout
-      end
+      it { is_expected.to output(/Failed to create intial repo./).to_stdout }
     end
   end
 end
