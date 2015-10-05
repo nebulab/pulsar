@@ -4,6 +4,7 @@ module Pulsar
   require 'bundler'
   require 'thor'
   require 'rake'
+  require 'dotenv'
   require 'interactor'
   require 'fileutils'
 
@@ -17,8 +18,9 @@ module Pulsar
   require 'pulsar/organizers/list'
   require 'pulsar/organizers/install'
 
-  require 'pulsar/cli'
   require 'pulsar/constants'
+  require 'pulsar/cli'
 
-  Rake::FileUtilsExt.verbose_flag = false # Silence Rake output
+  # Silence Rake output
+  Rake::FileUtilsExt.verbose_flag = false
 end

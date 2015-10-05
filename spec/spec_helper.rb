@@ -16,6 +16,7 @@ RSpec.configure do |config|
   config.add_setting :pulsar_command
   config.add_setting :pulsar_conf_path
   config.add_setting :pulsar_empty_conf_path
+  config.add_setting :pulsar_dotenv_conf_path
   config.add_setting :pulsar_local_conf_repo_path
   config.add_setting :pulsar_remote_git_conf
   config.add_setting :pulsar_remote_github_conf
@@ -23,12 +24,17 @@ RSpec.configure do |config|
   config.pulsar_command = File.expand_path('./bin/pulsar')
   config.pulsar_conf_path = File.expand_path('./spec/support/dummies/conf/dir')
   config.pulsar_empty_conf_path = File.expand_path('./spec/support/dummies/conf/empty')
+  config.pulsar_dotenv_conf_path = File.expand_path('./spec/support/dummies/conf/dotenv')
   config.pulsar_local_conf_repo_path = File.expand_path('./spec/support/tmp/dummy-repo')
   config.pulsar_remote_git_conf = 'git@github.com:nebulab/pulsar-conf-demo.git'
   config.pulsar_remote_github_conf = 'nebulab/pulsar-conf-demo'
 
   config.before(:suite) do
     Dir.chdir('./spec/support/tmp')
+  end
+
+  config.before(:each) do
+    ENV.delete_if { |name, _| name =~ /^PULSAR_/ }
   end
 
   config.after(:each) do

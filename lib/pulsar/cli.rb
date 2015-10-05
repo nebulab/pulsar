@@ -23,15 +23,34 @@ module Pulsar
       `pulsar list` will list the applications and environments available in
       the configured pulsar repository.
     LONGDESC
-    option :conf_repo, required: true, aliases: '-c'
+    option :conf_repo, aliases: '-c'
     def list
-      result = Pulsar::List.call(repository: options[:conf_repo])
+      load_config
+      result = Pulsar::List.call(repository: load_option_or_env!(:conf_repo))
 
       if result.success?
         puts result.applications
       else
         puts 'Failed to list application and stages.'
       end
+    end
+
+    private
+
+    def load_config
+      Dotenv.load(PULSAR_CONF) # Load configurations for Pulsar
+    end
+
+    def load_option_or_env!(option)
+      option_name    = "--#{option.to_s.gsub!('_', '-')}"
+      env_option     = "PULSAR_#{option.upcase}"
+      exception_text = "No value provided for required options '#{option_name}'"
+      option_value   = options[option] || ENV[env_option]
+
+      fail RequiredArgumentMissingError,
+           exception_text if option_value.nil? || option_value.empty?
+
+      option_value
     end
   end
 end

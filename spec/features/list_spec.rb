@@ -22,8 +22,14 @@ RSpec.describe 'List' do
 
     it { is_expected.to output(error).to_stderr_from_any_process }
 
-    context 'even when using the alias -c' do
+    context 'can be specified via the alias -c' do
       let(:arguments) { "-c #{repo}" }
+
+      it { is_expected.not_to output(error).to_stderr_from_any_process }
+    end
+
+    context 'can be specified via the environment variable PULSAR_CONF_REPO' do
+      before { ENV['PULSAR_CONF_REPO'] = repo }
 
       it { is_expected.not_to output(error).to_stderr_from_any_process }
     end

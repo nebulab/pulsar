@@ -24,6 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'bundler', '~> 1.8'
   gem.add_dependency 'thor', '~> 0.19'
   gem.add_dependency 'interactor', '~> 3.1'
+  gem.add_dependency 'dotenv', '~> 2.0'
 
   gem.add_development_dependency 'rake', '~> 10.4'
   gem.add_development_dependency 'rspec', '~> 3.2'
