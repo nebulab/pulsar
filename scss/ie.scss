@@ -1,0 +1,22 @@
+.lt9 {
+  pre {
+    background: $dark-blue;
+    margin-bottom: 30px;
+    padding: 10px 15px 15px 15px;
+  }
+  .deploy {
+    background-image: url(../img/deploy.png) !important;
+  }
+  .code {
+    background-image: url(../img/code.png) !important;
+  }
+  .integration {
+    background-image: url(../img/integration.png) !important;
+  }
+}
+
+.lt9, .ie9 {
+  #pulse {
+    display: none;
+  }
+}

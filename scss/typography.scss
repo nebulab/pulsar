@@ -1,0 +1,33 @@
+body {
+  font-family: "futura-pt",sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: $base-font-size;
+  font-weight: 400;
+  color: $dark-blue;
+}
+
+p {
+	line-height: 1.5em;
+}
+
+h1, h2, h3, h4 {
+	margin-bottom: 20px;
+	font-weight: 500;
+}
+
+h1 {
+	font-size: 2.600em;
+	font-weight: 700;
+}
+
+h2 {
+	font-size: 1.800em;
+}
+
+h3 {
+	font-size: 1.200em;
+}
+
+h4 {
+	font-size: 1.100em;
+}

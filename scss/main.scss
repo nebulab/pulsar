@@ -1,0 +1,167 @@
+@import "grid";
+@import "mixins";
+@import "variables";
+@import "shared";
+@import "typography";
+@import "prism";
+@import "ie";
+
+@-webkit-keyframes pulse
+  {
+    0% {-webkit-transform: scale(0); opacity: 0;}
+    8% {-webkit-transform: scale(0); opacity: 0;}
+    15% {-webkit-transform: scale(0.1); opacity: 1;}
+    30% {-webkit-transform: scale(0.5); opacity: 1;}
+    100% {opacity: 0; -webkit-transform: scale(1);}
+  }
+
+@-moz-keyframes pulse
+  {
+    0% {-moz-transform: scale(0); opacity: 0;}
+    8% {-moz-transform: scale(0); opacity: 0;}
+    15% {-moz-transform: scale(0.1); opacity: 1;}
+    30% {-moz-transform: scale(0.5); opacity: 1;}
+    100% {opacity: 0; -moz-transform: scale(1);}
+  }
+
+@-o-keyframes pulse
+  {
+    0% {-o-transform: scale(0); opacity: 0;}
+    8% {-o-transform: scale(0); opacity: 0;}
+    15% {-o-transform: scale(0.1); opacity: 1;}
+    30% {-o-transform: scale(0.5); opacity: 1;}
+    100% {opacity: 0; -o-transform: scale(1);}
+  }
+
+@keyframes pulse
+  {
+    0% {transform: scale(0); opacity: 0;}
+    8% {transform: scale(0); opacity: 0;}
+    15% {transform: scale(0.1); opacity: 1;}
+    30% {transform: scale(0.5); opacity: 1;}
+    100% {opacity: 0; transform: scale(1);}
+  }
+
+#header {
+	padding-top: 40px;
+	position: absolute;
+	width: 100%;
+  #logo {
+    float: left;
+    color: $white;
+    font-size: 36px;
+    font-weight: 700;
+  }
+  nav {
+    float: right;
+    margin-left: 40px;
+    ul {
+      padding-top: 10px;
+      li {
+        float: left;
+        display: inline;
+        a {
+          margin-left: 35px;
+          color: $white;
+        }
+      }
+    }
+  }
+}
+
+#main {
+  padding: 220px 0 160px 0;
+  background: $blue url(../img/bg.jpg) repeat;
+  color: $white;
+  text-align: center;
+  .row {
+    z-index: 1;
+    position: relative;
+  	.button {
+  		margin-top: 40px;
+  	}
+  }
+  #pulse {
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -300px;
+    border-radius: 300px;
+    background-color: transparent;
+    border: 1px solid rgba(225, 225, 225, 1);
+    -webkit-animation: pulse 2s linear infinite;
+    -moz-animation: pulse 2s linear infinite;
+    -o-animation: pulse 2s linear infinite;
+    animation: pulse 2s linear infinite;
+  }
+}
+
+#features {
+  text-align: center;
+  .ten {
+    p {
+      margin-bottom: 60px;
+    }
+  }
+  .feature-img {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+  }
+  .deploy {
+    background: url(../img/deploy.svg) no-repeat;
+  }
+  .code {
+    background: url(../img/code.svg) no-repeat;
+  }
+  .integration {
+    background: url(../img/integration.svg) no-repeat;
+  }
+  h3 {
+    margin-top: 30px;
+  }
+}
+
+#installation {
+  background: $lighter-blue;
+}
+
+#usage {
+  background: $light-blue;
+}
+
+footer {
+  padding: 40px 0;
+  text-align: center;
+  color: $light-gray;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+
+  #header {
+    #logo {
+      width: 100%;
+      text-align: center;
+    }
+    nav {
+      display: none;
+    }
+  }
+
+  #main {
+    padding: 140px 0 80px 0;
+    #pulse {
+      display: none;
+    }
+  }
+
+  h1 {
+    font-size: 1.778em;
+  }
+
+}
