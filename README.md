@@ -1,5 +1,7 @@
 # Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.svg)](http://badge.fury.io/rb/pulsar) [![Build Status](https://travis-ci.org/nebulab/pulsar.svg?branch=master)](https://travis-ci.org/nebulab/pulsar) [![Test Coverage](https://codeclimate.com/github/nebulab/pulsar/badges/coverage.svg)](https://codeclimate.com/github/nebulab/pulsar) [![Code Climate](https://codeclimate.com/github/nebulab/pulsar/badges/gpa.svg)](https://codeclimate.com/github/nebulab/pulsar)
 
+[![Join the chat at https://gitter.im/nebulab/pulsar](https://badges.gitter.im/nebulab/pulsar.svg)](https://gitter.im/nebulab/pulsar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The easy [Capistrano](https://rubygems.org/gems/capistrano) deploy and configuration manager.
 
 Pulsar allows you to run capistrano tasks via a separate repository where all your deploy configurations are stored.
