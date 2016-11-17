@@ -4,11 +4,12 @@ RSpec.describe 'Deploy' do
   subject { -> { command } }
 
   let(:command) do
-    `ruby #{RSpec.configuration.pulsar_command} deploy #{arguments}`
+    `ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
   end
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }
-  let(:arguments) { "--conf-repo #{repo}" }
+  let(:options)   { "--conf-repo #{repo}" }
+  let(:arguments) { 'blog production' }
 
   context 'via a subcommand named deploy' do
     let(:error) { /Could not find command/ }
@@ -17,13 +18,13 @@ RSpec.describe 'Deploy' do
   end
 
   context 'requires a --conf-repo option' do
-    let(:arguments) { nil }
-    let(:error)     { /No value provided for required options '--conf-repo'/ }
+    let(:options) { nil }
+    let(:error)   { /No value provided for required options '--conf-repo'/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
 
     context 'can be specified via the alias -c' do
-      let(:arguments) { "-c #{repo}" }
+      let(:options) { "-c #{repo}" }
 
       it { is_expected.not_to output(error).to_stderr_from_any_process }
     end
@@ -33,6 +34,13 @@ RSpec.describe 'Deploy' do
 
       it { is_expected.not_to output(error).to_stderr_from_any_process }
     end
+  end
+
+  context 'requires application and stage arguments' do
+    let(:arguments) { nil }
+    let(:error)     { /Usage: "pulsar deploy APPLICATION STAGE"/ }
+
+    it { is_expected.to output(error).to_stderr_from_any_process }
   end
 
   context 'when succeeds' do

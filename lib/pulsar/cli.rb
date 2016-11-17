@@ -35,14 +35,14 @@ module Pulsar
       end
     end
 
-    desc 'deploy', 'Run Capistrano to deploy applications on environments'
+    desc 'deploy APPLICATION STAGE', 'Run Capistrano to deploy APPLICATION on STAGE'
     long_desc <<-LONGDESC
-      `pulsar deploy` will generate the configuration for the specified
-      application and environment from the configuration repo and run Capistrano
-      on it.
+      `pulsar deploy APPLICATION STAGE` will generate the configuration for the
+      specified APPLICATION on STAGE from the configuration repo and run
+      Capistrano on it.
     LONGDESC
     option :conf_repo, aliases: '-c'
-    def deploy
+    def deploy(application, stage)
       load_option_or_env!(:conf_repo)
     end
 
