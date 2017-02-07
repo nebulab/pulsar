@@ -22,3 +22,8 @@ Reporting Issues
 ----------------
 
 Mainly via GitHub Issues...
+
+Deploy
+------
+
+This is automatically deployed via GH Pages. Whatever goes on this branch will be deployed as soon as the new code is pushed.
