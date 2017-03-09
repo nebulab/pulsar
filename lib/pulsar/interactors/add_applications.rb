@@ -28,7 +28,7 @@ module Pulsar
     end
 
     def each_application_path
-      Dir["#{context.config_path}/apps/*"].each do |app|
+      Dir["#{context.config_path}/apps/*"].sort.each do |app|
         next if File.basename(app, '.rb') == 'defaults'
 
         yield(app)
@@ -36,8 +36,9 @@ module Pulsar
     end
 
     def stages_for(app)
-      stage_files = Dir["#{app}/*.rb"].map { |file| File.basename(file, '.rb') }
-
+      stage_files = Dir["#{app}/*.rb"].sort.map do |file|
+        File.basename(file, '.rb')
+      end
       stage_files.reject { |stage| stage == 'defaults' }.join(', ')
     end
   end
