@@ -28,7 +28,7 @@ module Pulsar
     end
 
     def github_repository?
-      context.repository =~ /^[\w-]+\/[\w-]+$/
+      context.repository =~ %r{^[\w-]+\/[\w-]+$}
     end
   end
 end

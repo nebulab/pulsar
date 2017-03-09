@@ -42,7 +42,7 @@ module Pulsar
       Capistrano on it.
     LONGDESC
     option :conf_repo, aliases: '-c'
-    def deploy(application, stage)
+    def deploy(_application, _stage)
       load_option_or_env!(:conf_repo)
     end
 
@@ -53,13 +53,15 @@ module Pulsar
     end
 
     def load_option_or_env!(option)
-      option_name    = "--#{option.to_s.gsub!('_', '-')}"
+      option_name    = "--#{option.to_s.tr!('_', '-')}"
       env_option     = "PULSAR_#{option.upcase}"
       exception_text = "No value provided for required options '#{option_name}'"
       option_value   = options[option] || ENV[env_option]
 
-      fail RequiredArgumentMissingError,
-           exception_text if option_value.nil? || option_value.empty?
+      if option_value.nil? || option_value.empty?
+        fail RequiredArgumentMissingError,
+             exception_text
+      end
 
       option_value
     end

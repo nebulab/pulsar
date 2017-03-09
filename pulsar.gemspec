@@ -17,8 +17,8 @@ Gem::Specification.new do |gem|
   '
 
   gem.files          = `git ls-files`.split($/)
-  gem.executables    = gem.files.grep(/^bin\//).map { |f| File.basename(f) }
-  gem.test_files     = gem.files.grep(/^(test|spec|features)\//)
+  gem.executables    = gem.files.grep(%r{^bin\/}).map { |f| File.basename(f) }
+  gem.test_files     = gem.files.grep(%r{^(test|spec|features)\/})
   gem.require_paths  = ['lib']
 
   gem.add_dependency 'bundler', '~> 1.8'
@@ -29,5 +29,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake', '~> 10.4'
   gem.add_development_dependency 'rspec', '~> 3.2'
   gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
-  gem.add_development_dependency 'rubocop', '~> 0.29'
+  gem.add_development_dependency 'rubocop', '~> 0.47'
 end
