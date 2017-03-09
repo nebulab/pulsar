@@ -1,3 +1,6 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Metrics/ModuleLength:
   Exclude:
     - "spec/**/*.rb"
