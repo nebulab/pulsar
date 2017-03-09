@@ -1,3 +1,11 @@
+Metrics/ModuleLength:
+  Exclude:
+    - "spec/**/*.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*.rb"
+
 # Relaxed.Ruby.Style
 
 Style/Alias:
@@ -142,4 +150,3 @@ Metrics/ParameterLists:
 
 Metrics/PerceivedComplexity:
   Enabled: false
-

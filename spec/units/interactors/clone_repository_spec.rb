@@ -12,7 +12,7 @@ RSpec.describe Pulsar::CloneRepository do
 
     context 'success' do
       let(:tmp_path)   { Pulsar::PULSAR_TMP }
-      let(:tmp_config) { /#{tmp_path}\/conf-\d+\.\d+/ }
+      let(:tmp_config) { %r{#{tmp_path}\/conf-\d+\.\d+} }
 
       before { expect(FileUtils).to receive(:mkdir_p).with(tmp_path).ordered }
 

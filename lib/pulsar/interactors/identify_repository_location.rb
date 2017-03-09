@@ -5,11 +5,11 @@ module Pulsar
     before :validate_input!
 
     def call
-      if File.exist?(context.repository)
-        context.repository_location = :local
-      else
-        context.repository_location = :remote
-      end
+      context.repository_location = if File.exist?(context.repository)
+                                      :local
+                                    else
+                                      :remote
+                                    end
     rescue
       context.fail!
     end
