@@ -18,6 +18,8 @@ module Pulsar
   require 'pulsar/interactors/create_capfile'
   require 'pulsar/interactors/create_deploy_file'
   require 'pulsar/interactors/copy_environment_file'
+  require 'pulsar/interactors/run_bundle_install'
+  require 'pulsar/interactors/run_capistrano'
 
   require 'pulsar/organizers/list'
   require 'pulsar/organizers/install'

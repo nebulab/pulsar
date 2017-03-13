@@ -4,7 +4,7 @@ RSpec.describe Pulsar::CLI do
   subject { Pulsar::List }
 
   let(:described_instance) { described_class.new }
-  let(:fail_text) { /Failed to list application and stages./ }
+  let(:fail_text) { /Failed to list application and environments./ }
 
   context '#list' do
     let(:result) { spy }

@@ -4,6 +4,6 @@ module Pulsar
 
     organize IdentifyRepositoryLocation, IdentifyRepositoryType,
              CreateRunDirs, CloneRepository, CreateCapfile, CreateDeployFile,
-             CopyEnvironmentFile, Cleanup
+             CopyEnvironmentFile, RunBundleInstall, RunCapistrano, Cleanup
   end
 end

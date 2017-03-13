@@ -36,9 +36,9 @@ RSpec.describe 'Deploy' do
     end
   end
 
-  context 'requires application and stage arguments' do
+  context 'requires application and environment arguments' do
     let(:arguments) { nil }
-    let(:error)     { /Usage: "pulsar deploy APPLICATION STAGE"/ }
+    let(:error)     { /Usage: "pulsar deploy APPLICATION ENVIRONMENT"/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
   end
@@ -46,7 +46,7 @@ RSpec.describe 'Deploy' do
   context 'when succeeds' do
     subject { command }
 
-    context 'deploys an application on a stage in the pulsar configuration' do
+    context 'deploys an application on a environment in the pulsar configuration' do
       let(:output) { "blog deployed to production!\n" }
 
       context 'from a local folder' do

@@ -21,6 +21,8 @@ RSpec.describe Pulsar::CreateRunDirs do
 
       let(:command) { described_class.call }
 
+      it { is_expected.to be_directory("#{Pulsar::PULSAR_HOME}/bundle") }
+      it { is_expected.to be_directory(command.bundle_path) }
       it { is_expected.to be_directory(command.run_path) }
       it { is_expected.to be_directory(command.config_path) }
       it { is_expected.to be_directory(command.cap_path) }
