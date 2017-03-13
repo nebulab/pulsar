@@ -2,7 +2,7 @@ module Pulsar
   class CloneRepository
     include Interactor
 
-    before :validate_input!, :prepare_context
+    before :validate_input!
 
     def call
       case context.repository_type
@@ -14,19 +14,12 @@ module Pulsar
       context.fail!
     end
 
-    def rollback
-      FileUtils.rm_rf(context.config_path)
-    end
-
     private
 
-    def prepare_context
-      FileUtils.mkdir_p(PULSAR_TMP)
-      context.config_path = "#{PULSAR_TMP}/conf-#{Time.now.to_f}"
-    end
-
     def validate_input!
-      context.fail! if context.repository.nil? || context.repository_type.nil?
+      context.fail! if context.config_path.nil? ||
+                       context.repository.nil? ||
+                       context.repository_type.nil?
     end
 
     def clone_git_repository
@@ -51,7 +44,7 @@ module Pulsar
     end
 
     def copy_local_folder
-      FileUtils.cp_r(context.repository, context.config_path)
+      FileUtils.cp_r("#{context.repository}/.", context.config_path)
     end
   end
 end

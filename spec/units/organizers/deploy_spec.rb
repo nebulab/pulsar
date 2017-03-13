@@ -11,7 +11,8 @@ RSpec.describe Pulsar::Deploy do
     let(:interactors) do
       [
         Pulsar::IdentifyRepositoryLocation, Pulsar::IdentifyRepositoryType,
-        Pulsar::CloneRepository, Pulsar::CreateCapfile, Pulsar::Cleanup
+        Pulsar::CreateRunDirs, Pulsar::CloneRepository, Pulsar::CreateCapfile,
+        Pulsar::Cleanup
       ]
     end
 

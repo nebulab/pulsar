@@ -8,14 +8,14 @@ RSpec.describe Pulsar::Cleanup do
   describe '.call' do
     subject { FileUtils }
 
-    let(:config_path) { './some-path' }
+    let(:run_path) { './some-path' }
 
     before do
       allow(subject).to receive(:rm_rf)
 
-      described_class.call(config_path: config_path)
+      described_class.call(run_path: run_path)
     end
 
-    it { is_expected.to have_received(:rm_rf).with(config_path) }
+    it { is_expected.to have_received(:rm_rf).with(run_path) }
   end
 end

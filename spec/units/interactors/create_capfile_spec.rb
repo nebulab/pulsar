@@ -9,12 +9,15 @@ RSpec.describe Pulsar::CreateCapfile do
     subject { command }
 
     let(:command) { described_class.call(args) }
+    let(:cap_path) { "#{Pulsar::PULSAR_TMP}/cap-path" }
     let(:args) do
       {
         config_path: RSpec.configuration.pulsar_conf_path,
-        application: 'blog', environment: 'production'
+        cap_path: cap_path, application: 'blog', environment: 'production'
       }
     end
+
+    before { FileUtils.mkdir_p(cap_path) }
 
     context 'success' do
       it { is_expected.to be_a_success }
@@ -22,7 +25,6 @@ RSpec.describe Pulsar::CreateCapfile do
       context 'creates a Capfile' do
         subject { File }
 
-        it { is_expected.to exist(command.capistrano_path) }
         it { is_expected.to exist(command.capfile_path) }
 
         context 'with contents combined from pulsar configuration repo' do
@@ -53,8 +55,18 @@ RSpec.describe Pulsar::CreateCapfile do
         it { is_expected.to be_a_failure }
       end
 
+      context 'when no cap_path context is passed' do
+        subject do
+          described_class.call(
+            config_path: './my-conf', application: 'blog', environment: 'production'
+          )
+        end
+
+        it { is_expected.to be_a_failure }
+      end
+
       context 'when an exception is triggered' do
-        before { allow(FileUtils).to receive(:mkdir_p).and_raise(RuntimeError) }
+        before { allow(FileUtils).to receive(:touch).and_raise(RuntimeError) }
 
         it { is_expected.to be_a_failure }
       end

@@ -9,6 +9,7 @@ module Pulsar
   require 'fileutils'
 
   require 'pulsar/interactors/cleanup'
+  require 'pulsar/interactors/create_run_dirs'
   require 'pulsar/interactors/add_applications'
   require 'pulsar/interactors/clone_repository'
   require 'pulsar/interactors/copy_initial_repository'

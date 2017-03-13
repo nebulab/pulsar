@@ -9,7 +9,6 @@ module Pulsar
       app_capfile     = "#{context.config_path}/apps/#{context.application}/Capfile"
       import_tasks    = "Dir.glob(\"**/*.rake\").each { |r| import r }"
 
-      FileUtils.mkdir_p(context.capistrano_path)
       FileUtils.touch(context.capfile_path)
       Rake.sh("cat #{default_capfile} >> #{context.capfile_path}") if File.exist?(default_capfile)
       Rake.sh("cat #{app_capfile}     >> #{context.capfile_path}") if File.exist?(app_capfile)
@@ -21,12 +20,12 @@ module Pulsar
     private
 
     def prepare_context
-      context.capistrano_path = "#{PULSAR_TMP}/cap-#{Time.now.to_f}"
-      context.capfile_path = "#{context.capistrano_path}/Capfile"
+      context.capfile_path = "#{context.cap_path}/Capfile"
     end
 
     def validate_input!
       context.fail! if context.config_path.nil? ||
+                       context.cap_path.nil? ||
                        context.application.nil? ||
                        context.environment.nil?
     end
