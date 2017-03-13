@@ -43,15 +43,16 @@ module Pulsar
     LONGDESC
     option :conf_repo, aliases: '-c'
     def deploy(application, environment)
+      load_config
       result = Pulsar::Deploy.call(
         repository: load_option_or_env!(:conf_repo),
         application: application, environment: environment
       )
 
       if result.success?
-        puts result.applications
+        puts "Deployed #{application} on #{environment}!"
       else
-        puts 'Failed to list application and environments.'
+        puts "Failed to deploy #{application} on #{environment}."
       end
     end
 
