@@ -27,6 +27,12 @@ RSpec.describe Pulsar::CreateCapfile do
 
         it { is_expected.to exist(command.capfile_path) }
 
+        context 'with the required Capistrano path' do
+          subject { command.capfile_path }
+
+          it { is_expected.to eql "#{cap_path}/Capfile" }
+        end
+
         context 'with contents combined from pulsar configuration repo' do
           subject { File.read(command.capfile_path) }
 

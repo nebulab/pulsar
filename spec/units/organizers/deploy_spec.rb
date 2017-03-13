@@ -12,7 +12,7 @@ RSpec.describe Pulsar::Deploy do
       [
         Pulsar::IdentifyRepositoryLocation, Pulsar::IdentifyRepositoryType,
         Pulsar::CreateRunDirs, Pulsar::CloneRepository, Pulsar::CreateCapfile,
-        Pulsar::CreateDeployFile, Pulsar::Cleanup
+        Pulsar::CreateDeployFile, Pulsar::CopyEnvironmentFile, Pulsar::Cleanup
       ]
     end
 

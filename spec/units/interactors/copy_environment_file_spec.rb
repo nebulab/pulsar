@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Pulsar::CreateDeployFile do
+RSpec.describe Pulsar::CopyEnvironmentFile do
   subject { described_class.new }
 
   it { is_expected.to be_kind_of(Interactor) }
@@ -13,7 +13,7 @@ RSpec.describe Pulsar::CreateDeployFile do
     let(:args) do
       {
         config_path: RSpec.configuration.pulsar_conf_path,
-        cap_path: cap_path, application: 'blog'
+        cap_path: cap_path, application: 'blog', environment: 'production'
       }
     end
 
@@ -23,18 +23,18 @@ RSpec.describe Pulsar::CreateDeployFile do
       context 'creates a Capfile' do
         subject { File }
 
-        it { is_expected.to exist(command.deploy_file_path) }
+        it { is_expected.to exist(command.environment_file_path) }
 
         context 'with the required Capistrano path' do
-          subject { command.deploy_file_path }
+          subject { command.environment_file_path }
 
-          it { is_expected.to eql "#{cap_path}/config/deploy.rb" }
+          it { is_expected.to eql "#{cap_path}/config/deploy/production.rb" }
         end
 
         context 'with contents combined from pulsar configuration repo' do
-          subject { File.read(command.deploy_file_path) }
+          subject { File.read(command.environment_file_path) }
 
-          it { is_expected.to match(/# Defaults deployrb\n# App Defaults deployrb/) }
+          it { is_expected.to match(/# Production config/) }
         end
       end
     end
@@ -60,8 +60,18 @@ RSpec.describe Pulsar::CreateDeployFile do
         it { is_expected.to be_a_failure }
       end
 
+      context 'when no environment context is passed' do
+        subject do
+          described_class.call(
+            cap_path: './some-path', config_path: './my-conf', application: 'blog'
+          )
+        end
+
+        it { is_expected.to be_a_failure }
+      end
+
       context 'when an exception is triggered' do
-        before { allow(FileUtils).to receive(:touch).and_raise(RuntimeError) }
+        before { allow(FileUtils).to receive(:mkdir_p).and_raise(RuntimeError) }
 
         it { is_expected.to be_a_failure }
       end
