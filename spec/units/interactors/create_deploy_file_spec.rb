@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Pulsar::CreateCapfile do
+RSpec.describe Pulsar::CreateDeployFile do
   subject { described_class.new }
 
   it { is_expected.to be_kind_of(Interactor) }
@@ -25,13 +25,12 @@ RSpec.describe Pulsar::CreateCapfile do
       context 'creates a Capfile' do
         subject { File }
 
-        it { is_expected.to exist(command.capfile_path) }
+        it { is_expected.to exist(command.deploy_file_path) }
 
         context 'with contents combined from pulsar configuration repo' do
-          subject { File.read(command.capfile_path) }
+          subject { File.read(command.deploy_file_path) }
 
-          it { is_expected.to match(/# Defaults Capfile\n# App Defaults Capfile/) }
-          it { is_expected.to include("Dir.glob(\"**/*.rake\").each { |r| import r }") }
+          it { is_expected.to match(/# Defaults deployrb\n# App Defaults deployrb/) }
         end
       end
     end

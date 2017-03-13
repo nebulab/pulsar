@@ -3,6 +3,7 @@ module Pulsar
     include Interactor::Organizer
 
     organize IdentifyRepositoryLocation, IdentifyRepositoryType,
-             CreateRunDirs, CloneRepository, CreateCapfile, Cleanup
+             CreateRunDirs, CloneRepository, CreateCapfile, CreateDeployFile,
+             Cleanup
   end
 end

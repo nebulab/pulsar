@@ -26,8 +26,7 @@ module Pulsar
     def validate_input!
       context.fail! if context.config_path.nil? ||
                        context.cap_path.nil? ||
-                       context.application.nil? ||
-                       context.environment.nil?
+                       context.application.nil?
     end
   end
 end
