@@ -44,9 +44,21 @@ RSpec.describe 'Deploy' do
   end
 
   context 'when succeeds' do
+    subject { command }
+
     context 'deploys an application on a stage in the pulsar configuration' do
+      let(:output) { "blog deployed to production!\n" }
+
       context 'from a local folder' do
-        context 'leaves the tmp folder empty'
+        pending { is_expected.to eql(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
 
       context 'from a local repository' do

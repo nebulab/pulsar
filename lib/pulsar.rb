@@ -14,9 +14,11 @@ module Pulsar
   require 'pulsar/interactors/copy_initial_repository'
   require 'pulsar/interactors/identify_repository_type'
   require 'pulsar/interactors/identify_repository_location'
+  require 'pulsar/interactors/create_capfile'
 
   require 'pulsar/organizers/list'
   require 'pulsar/organizers/install'
+  require 'pulsar/organizers/deploy'
 
   require 'pulsar/constants'
   require 'pulsar/cli'

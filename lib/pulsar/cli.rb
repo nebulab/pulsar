@@ -42,8 +42,17 @@ module Pulsar
       Capistrano on it.
     LONGDESC
     option :conf_repo, aliases: '-c'
-    def deploy(_application, _stage)
-      load_option_or_env!(:conf_repo)
+    def deploy(application, stage)
+      result = Pulsar::Deploy.call(
+        repository: load_option_or_env!(:conf_repo),
+        application: application, stage: stage
+      )
+
+      if result.success?
+        puts result.applications
+      else
+        puts 'Failed to list application and stages.'
+      end
     end
 
     private
