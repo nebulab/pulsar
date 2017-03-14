@@ -1,6 +1,7 @@
 require 'rspec'
 require 'stringio'
 require 'fileutils'
+require 'timecop'
 require 'codeclimate-test-reporter'
 require 'pulsar'
 
@@ -16,6 +17,8 @@ RSpec.configure do |config|
   config.add_setting :pulsar_command
   config.add_setting :pulsar_conf_path
   config.add_setting :pulsar_empty_conf_path
+  config.add_setting :pulsar_wrong_cap_conf_path
+  config.add_setting :pulsar_wrong_bundle_conf_path
   config.add_setting :pulsar_dotenv_conf_path
   config.add_setting :pulsar_local_conf_repo_path
   config.add_setting :pulsar_remote_git_conf
@@ -24,6 +27,8 @@ RSpec.configure do |config|
   config.pulsar_command = File.expand_path('./bin/pulsar')
   config.pulsar_conf_path = File.expand_path('./spec/support/dummies/conf/dir')
   config.pulsar_empty_conf_path = File.expand_path('./spec/support/dummies/conf/empty')
+  config.pulsar_wrong_cap_conf_path = File.expand_path('./spec/support/dummies/conf/wrong_cap')
+  config.pulsar_wrong_bundle_conf_path = File.expand_path('./spec/support/dummies/conf/wrong_bundle')
   config.pulsar_dotenv_conf_path = File.expand_path('./spec/support/dummies/conf/dotenv')
   config.pulsar_local_conf_repo_path = File.expand_path('./spec/support/tmp/dummy-repo')
   config.pulsar_remote_git_conf = 'git@github.com:nebulab/pulsar-conf-demo.git'

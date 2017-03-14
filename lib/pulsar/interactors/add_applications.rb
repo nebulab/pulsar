@@ -29,7 +29,8 @@ module Pulsar
 
     def each_application_path
       Dir["#{context.config_path}/apps/*"].sort.each do |app|
-        next if File.basename(app, '.rb') == 'defaults'
+        next if File.basename(app, '.rb') == 'deploy' ||
+                File.basename(app) == 'Capfile'
 
         yield(app)
       end
@@ -39,7 +40,9 @@ module Pulsar
       stage_files = Dir["#{app}/*.rb"].sort.map do |file|
         File.basename(file, '.rb')
       end
-      stage_files.reject { |stage| stage == 'defaults' }.join(', ')
+      stage_files.reject do |stage|
+        %w(deploy Capfile).include?(stage)
+      end.join(', ')
     end
   end
 end

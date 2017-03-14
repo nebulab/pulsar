@@ -10,7 +10,7 @@ RSpec.describe Pulsar::AddApplications do
 
     before do
       allow(Dir).to receive(:[])
-        .and_return(%w(./blog/), %w(defaults.rb production.rb staging.rb))
+        .and_return(%w(./blog/), %w(Capfile deploy.rb production.rb staging.rb))
     end
 
     context 'success' do

@@ -4,7 +4,7 @@ RSpec.describe 'Deploy' do
   subject { -> { command } }
 
   let(:command) do
-    `ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
+    `DRY_RUN=true ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
   end
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }
@@ -36,42 +36,127 @@ RSpec.describe 'Deploy' do
     end
   end
 
-  context 'requires application and stage arguments' do
+  context 'requires application and environment arguments' do
     let(:arguments) { nil }
-    let(:error)     { /Usage: "pulsar deploy APPLICATION STAGE"/ }
+    let(:error)     { /Usage: "pulsar deploy APPLICATION ENVIRONMENT"/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
   end
 
   context 'when succeeds' do
-    context 'deploys an application on a stage in the pulsar configuration' do
+    subject { command }
+
+    context 'deploys an application on a environment in the pulsar configuration' do
+      let(:output) { "Deployed blog on production!\n" }
+
       context 'from a local folder' do
-        context 'leaves the tmp folder empty'
+        it { is_expected.to match(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
 
       context 'from a local repository' do
+        let(:repo) { RSpec.configuration.pulsar_local_conf_repo_path }
+
+        before do
+          FileUtils.cp_r(RSpec.configuration.pulsar_conf_path, repo)
+          `git init #{repo}`
+        end
+
         context 'uncommitted changes' do
-          context 'leaves the tmp folder empty'
+          it { is_expected.not_to match(output) }
+
+          context 'leaves the tmp folder empty' do
+            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+            before { command }
+
+            it { is_expected.to be_empty }
+          end
         end
 
         context 'committed changes' do
-          context 'leaves the tmp folder empty'
+          before do
+            `git -C #{repo} add . && git -C #{repo} commit -m 'Initial Commit'`
+          end
+
+          it { is_expected.to match(output) }
+
+          context 'leaves the tmp folder empty' do
+            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+            before { command }
+
+            it { is_expected.to be_empty }
+          end
         end
       end
 
       context 'from a remote Git repository' do
-        context 'leaves the tmp folder empty'
+        let(:repo)      { RSpec.configuration.pulsar_remote_git_conf }
+        let(:arguments) { 'your_app staging' }
+        let(:output)    { "Deployed your_app on staging!\n" }
+
+        it { is_expected.to match(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
 
       context 'from a remote GitHub repository' do
-        context 'leaves the tmp folder empty'
+        let(:repo)      { RSpec.configuration.pulsar_remote_github_conf }
+        let(:arguments) { 'your_app staging' }
+        let(:output)    { "Deployed your_app on staging!\n" }
+
+        it { is_expected.to match(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
     end
   end
 
   context 'when fails' do
-    context 'because of wrong directory'
-    context 'because of empty directory'
-    context 'because Capistrano failed'
+    subject { command }
+
+    context 'because of wrong directory' do
+      let(:repo) { './some-wrong-directory' }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
+
+    context 'because of empty directory' do
+      let(:repo) { RSpec.configuration.pulsar_empty_conf_path }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
+
+    context 'because Bundler failed' do
+      let(:repo) { RSpec.configuration.pulsar_wrong_bundle_conf_path }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
+
+    context 'because Capistrano failed' do
+      let(:repo) { RSpec.configuration.pulsar_wrong_cap_conf_path }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
   end
 end

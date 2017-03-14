@@ -31,19 +31,29 @@ module Pulsar
       if result.success?
         puts result.applications
       else
-        puts 'Failed to list application and stages.'
+        puts 'Failed to list application and environments.'
       end
     end
 
-    desc 'deploy APPLICATION STAGE', 'Run Capistrano to deploy APPLICATION on STAGE'
+    desc 'deploy APPLICATION ENVIRONMENT', 'Run Capistrano to deploy APPLICATION on ENVIRONMENT'
     long_desc <<-LONGDESC
-      `pulsar deploy APPLICATION STAGE` will generate the configuration for the
-      specified APPLICATION on STAGE from the configuration repo and run
+      `pulsar deploy APPLICATION ENVIRONMENT` will generate the configuration for the
+      specified APPLICATION on ENVIRONMENT from the configuration repo and run
       Capistrano on it.
     LONGDESC
     option :conf_repo, aliases: '-c'
-    def deploy(_application, _stage)
-      load_option_or_env!(:conf_repo)
+    def deploy(application, environment)
+      load_config
+      result = Pulsar::Deploy.call(
+        repository: load_option_or_env!(:conf_repo),
+        application: application, environment: environment
+      )
+
+      if result.success?
+        puts "Deployed #{application} on #{environment}!"
+      else
+        puts "Failed to deploy #{application} on #{environment}."
+      end
     end
 
     private
