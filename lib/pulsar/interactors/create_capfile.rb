@@ -7,7 +7,7 @@ module Pulsar
     def call
       default_capfile = "#{context.config_path}/apps/Capfile"
       app_capfile     = "#{context.config_path}/apps/#{context.application}/Capfile"
-      import_tasks    = "Dir.glob(\"**/*.rake\").each { |r| import r }"
+      import_tasks    = "Dir.glob(\"#{context.config_path}/recipes/**/*.rake\").each { |r| import r }"
 
       FileUtils.touch(context.capfile_path)
       Rake.sh("cat #{default_capfile} >> #{context.capfile_path}") if File.exist?(default_capfile)
