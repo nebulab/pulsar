@@ -47,10 +47,10 @@ RSpec.describe 'Deploy' do
     subject { command }
 
     context 'deploys an application on a environment in the pulsar configuration' do
-      let(:output) { "blog deployed to production!\n" }
+      let(:output) { "Deployed blog on production!\n" }
 
       context 'from a local folder' do
-        pending { is_expected.to eql(output) }
+        it { is_expected.to match(output) }
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -62,21 +62,72 @@ RSpec.describe 'Deploy' do
       end
 
       context 'from a local repository' do
+        let(:repo) { RSpec.configuration.pulsar_local_conf_repo_path }
+
+        before do
+          FileUtils.cp_r(RSpec.configuration.pulsar_conf_path, repo)
+          `git init #{repo}`
+        end
+
         context 'uncommitted changes' do
-          context 'leaves the tmp folder empty'
+          it { is_expected.not_to match(output) }
+
+          context 'leaves the tmp folder empty' do
+            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+            before { command }
+
+            it { is_expected.to be_empty }
+          end
         end
 
         context 'committed changes' do
-          context 'leaves the tmp folder empty'
+          before do
+            `git -C #{repo} add . && git -C #{repo} commit -m 'Initial Commit'`
+          end
+
+          it { is_expected.to match(output) }
+
+          context 'leaves the tmp folder empty' do
+            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+            before { command }
+
+            it { is_expected.to be_empty }
+          end
         end
       end
 
       context 'from a remote Git repository' do
-        context 'leaves the tmp folder empty'
+        let(:repo)      { RSpec.configuration.pulsar_remote_git_conf }
+        let(:arguments) { 'your_app staging' }
+        let(:output)    { "Deployed your_app on staging!\n" }
+
+        it { is_expected.to match(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
 
       context 'from a remote GitHub repository' do
-        context 'leaves the tmp folder empty'
+        let(:repo)      { RSpec.configuration.pulsar_remote_github_conf }
+        let(:arguments) { 'your_app staging' }
+        let(:output)    { "Deployed your_app on staging!\n" }
+
+        it { is_expected.to match(output) }
+
+        context 'leaves the tmp folder empty' do
+          subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
+
+          before { command }
+
+          it { is_expected.to be_empty }
+        end
       end
     end
   end
