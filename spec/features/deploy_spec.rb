@@ -4,7 +4,7 @@ RSpec.describe 'Deploy' do
   subject { -> { command } }
 
   let(:command) do
-    `CAP_DRY_RUN=true ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
+    `DRY_RUN=true ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
   end
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }
@@ -133,8 +133,30 @@ RSpec.describe 'Deploy' do
   end
 
   context 'when fails' do
-    context 'because of wrong directory'
-    context 'because of empty directory'
-    context 'because Capistrano failed'
+    subject { command }
+
+    context 'because of wrong directory' do
+      let(:repo) { './some-wrong-directory' }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
+
+    context 'because of empty directory' do
+      let(:repo) { RSpec.configuration.pulsar_empty_conf_path }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
+
+    context 'because Bundler failed' do
+      let(:repo) { RSpec.configuration.pulsar_wrong_bundle_conf_path }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
+
+    context 'because Capistrano failed' do
+      let(:repo) { RSpec.configuration.pulsar_wrong_cap_conf_path }
+
+      it { is_expected.to match("Failed to deploy blog on production.\n") }
+    end
   end
 end

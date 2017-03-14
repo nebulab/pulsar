@@ -8,8 +8,11 @@ module Pulsar
       Dir.chdir(context.cap_path) do
         gemfile_env = "BUNDLE_GEMFILE=#{context.config_path}/Gemfile"
         bundle_env  = "BUNDLE_PATH=#{context.bundle_path}"
+        cap_opts    = ENV['DRY_RUN'] ? '--dry-run ' : nil
+        out_redir   = ENV['DRY_RUN'] ? '> /dev/null 2>&1' : nil
+        cap_cmd     = "bundle exec cap #{cap_opts}#{context.environment} deploy"
 
-        system("#{gemfile_env} #{bundle_env} bundle exec cap #{'--dry-run ' if ENV['CAP_DRY_RUN']}#{context.environment} deploy")
+        context.fail! unless system("#{gemfile_env} #{bundle_env} #{cap_cmd}#{out_redir}")
       end
     rescue
       context.fail!
