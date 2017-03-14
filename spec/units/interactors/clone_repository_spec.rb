@@ -7,8 +7,11 @@ RSpec.describe Pulsar::CloneRepository do
 
   describe '.call' do
     subject do
-      described_class.call(config_path: run_path,
-                           repository: repo, repository_type: type)
+      described_class.call(
+        config_path: run_path,
+        repository: repo,
+        repository_type: type
+      )
     end
 
     let(:repo) { './my-conf' }
