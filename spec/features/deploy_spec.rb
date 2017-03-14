@@ -4,7 +4,7 @@ RSpec.describe 'Deploy' do
   subject { -> { command } }
 
   let(:command) do
-    `ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
+    `CAP_DRY_RUN=true ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
   end
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }

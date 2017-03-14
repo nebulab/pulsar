@@ -9,7 +9,7 @@ module Pulsar
         gemfile_env = "BUNDLE_GEMFILE=#{context.config_path}/Gemfile"
         bundle_env  = "BUNDLE_PATH=#{context.bundle_path}"
 
-        system("#{gemfile_env} #{bundle_env} bundle exec cap #{context.environment} deploy")
+        system("#{gemfile_env} #{bundle_env} bundle exec cap #{'--dry-run ' if ENV['CAP_DRY_RUN']}#{context.environment} deploy")
       end
     rescue
       context.fail!

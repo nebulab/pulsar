@@ -40,7 +40,7 @@ RSpec.describe Pulsar::CreateCapfile do
             "Dir.glob(\"#{RSpec.configuration.pulsar_conf_path}/recipes/**/*.rake\").each { |r| import r }"
           end
 
-          it { is_expected.to match(/# Defaults Capfile\n# App Defaults Capfile/) }
+          it { is_expected.to match(/# Defaults Capfile.*# App Defaults Capfile/m) }
           it { is_expected.to include(load_recipes) }
         end
       end
