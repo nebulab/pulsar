@@ -1,4 +1,0 @@
-source 'https://rubygems.org'
-
-# Require from local gem
-gem 'pulsar', path: '../../../../'

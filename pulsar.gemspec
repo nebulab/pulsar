@@ -6,8 +6,8 @@ require 'pulsar/version'
 Gem::Specification.new do |gem|
   gem.name           = 'pulsar'
   gem.version        = Pulsar::VERSION
-  gem.authors        = ['Alberto Vena', 'Matteo Latini']
-  gem.email          = ['info@nebulab.it']
+  gem.authors        = ['Matteo Latini']
+  gem.email          = ['matteolatini@nebulab.it']
   gem.homepage       = 'http://pulsar.nebulab.it'
   gem.description    = 'Manage your Capistrano deployments with ease'
   gem.summary        = '
@@ -17,16 +17,18 @@ Gem::Specification.new do |gem|
   '
 
   gem.files          = `git ls-files`.split($/)
-  gem.executables    = gem.files.grep(/^bin\//).map { |f| File.basename(f) }
-  gem.test_files     = gem.files.grep(/^(test|spec|features)\//)
+  gem.executables    = gem.files.grep(%r{^bin\/}).map { |f| File.basename(f) }
+  gem.test_files     = gem.files.grep(%r{^(test|spec|features)\/})
   gem.require_paths  = ['lib']
 
-  gem.add_dependency 'clamp', '~> 0.5'
-  gem.add_dependency 'bundler', '~> 1.2'
-  gem.add_dependency 'colored', '~> 1.2'
+  gem.add_dependency 'bundler', '~> 1.8'
+  gem.add_dependency 'thor', '~> 0.19'
+  gem.add_dependency 'interactor', '~> 3.1'
+  gem.add_dependency 'dotenv', '~> 2.0'
 
-  gem.add_development_dependency 'rake', '10.3.2'
-  gem.add_development_dependency 'rspec', '3.1.0'
-  gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.4.6'
-  gem.add_development_dependency 'rubocop', '~> 0.29.1'
+  gem.add_development_dependency 'rake', '~> 10.4'
+  gem.add_development_dependency 'rspec', '~> 3.2'
+  gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
+  gem.add_development_dependency 'rubocop', '~> 0.47'
+  gem.add_development_dependency 'timecop', '~> 0.8'
 end

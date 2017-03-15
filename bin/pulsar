@@ -2,4 +2,4 @@
 
 require 'pulsar'
 
-Pulsar::MainCommand.run
+Pulsar::CLI.start(ARGV)
