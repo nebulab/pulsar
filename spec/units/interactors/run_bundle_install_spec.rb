@@ -10,8 +10,11 @@ RSpec.describe Pulsar::RunBundleInstall do
       described_class.new(config_path: './config-path', bundle_path: './bundle-path')
     end
 
+    let(:bundle_env) do
+      'BUNDLE_GEMFILE=./config-path/Gemfile BUNDLE_PATH=./bundle-path'
+    end
     let(:bundle_install_cmd) do
-      "BUNDLE_GEMFILE=./config-path/Gemfile BUNDLE_PATH=./bundle-path bundle install"
+      "#{bundle_env} bundle check || #{bundle_env} bundle install"
     end
 
     before do
