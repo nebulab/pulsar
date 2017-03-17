@@ -42,6 +42,12 @@ RSpec.describe 'List' do
       let(:output) { "blog: production, staging\necommerce: staging\n" }
 
       context 'from a local folder' do
+        let(:repo) { Dir.mktmpdir }
+
+        before do
+          FileUtils.cp_r("#{RSpec.configuration.pulsar_conf_path}/.", repo)
+        end
+
         it { is_expected.to eql(output) }
 
         context 'leaves the tmp folder empty' do

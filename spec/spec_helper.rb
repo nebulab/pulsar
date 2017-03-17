@@ -2,6 +2,7 @@ require 'rspec'
 require 'stringio'
 require 'fileutils'
 require 'timecop'
+require 'tmpdir'
 require 'codeclimate-test-reporter'
 require 'pulsar'
 
