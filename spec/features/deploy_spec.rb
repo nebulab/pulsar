@@ -50,6 +50,12 @@ RSpec.describe 'Deploy' do
       let(:output) { "Deployed blog on production!\n" }
 
       context 'from a local folder' do
+        let(:repo) { Dir.mktmpdir }
+
+        before do
+          FileUtils.cp_r("#{RSpec.configuration.pulsar_conf_path}/.", repo)
+        end
+
         it { is_expected.to match(output) }
 
         context 'leaves the tmp folder empty' do
