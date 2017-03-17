@@ -1,5 +1,7 @@
 module Pulsar
   class CLI < Thor
+    map %w[--version -v] => :__print_version
+
     desc 'install [DIRECTORY]', 'Install initial repository in DIRECTORY'
     long_desc <<-LONGDESC
       `pulsar install` will install the initial pulsar repository in the
@@ -54,6 +56,11 @@ module Pulsar
       else
         puts "Failed to deploy #{application} on #{environment}."
       end
+    end
+
+    desc "--version, -v", "print the version"
+    def __print_version
+      puts Pulsar::VERSION
     end
 
     private
