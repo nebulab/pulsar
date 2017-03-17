@@ -31,10 +31,7 @@ RSpec.describe Pulsar::IdentifyRepositoryType do
           end
 
           context 'is a git repository' do
-            before do
-              allow(Rake).to receive(:sh).and_return(true)
-              allow(File).to receive(:exist?).and_return(true)
-            end
+            before { allow(Rake).to receive(:sh).and_return(true) }
 
             it { is_expected.to eql :git }
           end
