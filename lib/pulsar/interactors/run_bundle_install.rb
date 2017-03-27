@@ -15,7 +15,7 @@ module Pulsar
         context.fail! unless system("#{bundle_cmd}#{out_redir}")
       end
     rescue
-      context.fail!
+      context.fail! error: $!
     end
 
     private
