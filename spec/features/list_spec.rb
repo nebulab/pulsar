@@ -134,13 +134,13 @@ RSpec.describe 'List' do
     context 'because of wrong directory' do
       let(:repo) { './some-wrong-directory' }
 
-      it { is_expected.to eql "Failed to list application and environments.\n" }
+      it { is_expected.to match "Failed to list application and environments.\n" }
     end
 
     context 'because of empty directory' do
       let(:repo) { RSpec.configuration.pulsar_empty_conf_path }
 
-      it { is_expected.to eql "Failed to list application and environments.\n" }
+      it { is_expected.to match "Failed to list application and environments.\n" }
     end
   end
 end
