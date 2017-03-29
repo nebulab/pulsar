@@ -132,7 +132,7 @@ RSpec.describe 'List' do
     subject { command }
 
     context 'because of wrong directory' do
-      let(:repo) { './some-wrong-directory' }
+      let(:repo) { './some-non-existent-directory' }
 
       it { is_expected.to match "Failed to list application and environments.\n" }
     end

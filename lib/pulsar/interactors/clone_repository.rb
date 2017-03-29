@@ -11,13 +11,13 @@ module Pulsar
       when :folder then copy_local_folder
       end
     rescue
-      context.fail!
+      context_fail!
     end
 
     private
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
+      context_fail! if context.config_path.nil? ||
                        context.repository.nil? ||
                        context.repository_type.nil?
     end
@@ -30,6 +30,8 @@ module Pulsar
       Rake.sh(
         "#{cmd} #{opts} #{context.repository} #{context.config_path} #{quiet}"
       )
+    rescue
+      context_fail! errors: "No repository found at #{context.repository}"
     end
 
     def clone_github_repository
@@ -44,6 +46,7 @@ module Pulsar
     end
 
     def copy_local_folder
+      context_fail! errors: "No repository found at #{context.repository}" unless File.exist? context.repository
       FileUtils.cp_r("#{context.repository}/.", context.config_path)
     end
   end

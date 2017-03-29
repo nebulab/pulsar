@@ -12,14 +12,14 @@ module Pulsar
         context.repository_type = github_repository? ? :github : :git
       end
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
 
     def validate_input!
-      context.fail! if context.repository.nil?
-      context.fail! if context.repository_location.nil?
+      context_fail! if context.repository.nil?
+      context_fail! if context.repository_location.nil?
     end
 
     def git_repository?

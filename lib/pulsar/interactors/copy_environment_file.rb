@@ -10,7 +10,7 @@ module Pulsar
       FileUtils.mkdir_p(context.cap_deploy_path)
       FileUtils.cp(env_file, context.environment_file_path)
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
@@ -21,7 +21,7 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
+      context_fail! if context.config_path.nil? ||
                        context.cap_path.nil? ||
                        context.application.nil? ||
                        context.environment.nil?

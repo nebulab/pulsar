@@ -10,7 +10,7 @@ module Pulsar
         context.applications << "#{File.basename(app)}: #{stages_for(app)}"
       end
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
@@ -20,11 +20,11 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil?
+      context_fail! errors: "Empty config path" if context.config_path.nil?
     end
 
     def validate_output!
-      context.fail! if context.applications.empty?
+      context_fail! errors: "No application found for repository at #{context.repository}" if context.applications.empty?
     end
 
     def each_application_path

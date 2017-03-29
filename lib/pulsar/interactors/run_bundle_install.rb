@@ -12,16 +12,16 @@ module Pulsar
       bundle_cmd  = "#{cmd_env} bundle check || #{cmd_env} bundle install"
 
       Bundler.with_clean_env do
-        context.fail! unless system("#{bundle_cmd}#{out_redir}")
+        context_fail! unless system("#{bundle_cmd}#{out_redir}")
       end
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
+      context_fail! if context.config_path.nil? ||
                        context.bundle_path.nil?
     end
   end

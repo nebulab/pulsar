@@ -10,13 +10,13 @@ module Pulsar
 
       FileUtils.cp_r(File.expand_path(initial_repo), context.directory)
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
 
     def validate_input!
-      context.fail! if context.directory.nil?
+      context_fail! if context.directory.nil?
     end
   end
 end

@@ -34,7 +34,7 @@ module Pulsar
         puts result.applications
       else
         puts 'Failed to list application and environments.'
-        puts result.errors.inspect
+        puts result.errors
       end
     end
 

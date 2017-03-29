@@ -12,16 +12,16 @@ module Pulsar
         out_redir   = ENV['DRY_RUN'] ? '> /dev/null 2>&1' : nil
         cap_cmd     = "bundle exec cap #{cap_opts}#{context.environment} deploy"
 
-        context.fail! unless system("#{gemfile_env} #{bundle_env} #{cap_cmd}#{out_redir}")
+        context_fail! errors: "Capistrano command failed!" unless system("#{gemfile_env} #{bundle_env} #{cap_cmd}#{out_redir}")
       end
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
 
     def validate_input!
-      context.fail! if context.cap_path.nil? ||
+      context_fail! if context.cap_path.nil? ||
                        context.config_path.nil? ||
                        context.bundle_path.nil? ||
                        context.environment.nil?

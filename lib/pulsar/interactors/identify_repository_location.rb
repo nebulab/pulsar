@@ -11,13 +11,13 @@ module Pulsar
                                       :remote
                                     end
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
 
     def validate_input!
-      context.fail! if context.repository.nil?
+      context_fail! if context.repository.nil?
     end
   end
 end
