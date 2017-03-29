@@ -24,7 +24,7 @@ module Pulsar
     end
 
     def validate_output!
-      context.fail! if context.applications.empty?
+      context.fail! error: "No application found on repository #{context.repository}" if context.applications.empty?
     end
 
     def each_application_path
