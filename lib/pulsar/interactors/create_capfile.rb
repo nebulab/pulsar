@@ -14,7 +14,7 @@ module Pulsar
       Rake.sh("cat #{app_capfile}     >> #{context.capfile_path}") if File.exist?(app_capfile)
       Rake.sh("echo '#{import_tasks}' >> #{context.capfile_path}")
     rescue
-      context.fail!
+      context.fail! error: $!
     end
 
     private

@@ -10,7 +10,7 @@ module Pulsar
       FileUtils.mkdir_p(context.cap_deploy_path)
       FileUtils.cp(env_file, context.environment_file_path)
     rescue
-      context.fail!
+      context.fail! error: $!
     end
 
     private

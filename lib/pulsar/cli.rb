@@ -17,6 +17,7 @@ module Pulsar
         puts 'Successfully created intial repo!'
       else
         puts 'Failed to create intial repo.'
+        puts result.error.message
       end
     end
 
@@ -34,6 +35,7 @@ module Pulsar
         puts result.applications
       else
         puts 'Failed to list application and environments.'
+        puts result.error.message
       end
     end
 
@@ -55,6 +57,7 @@ module Pulsar
         puts "Deployed #{application} on #{environment}!"
       else
         puts "Failed to deploy #{application} on #{environment}."
+        puts result.error.message
       end
     end
 
