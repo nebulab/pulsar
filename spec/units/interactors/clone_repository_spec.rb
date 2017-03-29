@@ -20,6 +20,7 @@ RSpec.describe Pulsar::CloneRepository do
     context 'success' do
       context 'when repository_type is :folder' do
         let(:type) { :folder }
+        let(:repo) { "#{RSpec.configuration.pulsar_conf_path}" }
 
         before do
           expect(FileUtils).to receive(:cp_r).with("#{repo}/.", run_path).ordered

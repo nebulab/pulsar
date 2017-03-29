@@ -14,7 +14,7 @@ module Pulsar
       Rake.sh("cat #{app_capfile}     >> #{context.capfile_path}") if File.exist?(app_capfile)
       Rake.sh("echo '#{import_tasks}' >> #{context.capfile_path}")
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
@@ -24,7 +24,7 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
+      context_fail! if context.config_path.nil? ||
                        context.cap_path.nil? ||
                        context.application.nil?
     end

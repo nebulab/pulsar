@@ -18,7 +18,7 @@ RSpec.describe 'Install' do
   end
 
   context 'when succeeds' do
-    it { is_expected.to eql "Successfully created intial repo!\n" }
+    it { is_expected.to match "Successfully created intial repo!\n" }
 
     context 'creates a directory' do
       subject { -> { command } }
@@ -55,7 +55,7 @@ RSpec.describe 'Install' do
   context 'when fails' do
     let(:arguments) { '/pulsar-conf' }
 
-    it { is_expected.to eql "Failed to create intial repo.\n" }
+    it { is_expected.to match "Failed to create intial repo.\n" }
 
     context 'does not create a directory' do
       subject { -> { command } }

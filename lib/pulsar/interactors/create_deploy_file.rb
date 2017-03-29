@@ -13,7 +13,7 @@ module Pulsar
       Rake.sh("cat #{default_deploy} >> #{context.deploy_file_path}") if File.exist?(default_deploy)
       Rake.sh("cat #{app_deploy}     >> #{context.deploy_file_path}") if File.exist?(app_deploy)
     rescue
-      context.fail!
+      context_fail! errors: $!.message
     end
 
     private
@@ -24,7 +24,7 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
+      context_fail! if context.config_path.nil? ||
                        context.cap_path.nil? ||
                        context.application.nil?
     end
