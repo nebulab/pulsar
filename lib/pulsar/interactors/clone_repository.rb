@@ -11,7 +11,7 @@ module Pulsar
       when :folder then copy_local_folder
       end
     rescue
-      context.fail!
+      context.fail! error: $!.message
     end
 
     private
