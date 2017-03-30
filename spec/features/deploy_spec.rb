@@ -114,6 +114,7 @@ RSpec.describe 'Deploy' do
       let(:repo) { RSpec.configuration.pulsar_empty_conf_path }
 
       it { is_expected.to match("Failed to deploy blog on production.\n") }
+      it { is_expected.to match "No application found on repository #{RSpec.configuration.pulsar_empty_conf_path}\n" }
     end
 
     context 'because Bundler failed' do

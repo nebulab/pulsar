@@ -14,6 +14,7 @@ RSpec.describe Pulsar::Deploy do
         Pulsar::IdentifyRepositoryType,
         Pulsar::CreateRunDirs,
         Pulsar::CloneRepository,
+        Pulsar::AddApplications,
         Pulsar::CreateCapfile,
         Pulsar::CreateDeployFile,
         Pulsar::CopyEnvironmentFile,
