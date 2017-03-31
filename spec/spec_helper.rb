@@ -25,7 +25,7 @@ RSpec.configure do |config|
   config.add_setting :pulsar_remote_git_conf
   config.add_setting :pulsar_remote_github_conf
 
-  config.pulsar_command = File.expand_path('./exe/pulsar')
+  config.pulsar_command = "ruby -Ilib #{File.expand_path('./exe/pulsar')}"
   config.pulsar_conf_path = File.expand_path('./spec/support/dummies/conf/dir')
   config.pulsar_empty_conf_path = File.expand_path('./spec/support/dummies/conf/empty')
   config.pulsar_wrong_cap_conf_path = File.expand_path('./spec/support/dummies/conf/wrong_cap')

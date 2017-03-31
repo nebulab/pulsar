@@ -4,7 +4,7 @@ RSpec.describe 'Install' do
   subject { command }
 
   let(:command) do
-    `ruby #{RSpec.configuration.pulsar_command} install #{arguments}`
+    `#{RSpec.configuration.pulsar_command} install #{arguments}`
   end
 
   let(:arguments) { nil }

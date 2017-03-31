@@ -4,7 +4,7 @@ RSpec.describe 'Version' do
   subject { command }
 
   let(:command) do
-    `ruby #{RSpec.configuration.pulsar_command} #{arguments}`
+    `#{RSpec.configuration.pulsar_command} #{arguments}`
   end
 
   let(:arguments) { "--version" }

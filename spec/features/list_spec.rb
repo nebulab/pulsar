@@ -4,7 +4,7 @@ RSpec.describe 'List' do
   subject { -> { command } }
 
   let(:command) do
-    `ruby #{RSpec.configuration.pulsar_command} list #{arguments}`
+    `#{RSpec.configuration.pulsar_command} list #{arguments}`
   end
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }
