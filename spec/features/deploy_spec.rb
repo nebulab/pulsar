@@ -9,7 +9,9 @@ RSpec.describe 'Deploy' do
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }
   let(:options)   { "--conf-repo #{repo}" }
-  let(:arguments) { 'blog production' }
+  let(:app)       { 'blog' }
+  let(:stage)     { 'production' }
+  let(:arguments) { "#{app} #{stage}" }
 
   context 'via a subcommand named deploy' do
     let(:error) { /Could not find command/ }
@@ -37,7 +39,8 @@ RSpec.describe 'Deploy' do
   end
 
   context 'requires application and environment arguments' do
-    let(:arguments) { nil }
+    let(:app) { nil }
+    let(:stage) { nil }
     let(:error)     { /Usage: "pulsar deploy APPLICATION ENVIRONMENT"/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
@@ -69,7 +72,8 @@ RSpec.describe 'Deploy' do
 
       context 'from a remote Git repository' do
         let(:repo)      { RSpec.configuration.pulsar_remote_git_conf }
-        let(:arguments) { 'your_app staging' }
+        let(:app)       { 'your_app' }
+        let(:stage)     { 'staging' }
         let(:output)    { "Deployed your_app on staging!\n" }
 
         it { is_expected.to match(output) }
@@ -85,7 +89,8 @@ RSpec.describe 'Deploy' do
 
       context 'from a remote GitHub repository' do
         let(:repo)      { RSpec.configuration.pulsar_remote_github_conf }
-        let(:arguments) { 'your_app staging' }
+        let(:app)       { 'your_app' }
+        let(:stage)     { 'staging' }
         let(:output)    { "Deployed your_app on staging!\n" }
 
         it { is_expected.to match(output) }
