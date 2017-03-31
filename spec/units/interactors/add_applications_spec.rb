@@ -19,7 +19,7 @@ RSpec.describe Pulsar::AddApplications do
       context 'returns a list of applications and stages' do
         subject { described_class.call(config_path: './my-conf').applications }
 
-        it { is_expected.to eql(['blog: production, staging']) }
+        it { is_expected.to eql('blog' => %w(production staging)) }
       end
     end
 

@@ -41,7 +41,7 @@ RSpec.describe 'Deploy' do
   context 'requires application and environment arguments' do
     let(:app) { nil }
     let(:stage) { nil }
-    let(:error)     { /Usage: "pulsar deploy APPLICATION ENVIRONMENT"/ }
+    let(:error) { /Usage: "pulsar deploy APPLICATION ENVIRONMENT"/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
   end

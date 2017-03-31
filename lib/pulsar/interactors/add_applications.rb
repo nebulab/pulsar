@@ -7,7 +7,7 @@ module Pulsar
 
     def call
       each_application_path do |app|
-        context.applications << "#{File.basename(app)}: #{stages_for(app)}"
+        context.applications[File.basename(app)] = stages_for(app)
       end
     rescue
       context.fail! error: $!.message
@@ -16,7 +16,7 @@ module Pulsar
     private
 
     def prepare_context
-      context.applications = []
+      context.applications = {}
     end
 
     def validate_input!
@@ -42,7 +42,7 @@ module Pulsar
       end
       stage_files.reject do |stage|
         %w(deploy Capfile).include?(stage)
-      end.join(', ')
+      end
     end
   end
 end

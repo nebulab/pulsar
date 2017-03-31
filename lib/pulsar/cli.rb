@@ -32,7 +32,9 @@ module Pulsar
       result = Pulsar::List.call(repository: load_option_or_env!(:conf_repo))
 
       if result.success?
-        puts result.applications
+        result.applications.each do |app, stages|
+          puts "#{app}: #{stages.join(', ')}"
+        end
       else
         puts 'Failed to list application and environments.'
         puts result.error
