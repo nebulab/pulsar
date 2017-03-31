@@ -7,12 +7,10 @@ module Pulsar
     def call
       case context.repository_location
       when :local
-        context.repository_type = git_repository? ? :git : :folder
+        context.repository_type = :folder
       when :remote
         context.repository_type = github_repository? ? :github : :git
       end
-    rescue
-      context.fail!
     end
 
     private
@@ -20,12 +18,6 @@ module Pulsar
     def validate_input!
       context.fail! if context.repository.nil?
       context.fail! if context.repository_location.nil?
-    end
-
-    def git_repository?
-      git_status = "git -C #{context.repository} status >/dev/null 2>&1"
-
-      Rake.sh(git_status) { |status, _| status }
     end
 
     def github_repository?

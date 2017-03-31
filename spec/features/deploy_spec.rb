@@ -4,7 +4,7 @@ RSpec.describe 'Deploy' do
   subject { -> { command } }
 
   let(:command) do
-    `DRY_RUN=true ruby #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
+    `DRY_RUN=true #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
   end
 
   let(:repo)      { RSpec.configuration.pulsar_conf_path }
@@ -64,43 +64,6 @@ RSpec.describe 'Deploy' do
           before { command }
 
           it { is_expected.to be_empty }
-        end
-      end
-
-      context 'from a local repository' do
-        let(:repo) { RSpec.configuration.pulsar_local_conf_repo_path }
-
-        before do
-          FileUtils.cp_r(RSpec.configuration.pulsar_conf_path, repo)
-          `git init #{repo}`
-        end
-
-        context 'uncommitted changes' do
-          it { is_expected.not_to match(output) }
-
-          context 'leaves the tmp folder empty' do
-            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
-
-            before { command }
-
-            it { is_expected.to be_empty }
-          end
-        end
-
-        context 'committed changes' do
-          before do
-            `git -C #{repo} add . && git -C #{repo} commit -m 'Initial Commit'`
-          end
-
-          it { is_expected.to match(output) }
-
-          context 'leaves the tmp folder empty' do
-            subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
-
-            before { command }
-
-            it { is_expected.to be_empty }
-          end
         end
       end
 
