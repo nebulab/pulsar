@@ -134,12 +134,26 @@ RSpec.describe 'Deploy' do
       it { is_expected.to match("Failed to deploy blog on production.\n") }
     end
 
-    context 'because the application defined does not exists in the repository' do
+    context 'because the application does not exists in the repository' do
       let(:repo)        { RSpec.configuration.pulsar_conf_path }
       let(:app)         { 'foobuzz' }
       let(:environment) { 'staging' }
 
       it { is_expected.to match("The application foobuzz does not exist in your repository") }
+    end
+
+    context 'because the environment does not exists for the application' do
+      let(:repo)        { RSpec.configuration.pulsar_conf_path }
+      let(:app)         { 'blog' }
+      let(:environment) { 'foobuzz' }
+
+      it { is_expected.to match("The application blog does not have an environment called foobuzz") }
+
+      context 'but \'no application error\' message takes precedence' do
+        let(:app) { 'foobuzz' }
+
+        it { is_expected.to match("The application foobuzz does not exist in your repository") }
+      end
     end
   end
 end

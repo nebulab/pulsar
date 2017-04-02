@@ -13,7 +13,10 @@ RSpec.describe Pulsar::CopyEnvironmentFile do
     let(:args) do
       {
         config_path: RSpec.configuration.pulsar_conf_path,
-        cap_path: cap_path, application: 'blog', environment: 'production'
+        cap_path: cap_path,
+        applications: { 'blog' => %w(production staging) },
+        application: 'blog',
+        environment: 'production'
       }
     end
 
