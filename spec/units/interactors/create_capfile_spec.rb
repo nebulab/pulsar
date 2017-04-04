@@ -13,7 +13,7 @@ RSpec.describe Pulsar::CreateCapfile do
     let(:args) do
       {
         config_path: RSpec.configuration.pulsar_conf_path,
-        cap_path: cap_path, application: 'blog'
+        cap_path: cap_path, application: 'blog', applications: { 'blog' => %w(staging) }
       }
     end
 

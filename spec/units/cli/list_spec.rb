@@ -27,10 +27,10 @@ RSpec.describe Pulsar::CLI do
       context 'success' do
         subject { -> { described_instance.list } }
 
-        let(:applications) { 'blog: staging' }
+        let(:applications) { { 'blog' => %w(staging) } }
         let(:result) { spy(success?: true, applications: applications) }
 
-        it { is_expected.to output(/#{applications}/).to_stdout }
+        it { is_expected.to output(/blog: staging/).to_stdout }
       end
 
       context 'failure' do
@@ -62,10 +62,10 @@ RSpec.describe Pulsar::CLI do
       context 'success' do
         subject { -> { described_instance.list } }
 
-        let(:applications) { 'blog: staging' }
+        let(:applications) { { 'blog' => %w(staging) } }
         let(:result) { spy(success?: true, applications: applications) }
 
-        it { is_expected.to output(/#{applications}/).to_stdout }
+        it { is_expected.to output(/blog: staging/).to_stdout }
       end
 
       context 'failure' do
@@ -89,10 +89,10 @@ RSpec.describe Pulsar::CLI do
       context 'success' do
         subject { -> { described_instance.list } }
 
-        let(:applications) { 'blog: staging' }
+        let(:applications) { { 'blog' => %w(staging) } }
         let(:result) { spy(success?: true, applications: applications) }
 
-        it { is_expected.to output(/#{applications}/).to_stdout }
+        it { is_expected.to output(/blog: staging/).to_stdout }
       end
 
       context 'failure' do

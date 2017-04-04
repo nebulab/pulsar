@@ -6,6 +6,7 @@ module Pulsar
              IdentifyRepositoryType,
              CreateRunDirs,
              CloneRepository,
+             AddApplications,
              CreateCapfile,
              CreateDeployFile,
              CopyEnvironmentFile,

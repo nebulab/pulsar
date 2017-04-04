@@ -11,7 +11,7 @@ module Pulsar
                                       :remote
                                     end
     rescue
-      context.fail!
+      context.fail! error: $!.message
     end
 
     private

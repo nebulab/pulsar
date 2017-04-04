@@ -11,7 +11,7 @@ module Pulsar
       when :folder then copy_local_folder
       end
     rescue
-      context.fail!
+      context.fail! error: $!.message
     end
 
     private
@@ -44,6 +44,7 @@ module Pulsar
     end
 
     def copy_local_folder
+      raise "No repository found at #{context.repository}" unless File.exist? context.repository
       FileUtils.cp_r("#{context.repository}/.", context.config_path)
     end
   end

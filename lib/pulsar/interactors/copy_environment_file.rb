@@ -10,7 +10,7 @@ module Pulsar
       FileUtils.mkdir_p(context.cap_deploy_path)
       FileUtils.cp(env_file, context.environment_file_path)
     rescue
-      context.fail!
+      context.fail! error: $!.message
     end
 
     private
@@ -24,7 +24,11 @@ module Pulsar
       context.fail! if context.config_path.nil? ||
                        context.cap_path.nil? ||
                        context.application.nil? ||
+                       context.applications.nil? ||
                        context.environment.nil?
+      unless context.applications[context.application].include? context.environment
+        context.fail! error: "The application #{context.application} does not have an environment called #{context.environment}"
+      end
     end
   end
 end

@@ -7,16 +7,16 @@ module Pulsar
 
     def call
       each_application_path do |app|
-        context.applications << "#{File.basename(app)}: #{stages_for(app)}"
+        context.applications[File.basename(app)] = stages_for(app)
       end
     rescue
-      context.fail!
+      context.fail! error: $!.message
     end
 
     private
 
     def prepare_context
-      context.applications = []
+      context.applications = {}
     end
 
     def validate_input!
@@ -24,7 +24,7 @@ module Pulsar
     end
 
     def validate_output!
-      context.fail! if context.applications.empty?
+      context.fail! error: "No application found on repository #{context.repository}" if context.applications.empty?
     end
 
     def each_application_path
@@ -42,7 +42,7 @@ module Pulsar
       end
       stage_files.reject do |stage|
         %w(deploy Capfile).include?(stage)
-      end.join(', ')
+      end
     end
   end
 end

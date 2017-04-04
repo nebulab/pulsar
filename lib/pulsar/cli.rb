@@ -17,6 +17,7 @@ module Pulsar
         puts 'Successfully created intial repo!'
       else
         puts 'Failed to create intial repo.'
+        puts result.error
       end
     end
 
@@ -31,9 +32,12 @@ module Pulsar
       result = Pulsar::List.call(repository: load_option_or_env!(:conf_repo))
 
       if result.success?
-        puts result.applications
+        result.applications.each do |app, stages|
+          puts "#{app}: #{stages.join(', ')}"
+        end
       else
         puts 'Failed to list application and environments.'
+        puts result.error
       end
     end
 
@@ -55,6 +59,7 @@ module Pulsar
         puts "Deployed #{application} on #{environment}!"
       else
         puts "Failed to deploy #{application} on #{environment}."
+        puts result.error
       end
     end
 
