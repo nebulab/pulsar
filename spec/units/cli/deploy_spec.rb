@@ -112,5 +112,27 @@ RSpec.describe Pulsar::CLI do
         it { is_expected.to output(fail_text).to_stdout }
       end
     end
+
+    context 'when an error is reported' do
+      subject { -> { described_instance.deploy('blog', 'production') } }
+      before do
+        allow(described_instance).to receive(:options).and_return(conf_repo: repo)
+        described_instance.list
+      end
+
+      let(:repo) { RSpec.configuration.pulsar_conf_path }
+
+      context 'as a string' do
+        let(:result) { spy(success?: false, error: "A stub sets this error") }
+
+        it { is_expected.to output(/A stub sets this error/).to_stdout }
+      end
+
+      context 'as an exception object' do
+        let(:result) { spy(success?: false, error: RuntimeError.new("A stub sets this error")) }
+
+        it { is_expected.to output(/A stub sets this error/).to_stdout }
+      end
+    end
   end
 end

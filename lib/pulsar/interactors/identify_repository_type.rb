@@ -12,7 +12,7 @@ module Pulsar
         context.repository_type = github_repository? ? :github : :git
       end
     rescue
-      context.fail! error: $!.message
+      context.fail! error: $!
     end
 
     private

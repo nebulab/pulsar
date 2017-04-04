@@ -17,7 +17,7 @@ module Pulsar
         puts 'Successfully created intial repo!'
       else
         puts 'Failed to create intial repo.'
-        puts result.error
+        print_error result.error
       end
     end
 
@@ -37,7 +37,7 @@ module Pulsar
         end
       else
         puts 'Failed to list application and environments.'
-        puts result.error
+        print_error result.error
       end
     end
 
@@ -59,7 +59,7 @@ module Pulsar
         puts "Deployed #{application} on #{environment}!"
       else
         puts "Failed to deploy #{application} on #{environment}."
-        puts result.error
+        print_error result.error
       end
     end
 
@@ -86,6 +86,19 @@ module Pulsar
       end
 
       option_value
+    end
+
+    def print_error(error)
+      msg = if error.kind_of? StandardError
+              if error.backtrace
+                error.backtrace.unshift(error.message).join("\n")
+              else
+                error.message.to_s
+              end
+            else
+              error.to_s
+            end
+      puts msg
     end
   end
 end
