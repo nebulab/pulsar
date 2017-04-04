@@ -19,11 +19,11 @@ RSpec.describe Pulsar::RunCapistrano do
     end
 
     before do
-      allow(subject).to receive(:system)
+      allow(Rake).to receive(:sh).and_return(true)
       subject.run
     end
 
-    it { is_expected.to have_received(:system).with("#{bundle_cmd} #{cap_cmd}") }
+    it { expect(Rake).to have_received(:sh).with("#{bundle_cmd} #{cap_cmd}") }
   end
 
   context 'failure' do

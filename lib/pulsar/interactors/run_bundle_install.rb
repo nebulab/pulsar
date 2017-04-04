@@ -12,7 +12,7 @@ module Pulsar
       bundle_cmd  = "#{cmd_env} bundle check || #{cmd_env} bundle install"
 
       Bundler.with_clean_env do
-        raise "Bundler command failed!" unless system("#{bundle_cmd}#{out_redir}")
+        Rake.sh("#{bundle_cmd}#{out_redir}")
       end
     rescue
       context.fail!
