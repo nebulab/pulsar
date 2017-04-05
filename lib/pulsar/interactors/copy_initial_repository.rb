@@ -10,7 +10,7 @@ module Pulsar
 
       FileUtils.cp_r(File.expand_path(initial_repo), context.directory)
     rescue
-      context.fail! error: $!
+      context.fail! error: Pulsar::ContextError.new($!.message)
     end
 
     private

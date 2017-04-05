@@ -10,7 +10,7 @@ module Pulsar
         context.applications[File.basename(app)] = stages_for(app)
       end
     rescue
-      context.fail! error: $!
+      context.fail! error: Pulsar::ContextError.new($!.message)
     end
 
     private
