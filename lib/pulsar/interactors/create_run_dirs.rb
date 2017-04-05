@@ -1,6 +1,6 @@
 module Pulsar
   class CreateRunDirs
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
     def call
       context.timestamp   = Time.now.to_f

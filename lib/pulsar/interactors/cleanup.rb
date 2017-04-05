@@ -1,6 +1,6 @@
 module Pulsar
   class Cleanup
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
     def call
       FileUtils.rm_rf(context.run_path)

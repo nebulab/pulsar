@@ -1,7 +1,8 @@
 module Pulsar
   class CreateCapfile
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
+    validate_context_for :config_path, :cap_path, :application; :applications
     before :validate_input!, :prepare_context
 
     def call
@@ -24,9 +25,6 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil?
       unless context.applications.keys.include? context.application
         context.fail! error: "The application #{context.application} does not exist in your repository"
       end

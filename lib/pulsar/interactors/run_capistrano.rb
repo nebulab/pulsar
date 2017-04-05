@@ -1,8 +1,8 @@
 module Pulsar
   class RunCapistrano
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
-    before :validate_input!
+    validate_context_for :cap_path, :config_path, :bundle_path, :environment
 
     def call
       Dir.chdir(context.cap_path) do
@@ -16,15 +16,6 @@ module Pulsar
       end
     rescue
       context.fail! error: Pulsar::ContextError.new($!.message)
-    end
-
-    private
-
-    def validate_input!
-      context.fail! if context.cap_path.nil? ||
-                       context.config_path.nil? ||
-                       context.bundle_path.nil? ||
-                       context.environment.nil?
     end
   end
 end

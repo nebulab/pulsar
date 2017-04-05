@@ -1,8 +1,8 @@
 module Pulsar
   class RunBundleInstall
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
-    before :validate_input!
+    validate_context_for :config_path, :bundle_path
 
     def call
       gemfile_env = "BUNDLE_GEMFILE=#{context.config_path}/Gemfile"
@@ -16,13 +16,6 @@ module Pulsar
       end
     rescue
       context.fail!
-    end
-
-    private
-
-    def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.bundle_path.nil?
     end
   end
 end

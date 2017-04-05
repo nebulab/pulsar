@@ -1,8 +1,9 @@
 module Pulsar
   class AddApplications
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
-    before :validate_input!, :prepare_context
+    validate_context_for :config_path
+    before :prepare_context
     after :validate_output!
 
     def call
@@ -17,10 +18,6 @@ module Pulsar
 
     def prepare_context
       context.applications = {}
-    end
-
-    def validate_input!
-      context.fail! if context.config_path.nil?
     end
 
     def validate_output!

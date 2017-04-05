@@ -1,7 +1,8 @@
 module Pulsar
   class CopyEnvironmentFile
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
+    validate_context_for :config_path, :cap_path, :application, :applications, :environment
     before :validate_input!, :prepare_context
 
     def call
@@ -21,11 +22,6 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil? ||
-                       context.applications.nil? ||
-                       context.environment.nil?
       unless context.applications[context.application].include? context.environment
         context.fail! error: "The application #{context.application} does not have an environment called #{context.environment}"
       end

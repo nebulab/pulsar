@@ -1,8 +1,9 @@
 module Pulsar
   class CreateDeployFile
-    include Interactor
+    include Pulsar::ExtendedInteractor
 
-    before :validate_input!, :prepare_context
+    validate_context_for :config_path, :cap_path, :application
+    before :prepare_context
 
     def call
       default_deploy = "#{context.config_path}/apps/deploy.rb"
@@ -21,12 +22,6 @@ module Pulsar
     def prepare_context
       context.cap_config_path = "#{context.cap_path}/config"
       context.deploy_file_path = "#{context.cap_config_path}/deploy.rb"
-    end
-
-    def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil?
     end
   end
 end

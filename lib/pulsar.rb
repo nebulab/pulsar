@@ -9,6 +9,7 @@ module Pulsar
   require 'fileutils'
 
   require 'pulsar/errors'
+  require 'pulsar/extended_interactor'
   require 'pulsar/interactors/cleanup'
   require 'pulsar/interactors/create_run_dirs'
   require 'pulsar/interactors/add_applications'
