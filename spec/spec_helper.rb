@@ -1,15 +1,10 @@
+require 'support/coverage_setup'
 require 'rspec'
 require 'stringio'
 require 'fileutils'
 require 'timecop'
 require 'tmpdir'
-require 'codeclimate-test-reporter'
 require 'pulsar'
-
-#
-# Code coverage
-#
-CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   config.mock_with :rspec
