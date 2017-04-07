@@ -5,6 +5,7 @@ dependencies:
     - rvm install 2.2.6 --disable-binary
     - rvm install 2.3.3 --disable-binary
     - rvm install 2.4.0 --disable-binary
+    - mkdir $CIRCLE_ARTIFACTS/coverage $CIRCLE_ARTIFACTS/quality $CIRCLE_ARTIFACTS/security
   override:
     - rvm-exec 2.0.0 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"
     - rvm-exec 2.1.10 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"

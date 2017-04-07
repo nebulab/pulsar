@@ -1,3 +1,7 @@
+if ENV["CIRCLECI"]
+  require_relative '../../spec/support/coverage_setup'
+end
+
 module Pulsar
   class CLI < Thor
     map %w[--version -v] => :__print_version

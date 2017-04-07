@@ -12,6 +12,6 @@ RSpec.describe 'Version' do
   context 'via a --version flag' do
     let(:version) { "#{Pulsar::VERSION}\n" }
 
-    it { is_expected.to eql version }
+    it { is_expected.to match version }
   end
 end
