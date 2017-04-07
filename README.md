@@ -24,7 +24,7 @@ use Pulsar version `0.3.5` but, take care, that version is not maintained anymor
 
 ![Nebulab](http://nebulab.it/assets/images/public/logo.svg)
 
-Cangaroo is funded and maintained by the [Nebulab](http://nebulab.it/) team.
+Pulsar is funded and maintained by the [Nebulab](http://nebulab.it/) team.
 
 We firmly believe in the power of open-source. [Contact us](http://nebulab.it/contact-us/) if you like our work and you need help with your project design or development.
 
