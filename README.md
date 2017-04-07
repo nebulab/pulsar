@@ -19,3 +19,13 @@ Some of the benefits of using Pulsar:
 
 This version of Pulsar, version `1.0.0` only supports Capistrano v3. If you're looking for Capistrano v2 support you can
 use Pulsar version `0.3.5` but, take care, that version is not maintained anymore.
+
+## About
+
+![Nebulab](http://nebulab.it/assets/images/public/logo.svg)
+
+Pulsar is funded and maintained by the [Nebulab](http://nebulab.it/) team.
+
+We firmly believe in the power of open-source. [Contact us](http://nebulab.it/contact-us/) if you like our work and you need help with your project design or development.
+
+[license]: MIT-LICENSE
