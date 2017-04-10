@@ -1,16 +1,16 @@
 dependencies:
   pre:
-    - rvm install 2.0.0
-    - rvm install 2.1.10
-    - rvm install 2.2.6
-    - rvm install 2.3.3
-    - rvm install 2.4.0
+    - rvm install 2.0.0 --disable-binary
+    - rvm install 2.1.10 --disable-binary
+    - rvm install 2.2.6 --disable-binary
+    - rvm install 2.3.3 --disable-binary
+    - rvm install 2.4.0 --disable-binary
   override:
-    - rvm-exec 2.0.0 bash -c "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle"
-    - rvm-exec 2.1.10 bash -c "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle"
-    - rvm-exec 2.2.6 bash -c "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle"
-    - rvm-exec 2.3.3 bash -c "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle"
-    - rvm-exec 2.4.0 bash -c "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle"
+    - rvm-exec 2.0.0 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"
+    - rvm-exec 2.1.10 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"
+    - rvm-exec 2.2.6 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"
+    - rvm-exec 2.3.3 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"
+    - rvm-exec 2.4.0 bash -c "gem install bundler && (bundle check --path=vendor/bundle || bundle install --path=vendor/bundle)"
 test:
   pre:
     - git config --global user.email "circleci@nebulab.it" && git config --global user.name "Circle CI"
