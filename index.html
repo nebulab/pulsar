@@ -43,7 +43,7 @@
     <div class="row">
       <div class="centered ten columns">
         <h2>Manage your Capistrano deployments with ease</h2>
-        <p>Pulsar allows you to run capistrano tasks via a separate repository where all your deploy configurations are stored.</p>
+        <p>Pulsar allows you to run Capistrano tasks via a separate repository where all your deploy configurations are stored.</p>
       </div>
     </div>
     <div class="row">
@@ -71,9 +71,9 @@
         <h4>Installation</h4>
         <p>The most useful way of installing Pulsar is as a system gem:</p>
         <pre><code class="language-bash">$ gem install pulsar</code></pre>
-        <p>This will install two commands: <code>pulsar</code> and <code>pulsar-utils</code>. The first command is required to run capistrano, the other is for everything else.</p>
+        <p>This will install the <code>pulsar</code> command. It's required to run Capistrano, list your configured applications and stages and everything else.</p>
         <p>You'll need to create your own configuration repo:</p>
-        <pre><code class="language-bash">$ pulsar-utils init ~/Desktop/pulsar-conf</code></pre>
+        <pre><code class="language-bash">$ pulsar install ~/Desktop/pulsar-conf</code></pre>
         <p>This will create a basic start point for building your configuration repository. As soon as you're done configuring you should consider storing this folder as an actual git repository.</p>
       </div>
     </div>
@@ -88,28 +88,27 @@
 |── Gemfile
 ├── Gemfile.lock
 ├── apps
-│   ├── base.rb
+│   ├── Capfile
+│   ├── deploy.rb
 │   └── my_application
-│       ├── defaults.rb
+│       ├── Capfile
+│       ├── deploy.rb
 │       ├── production.rb
-│       ├── recipes
-│       │   └── custom_recipe.rb
 │       └── staging.rb
 └── recipes
     ├── generic
-    │   ├── cleanup.rb
-    │   ├── maintenance_mode.rb
-    │   ├── notify.rb
-    │   └── utils.rb
+    │   ├── maintenance_mode.rake
+    │   ├── notify.rake
+    │   └── utils.rake
     ├── rails
-    │   ├── passenger.rb
-    │   ├── repair_permissions.rb
-    │   ├── symlink_configs.rb
-    │   ├── unicorn.rb
-    │   └── whenever.rb
-    └── spree_1
-        └── symlink_assets.rb</pre></code>
-        <p>Pulsar uses these files to build capistrano configurations on the fly, depending on how you invoke the pulsar command. Since Pulsar it's basically a capistrano wrapper, the content of these files is plain old capistrano syntax.</p>
+    │   ├── passenger.rake
+    │   ├── repair_permissions.rake
+    │   ├── symlink_configs.rake
+    │   ├── unicorn.rake
+    │   └── whenever.rake
+    └── solidus_2
+        └── symlink_assets.rake</pre></code>
+        <p>Pulsar uses these files to build Capistrano configurations on the fly, depending on how you invoke the pulsar command. Since Pulsar it's basically a Capistrano wrapper, the content of these files is plain old Capistrano syntax.</p>
       </div>
     </div>
   </section>
@@ -119,33 +118,8 @@
       <div class="twelve columns">
         <h4>Usage</h4>
         <p>After the repository is ready, running Pulsar is straightforward. To <code>deploy my_application</code> to production:</p>
-        <pre><code class="language-bash">$ pulsar my_application production</code></pre>
-        <p>As a rule of thumb, anything that's added at the end of the command is passed to capistrano. Some examples:</p>
-        <pre><code class="language-bash">$ pulsar my_application production --tasks
+        <pre><code class="language-bash">$ pulsar deploy my_application production</code></pre>
 
-$ pulsar my_application staging deploy:migrations
-
-$ pulsar my_application staging shell
-
-#
-# Deploy multiple apps by using commas
-#
-$ pulsar my_app1,my_app2,my_app3 production
-
-#
-# Deploy multiple apps by using pattern matching
-# (uses Dir.glob)
-#
-$ pulsar my_app* production
-# or
-$ pulsar *worker staging</code></pre>
-        <p>In case you frequently work from a Rack application and would like a workflow similar to that of capistrano, Pulsar supports running from inside a Rack application directory. If you use this a lot, you should consider installing Pulsar via the application Gemfile.</p>
-        <p>When deploying from inside a Rack application you can omit the application name:</p>
-        <pre><code class="language-bash">$ cd /path/to/my_application
-
-$ pulsar production
-
-$ pulsar staging deploy:migrations</pre></code>
         <p>More in-depth documentation on <a href="https://github.com/nebulab/pulsar">Github</a>.</p>
       </div>
     </div>
