@@ -6,24 +6,39 @@ RSpec.describe Pulsar::RunCapistrano do
   it { is_expected.to be_kind_of(Interactor) }
 
   describe '.success' do
-    subject do
-      described_class.new(
+    subject { described_class.new context_params }
+    let(:context_params) do
+      {
         cap_path: RSpec.configuration.pulsar_conf_path, config_path: './config-path',
-        bundle_path: './bundle-path', environment: 'production'
-      )
+        bundle_path: './bundle-path', environment: 'production',
+        taskname: taskname
+      }
     end
-
-    let(:cap_cmd) { "cap production deploy" }
     let(:bundle_cmd) do
       "BUNDLE_GEMFILE=./config-path/Gemfile BUNDLE_PATH=./bundle-path bundle exec"
     end
 
-    before do
-      allow(Rake).to receive(:sh).and_return(true)
-      subject.run
+    context 'for plain old deploy command' do
+      let(:taskname) { 'deploy' }
+      let(:cap_cmd)  { "cap production deploy" }
+      before do
+        allow(Rake).to receive(:sh).and_return(true)
+        subject.run
+      end
+
+      it { expect(Rake).to have_received(:sh).with("#{bundle_cmd} #{cap_cmd}") }
     end
 
-    it { expect(Rake).to have_received(:sh).with("#{bundle_cmd} #{cap_cmd}") }
+    context 'for other capistrano tasks' do
+      let(:taskname) { 'deploy:check' }
+      let(:cap_cmd)  { "cap production deploy:check" }
+      before do
+        allow(Rake).to receive(:sh).and_return(true)
+        subject.run
+      end
+
+      it { expect(Rake).to have_received(:sh).with("#{bundle_cmd} #{cap_cmd}") }
+    end
   end
 
   context 'failure' do

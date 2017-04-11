@@ -57,13 +57,32 @@ module Pulsar
       load_config
       result = Pulsar::Deploy.call(
         repository: load_option_or_env!(:conf_repo),
-        application: application, environment: environment
+        application: application, environment: environment,
+        taskname: 'deploy'
       )
 
       if result.success?
         puts "Deployed #{application} on #{environment}!"
       else
         puts "Failed to deploy #{application} on #{environment}."
+        puts result.error
+      end
+    end
+
+    desc 'task TASKNAME APPLICATION ENVIRONMENT', 'Run Capistrano task for APPLICATION on ENVIRONMENT'
+    option :conf_repo, aliases: '-c'
+    def task(taskname, application, environment)
+      load_config
+      result = Pulsar::Deploy.call(
+        repository: load_option_or_env!(:conf_repo),
+        application: application, environment: environment,
+        taskname: taskname
+      )
+
+      if result.success?
+        puts "Executed task #{taskname} for #{application} on #{environment}!"
+      else
+        puts "Failed to execute task #{taskname} for #{application} on #{environment}."
         puts result.error
       end
     end
