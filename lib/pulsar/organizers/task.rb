@@ -1,5 +1,5 @@
 module Pulsar
-  class Deploy
+  class Task
     include Interactor::Organizer
 
     organize IdentifyRepositoryLocation,

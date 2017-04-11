@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Pulsar::CLI do
-  subject { Pulsar::Deploy }
+  subject { Pulsar::Task }
 
   let(:described_instance) { described_class.new }
   let(:fail_text) { /Failed to deploy blog on production./ }
@@ -12,7 +12,7 @@ RSpec.describe Pulsar::CLI do
 
     before do
       allow($stdout).to receive(:puts)
-      allow(Pulsar::Deploy).to receive(:call).and_return(result)
+      allow(Pulsar::Task).to receive(:call).and_return(result)
     end
 
     context 'when using --conf-repo' do

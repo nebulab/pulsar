@@ -55,7 +55,7 @@ module Pulsar
     option :conf_repo, aliases: '-c'
     def deploy(application, environment)
       load_config
-      result = Pulsar::Deploy.call(
+      result = Pulsar::Task.call(
         repository: load_option_or_env!(:conf_repo),
         application: application, environment: environment,
         taskname: 'deploy'
@@ -73,7 +73,7 @@ module Pulsar
     option :conf_repo, aliases: '-c'
     def task(taskname, application, environment)
       load_config
-      result = Pulsar::Deploy.call(
+      result = Pulsar::Task.call(
         repository: load_option_or_env!(:conf_repo),
         application: application, environment: environment,
         taskname: taskname
