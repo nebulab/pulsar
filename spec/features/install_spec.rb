@@ -18,7 +18,7 @@ RSpec.describe 'Install' do
   end
 
   context 'when succeeds' do
-    it { is_expected.to match "Successfully created intial repo!\n" }
+    it { is_expected.to eql "Successfully created intial repo!\n" }
 
     context 'creates a directory' do
       subject { -> { command } }
