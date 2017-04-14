@@ -26,9 +26,16 @@ module Pulsar
                        context.application.nil? ||
                        context.applications.nil? ||
                        context.environment.nil?
-      unless context.applications[context.application].include? context.environment
-        context.fail! error: "The application #{context.application} does not have an environment called #{context.environment}"
-      end
+
+      fail_on_missing_environment! unless environment_exist?
+    end
+
+    def environment_exist?
+      context.applications[context.application].include?(context.environment)
+    end
+
+    def fail_on_missing_environment!
+      context.fail! error: "The application #{context.application} does not have an environment called #{context.environment}"
     end
   end
 end

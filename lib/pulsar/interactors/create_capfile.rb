@@ -27,9 +27,16 @@ module Pulsar
       context.fail! if context.config_path.nil? ||
                        context.cap_path.nil? ||
                        context.application.nil?
-      unless context.applications.keys.include? context.application
-        context.fail! error: "The application #{context.application} does not exist in your repository"
-      end
+
+      fail_on_missing_application! unless application_exists?
+    end
+
+    def application_exists?
+      context.applications.keys.include? context.application
+    end
+
+    def fail_on_missing_application!
+      context.fail! error: "The application #{context.application} does not exist in your repository"
     end
   end
 end

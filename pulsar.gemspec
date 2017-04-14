@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pulsar/version'
@@ -29,7 +28,8 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rake', '~> 10.4'
   gem.add_development_dependency 'rspec', '~> 3.2'
-  gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
   gem.add_development_dependency 'rubocop', '~> 0.47'
   gem.add_development_dependency 'timecop', '~> 0.8'
+  gem.add_development_dependency 'simplecov', '~> 0.14.0'
+  gem.add_development_dependency 'coveralls', '~> 0.8.20'
 end
