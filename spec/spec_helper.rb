@@ -1,3 +1,5 @@
+ENV['TEST'] = 'true'
+
 require 'support/coverage_setup'
 require 'rspec'
 require 'stringio'

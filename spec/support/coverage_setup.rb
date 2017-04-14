@@ -1,4 +1,10 @@
 require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
 
 # Save to CircleCI's artifacts directory if we're on CircleCI
 if ENV['CIRCLE_ARTIFACTS']
@@ -10,7 +16,7 @@ SimpleCov.minimum_coverage 99
 SimpleCov.minimum_coverage_by_file 90
 SimpleCov.refuse_coverage_drop
 
-if ENV['FEATURES_COVERAGE']
+if ENV['FEATURE_TESTS']
   SimpleCov.command_name 'features'
 
   # This is needed because otherwise SimpleCov will output some text at exit

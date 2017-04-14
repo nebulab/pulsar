@@ -31,4 +31,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rubocop', '~> 0.47'
   gem.add_development_dependency 'timecop', '~> 0.8'
   gem.add_development_dependency 'simplecov', '~> 0.14.0'
+  gem.add_development_dependency 'coveralls', '~> 0.8.20'
 end

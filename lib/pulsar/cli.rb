@@ -1,5 +1,5 @@
-if ENV['CIRCLECI']
-  ENV['FEATURES_COVERAGE'] = 'true'
+if ENV['TEST']
+  ENV['FEATURE_TESTS'] = 'true'
   require_relative '../../spec/support/coverage_setup'
 end
 
