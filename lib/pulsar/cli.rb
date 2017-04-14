@@ -1,4 +1,4 @@
-if ENV['TEST']
+if ENV['COVERAGE']
   ENV['FEATURE_TESTS'] = 'true'
   require_relative '../../spec/support/coverage_setup'
 end
