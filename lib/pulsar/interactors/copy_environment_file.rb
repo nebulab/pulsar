@@ -36,7 +36,7 @@ module Pulsar
     end
 
     def fail_on_missing_environment!
-      context.fail! error: "The application #{context.application} does not have an environment called #{context.environment}"
+      context.fail! error: Pulsar::ContextError.new("The application #{context.application} does not have an environment called #{context.environment}")
     end
   end
 end

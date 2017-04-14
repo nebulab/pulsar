@@ -90,7 +90,8 @@ RSpec.describe Pulsar::CreateCapfile do
             'The application wiki does not exist in your repository'
           end
 
-          it { is_expected.to eql(error) }
+          it { is_expected.to be_an_instance_of Pulsar::ContextError }
+          it { expect(subject.message).to eql(error) }
         end
       end
     end
