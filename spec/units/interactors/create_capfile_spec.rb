@@ -72,6 +72,27 @@ RSpec.describe Pulsar::CreateCapfile do
 
         it { is_expected.to be_a_failure }
       end
+
+      context 'when passing a missing application' do
+        let(:args) do
+          {
+            config_path: RSpec.configuration.pulsar_conf_path,
+            cap_path: cap_path, application: 'wiki', applications: { 'blog' => %w(staging) }
+          }
+        end
+
+        it { is_expected.to be_a_failure }
+
+        context 'shows a proper error message' do
+          subject { command.error }
+
+          let(:error) do
+            'The application wiki does not exist in your repository'
+          end
+
+          it { is_expected.to eql(error) }
+        end
+      end
     end
   end
 end
