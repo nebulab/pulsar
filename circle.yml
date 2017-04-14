@@ -64,4 +64,4 @@ test:
     - rvm-exec 2.1.10 bash -c "bundle exec rspec --color --format documentation spec"
     - rvm-exec 2.2.6 bash -c "bundle exec rspec --color --format documentation spec"
     - rvm-exec 2.3.3 bash -c "bundle exec rspec --color --format documentation spec"
-    - rvm-exec 2.4.0 bash -c "bundle exec rspec --color --format documentation spec"
+    - rvm-exec 2.4.0 bash -c "COVERAGE=true bundle exec rspec --color --format documentation spec"
