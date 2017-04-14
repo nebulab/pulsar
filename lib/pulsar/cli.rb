@@ -86,8 +86,7 @@ module Pulsar
       option_value   = options[option] || ENV[env_option]
 
       if option_value.nil? || option_value.empty?
-        fail RequiredArgumentMissingError,
-             exception_text
+        fail RequiredArgumentMissingError, exception_text
       end
 
       option_value

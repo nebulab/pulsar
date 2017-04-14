@@ -112,5 +112,13 @@ RSpec.describe Pulsar::CLI do
         it { is_expected.to output(fail_text).to_stdout }
       end
     end
+
+    context 'when no configuration repo is passed' do
+      context 'failure' do
+        subject { -> { described_instance.deploy('blog', 'production') } }
+
+        it { is_expected.to raise_error(Thor::RequiredArgumentMissingError) }
+      end
+    end
   end
 end

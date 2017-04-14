@@ -11,8 +11,6 @@ module Pulsar
       when :remote
         context.repository_type = github_repository? ? :github : :git
       end
-    rescue
-      context.fail! error: $!.message
     end
 
     private
