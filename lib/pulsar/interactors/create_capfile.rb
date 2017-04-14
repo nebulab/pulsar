@@ -2,7 +2,7 @@ module Pulsar
   class CreateCapfile
     include Pulsar::ExtendedInteractor
 
-    validate_context_for :config_path, :cap_path, :application; :applications
+    validate_context_for :config_path, :cap_path, :application, :applications
     before :validate_input!, :prepare_context
 
     def call
