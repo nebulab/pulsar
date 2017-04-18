@@ -29,9 +29,11 @@ if ENV['FEATURE_TESTS']
   end
 end
 
-SimpleCov.start do
-  add_group 'Interactors', 'lib/pulsar/interactors'
-  add_group 'Organizers', 'lib/pulsar/organizers'
+if ENV['COVERAGE']
+  SimpleCov.start do
+    add_group 'Interactors', 'lib/pulsar/interactors'
+    add_group 'Organizers', 'lib/pulsar/organizers'
 
-  add_filter 'spec/*'
+    add_filter 'spec/*'
+  end
 end
