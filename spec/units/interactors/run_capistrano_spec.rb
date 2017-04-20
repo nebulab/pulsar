@@ -19,8 +19,8 @@ RSpec.describe Pulsar::RunCapistrano do
     end
 
     context 'for plain old deploy command' do
+      let(:cap_cmd) { "cap production deploy" }
       let(:taskname) { 'deploy' }
-      let(:cap_cmd)  { "cap production deploy" }
       before do
         allow(Rake).to receive(:sh).and_return(true)
         subject.run
@@ -30,8 +30,8 @@ RSpec.describe Pulsar::RunCapistrano do
     end
 
     context 'for other capistrano tasks' do
+      let(:cap_cmd) { "cap production deploy:check" }
       let(:taskname) { 'deploy:check' }
-      let(:cap_cmd)  { "cap production deploy:check" }
       before do
         allow(Rake).to receive(:sh).and_return(true)
         subject.run
@@ -52,7 +52,7 @@ RSpec.describe Pulsar::RunCapistrano do
       subject do
         described_class.call(
           config_path: './config-path', bundle_path: './bundle-path',
-          environment: 'production'
+          environment: 'production', taskname: 'deploy:check'
         )
       end
 
@@ -63,17 +63,18 @@ RSpec.describe Pulsar::RunCapistrano do
       subject do
         described_class.call(
           cap_path: './cap-path', config_path: './config-path',
-          bundle_path: './bundle-path'
+          bundle_path: './bundle-path', taskname: 'deploy:check'
         )
       end
 
       it { is_expected.to be_a_failure }
     end
+
     context 'when no bundle_path context is passed' do
       subject do
         described_class.call(
           cap_path: './cap-path', config_path: './config-path',
-          environment: 'production'
+          environment: 'production', taskname: 'deploy:check'
         )
       end
 
@@ -84,7 +85,18 @@ RSpec.describe Pulsar::RunCapistrano do
       subject do
         described_class.call(
           cap_path: './cap-path', environment: 'production',
-          bundle_path: './bundle-path'
+          bundle_path: './bundle-path', taskname: 'deploy:check'
+        )
+      end
+
+      it { is_expected.to be_a_failure }
+    end
+
+    context 'when no taskname is passed' do
+      subject do
+        described_class.call(
+          cap_path: './cap-path', config_path: './config-path',
+          bundle_path: './bundle-path', environment: 'production'
         )
       end
 
@@ -95,10 +107,10 @@ RSpec.describe Pulsar::RunCapistrano do
       subject do
         described_class.call(
           cap_path: './cap-path', config_path: './config-path',
-          bundle_path: './bundle-path', environment: 'production'
+          bundle_path: './bundle-path', environment: 'production',
+          taskname: 'deploy:check'
         )
       end
-
       before { allow(Dir).to receive(:chdir).and_raise(RuntimeError) }
 
       it { is_expected.to be_a_failure }

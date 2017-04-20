@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Deploy' do
+RSpec.describe 'Task' do
   subject { -> { command } }
 
   let(:command) do
@@ -8,13 +8,13 @@ RSpec.describe 'Deploy' do
   end
 
   let(:repo)        { RSpec.configuration.pulsar_conf_path }
-  let(:options)     { "--conf-repo #{repo}" }
   let(:taskname)    { 'deploy:check' }
+  let(:options)     { "--conf-repo #{repo}" }
   let(:app)         { 'blog' }
   let(:environment) { 'production' }
   let(:arguments)   { "#{app} #{environment}" }
 
-  context 'via a subcommand named deploy' do
+  context 'via a subcommand named task' do
     let(:error) { /Could not find command/ }
 
     it { is_expected.not_to output(error).to_stderr_from_any_process }
@@ -51,7 +51,7 @@ RSpec.describe 'Deploy' do
     subject { command }
 
     context 'deploys an application on a environment in the pulsar configuration' do
-      let(:output) { "Executed task deploy:check for blog on production!\n" }
+      let(:output) { "Executed task deploy:check for blog on production!" }
 
       context 'from a local folder' do
         let(:repo) { Dir.mktmpdir }
