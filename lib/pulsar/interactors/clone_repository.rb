@@ -1,8 +1,9 @@
 module Pulsar
   class CloneRepository
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :config_path, :repository, :repository_type
+    validate_context_for! :config_path, :repository, :repository_type
 
     def call
       case context.repository_type
@@ -11,7 +12,7 @@ module Pulsar
       when :folder then copy_local_folder
       end
     rescue
-      context.fail! error: Pulsar::ContextError.new($!.message)
+      context_fail! $!.message
     end
 
     private

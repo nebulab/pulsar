@@ -1,8 +1,9 @@
 module Pulsar
   class AddApplications
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :config_path
+    validate_context_for! :config_path
     before :prepare_context
     after :validate_output!
 
@@ -11,7 +12,7 @@ module Pulsar
         context.applications[File.basename(app)] = stages_for(app)
       end
     rescue
-      context.fail! error: Pulsar::ContextError.new($!.message)
+      context_fail! $!.message
     end
 
     private
@@ -21,7 +22,7 @@ module Pulsar
     end
 
     def validate_output!
-      context.fail! error: "No application found on repository #{context.repository}" if context.applications.empty?
+      context_fail! "No application found on repository #{context.repository}" if context.applications.empty?
     end
 
     def each_application_path

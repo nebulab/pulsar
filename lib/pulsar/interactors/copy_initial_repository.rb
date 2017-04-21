@@ -1,8 +1,7 @@
 module Pulsar
   class CopyInitialRepository
-    include Pulsar::ExtendedInteractor
-
-    validate_context_for :directory
+    include Interactor
+    include Pulsar::Validator
 
     def call
       current_path = File.dirname(__FILE__)

@@ -1,8 +1,9 @@
 module Pulsar
   class IdentifyRepositoryType
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :repository, :repository_location
+    validate_context_for! :repository, :repository_location
 
     def call
       case context.repository_location

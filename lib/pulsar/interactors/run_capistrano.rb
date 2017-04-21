@@ -1,8 +1,9 @@
 module Pulsar
   class RunCapistrano
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :cap_path, :config_path, :bundle_path, :environment
+    validate_context_for! :cap_path, :config_path, :bundle_path, :environment
 
     def call
       Dir.chdir(context.cap_path) do
@@ -15,7 +16,7 @@ module Pulsar
         Rake.sh("#{gemfile_env} #{bundle_env} #{cap_cmd}#{out_redir}")
       end
     rescue
-      context.fail! error: Pulsar::ContextError.new($!.message)
+      context_fail! $!.message
     end
   end
 end

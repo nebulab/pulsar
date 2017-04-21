@@ -1,9 +1,10 @@
 module Pulsar
   class CreateCapfile
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :config_path, :cap_path, :application, :applications
-    before :validate_input!, :prepare_context
+    validate_context_for! :config_path, :cap_path, :application, :applications
+    before :validate_application!, :prepare_context
 
     def call
       default_capfile = "#{context.config_path}/apps/Capfile"
@@ -15,7 +16,7 @@ module Pulsar
       Rake.sh("cat #{app_capfile}     >> #{context.capfile_path}") if File.exist?(app_capfile)
       Rake.sh("echo '#{import_tasks}' >> #{context.capfile_path}")
     rescue
-      context.fail! error: Pulsar::ContextError.new($!.message)
+      context_fail! $!.message
     end
 
     private
@@ -24,11 +25,7 @@ module Pulsar
       context.capfile_path = "#{context.cap_path}/Capfile"
     end
 
-    def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil?
-
+    def validate_application!
       fail_on_missing_application! unless application_exists?
     end
 
