@@ -1,6 +1,7 @@
 module Pulsar
   class Cleanup
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
     def call
       FileUtils.rm_rf(context.run_path)

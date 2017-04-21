@@ -1,8 +1,7 @@
 module Pulsar
   class IdentifyRepositoryLocation
-    include Pulsar::ExtendedInteractor
-
-    validate_context_for :repository
+    include Interactor
+    include Pulsar::Validator
 
     def call
       context.repository_location = if File.exist?(context.repository)

@@ -1,8 +1,7 @@
 module Pulsar
   class CloneRepository
-    include Pulsar::ExtendedInteractor
-
-    validate_context_for :config_path, :repository, :repository_type
+    include Interactor
+    include Pulsar::Validator
 
     def call
       case context.repository_type
@@ -15,6 +14,10 @@ module Pulsar
     end
 
     private
+
+    def validate_context!
+      validate_context_for! :config_path, :repository, :repository_type
+    end
 
     def clone_git_repository
       cmd   = 'git clone'

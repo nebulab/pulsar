@@ -1,8 +1,8 @@
 module Pulsar
   class CreateCapfile
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :config_path, :cap_path, :application, :applications
     before :validate_input!, :prepare_context
 
     def call
@@ -25,10 +25,7 @@ module Pulsar
     end
 
     def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil?
-
+      validate_context_for! :config_path, :cap_path, :application, :applications
       fail_on_missing_application! unless application_exists?
     end
 

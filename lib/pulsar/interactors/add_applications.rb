@@ -1,8 +1,8 @@
 module Pulsar
   class AddApplications
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :config_path
     before :prepare_context
     after :validate_output!
 
@@ -15,6 +15,10 @@ module Pulsar
     end
 
     private
+
+    def validate_context!
+      validate_context_for! :config_path
+    end
 
     def prepare_context
       context.applications = {}

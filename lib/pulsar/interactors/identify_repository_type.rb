@@ -1,8 +1,7 @@
 module Pulsar
   class IdentifyRepositoryType
-    include Pulsar::ExtendedInteractor
-
-    validate_context_for :repository, :repository_location
+    include Interactor
+    include Pulsar::Validator
 
     def call
       case context.repository_location
@@ -14,6 +13,10 @@ module Pulsar
     end
 
     private
+
+    def validate_context!
+      validate_context_for! :repository, :repository_location
+    end
 
     def github_repository?
       context.repository =~ %r{^[\w-]+\/[\w-]+$}

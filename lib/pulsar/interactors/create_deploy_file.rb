@@ -1,8 +1,8 @@
 module Pulsar
   class CreateDeployFile
-    include Pulsar::ExtendedInteractor
+    include Interactor
+    include Pulsar::Validator
 
-    validate_context_for :config_path, :cap_path, :application
     before :prepare_context
 
     def call
