@@ -1,8 +1,7 @@
 module Pulsar
   class CopyInitialRepository
     include Interactor
-
-    before :validate_input!
+    include Pulsar::Validator
 
     def call
       current_path = File.dirname(__FILE__)
@@ -10,13 +9,7 @@ module Pulsar
 
       FileUtils.cp_r(File.expand_path(initial_repo), context.directory)
     rescue
-      context.fail! error: $!.message
-    end
-
-    private
-
-    def validate_input!
-      context.fail! if context.directory.nil?
+      context.fail! error: Pulsar::ContextError.new($!.message)
     end
   end
 end

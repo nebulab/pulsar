@@ -1,8 +1,9 @@
 module Pulsar
   class RunBundleInstall
     include Interactor
+    include Pulsar::Validator
 
-    before :validate_input!
+    validate_context_for! :config_path, :bundle_path
 
     def call
       gemfile_env = "BUNDLE_GEMFILE=#{context.config_path}/Gemfile"
@@ -15,14 +16,7 @@ module Pulsar
         Rake.sh("#{bundle_cmd}#{out_redir}")
       end
     rescue
-      context.fail!
-    end
-
-    private
-
-    def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.bundle_path.nil?
+      context_fail! $!.message
     end
   end
 end

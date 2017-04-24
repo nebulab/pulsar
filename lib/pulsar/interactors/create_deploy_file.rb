@@ -1,8 +1,9 @@
 module Pulsar
   class CreateDeployFile
     include Interactor
+    include Pulsar::Validator
 
-    before :validate_input!, :prepare_context
+    before :prepare_context
 
     def call
       default_deploy = "#{context.config_path}/apps/deploy.rb"
@@ -13,7 +14,7 @@ module Pulsar
       Rake.sh("cat #{default_deploy} >> #{context.deploy_file_path}") if File.exist?(default_deploy)
       Rake.sh("cat #{app_deploy}     >> #{context.deploy_file_path}") if File.exist?(app_deploy)
     rescue
-      context.fail! error: $!.message
+      context.fail! error: Pulsar::ContextError.new($!.message)
     end
 
     private
@@ -21,12 +22,6 @@ module Pulsar
     def prepare_context
       context.cap_config_path = "#{context.cap_path}/config"
       context.deploy_file_path = "#{context.cap_config_path}/deploy.rb"
-    end
-
-    def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil?
     end
   end
 end

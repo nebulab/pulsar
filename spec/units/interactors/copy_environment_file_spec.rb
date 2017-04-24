@@ -99,7 +99,8 @@ RSpec.describe Pulsar::CopyEnvironmentFile do
             'The application blog does not have an environment called staging'
           end
 
-          it { is_expected.to eql(error) }
+          it { is_expected.to be_an_instance_of Pulsar::ContextError }
+          it { expect(subject.message).to eql error }
         end
       end
     end

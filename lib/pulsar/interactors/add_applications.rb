@@ -1,8 +1,10 @@
 module Pulsar
   class AddApplications
     include Interactor
+    include Pulsar::Validator
 
-    before :validate_input!, :prepare_context
+    validate_context_for! :config_path
+    before :prepare_context
     after :validate_output!
 
     def call
@@ -10,7 +12,7 @@ module Pulsar
         context.applications[File.basename(app)] = stages_for(app)
       end
     rescue
-      context.fail! error: $!.message
+      context_fail! $!.message
     end
 
     private
@@ -19,12 +21,8 @@ module Pulsar
       context.applications = {}
     end
 
-    def validate_input!
-      context.fail! if context.config_path.nil?
-    end
-
     def validate_output!
-      context.fail! error: "No application found on repository #{context.repository}" if context.applications.empty?
+      context_fail! "No application found on repository #{context.repository}" if context.applications.empty?
     end
 
     def each_application_path

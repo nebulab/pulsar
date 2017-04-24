@@ -1,8 +1,7 @@
 module Pulsar
   class IdentifyRepositoryLocation
     include Interactor
-
-    before :validate_input!
+    include Pulsar::Validator
 
     def call
       context.repository_location = if File.exist?(context.repository)
@@ -11,13 +10,7 @@ module Pulsar
                                       :remote
                                     end
     rescue
-      context.fail! error: $!.message
-    end
-
-    private
-
-    def validate_input!
-      context.fail! if context.repository.nil?
+      context.fail! error: Pulsar::ContextError.new($!.message)
     end
   end
 end

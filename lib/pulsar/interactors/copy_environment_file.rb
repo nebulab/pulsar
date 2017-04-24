@@ -1,8 +1,11 @@
 module Pulsar
   class CopyEnvironmentFile
     include Interactor
+    include Pulsar::Validator
 
-    before :validate_input!, :prepare_context
+    validate_context_for! :config_path, :cap_path, :application, :applications
+    before :validate_environment!
+    before :prepare_context
 
     def call
       env_file = "#{context.config_path}/apps/#{context.application}/#{context.environment}.rb"
@@ -10,7 +13,7 @@ module Pulsar
       FileUtils.mkdir_p(context.cap_deploy_path)
       FileUtils.cp(env_file, context.environment_file_path)
     rescue
-      context.fail! error: $!.message
+      context_fail! $!.message
     end
 
     private
@@ -20,13 +23,7 @@ module Pulsar
       context.environment_file_path = "#{context.cap_deploy_path}/#{context.environment}.rb"
     end
 
-    def validate_input!
-      context.fail! if context.config_path.nil? ||
-                       context.cap_path.nil? ||
-                       context.application.nil? ||
-                       context.applications.nil? ||
-                       context.environment.nil?
-
+    def validate_environment!
       fail_on_missing_environment! unless environment_exist?
     end
 
@@ -35,7 +32,7 @@ module Pulsar
     end
 
     def fail_on_missing_environment!
-      context.fail! error: "The application #{context.application} does not have an environment called #{context.environment}"
+      context_fail! "The application #{context.application} does not have an environment called #{context.environment}"
     end
   end
 end
