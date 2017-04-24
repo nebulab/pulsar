@@ -14,7 +14,7 @@ module Pulsar
       Rake.sh("cat #{default_deploy} >> #{context.deploy_file_path}") if File.exist?(default_deploy)
       Rake.sh("cat #{app_deploy}     >> #{context.deploy_file_path}") if File.exist?(app_deploy)
     rescue
-      context.fail! error: Pulsar::ContextError.new($!.message)
+      context_fail!$!.message
     end
 
     private

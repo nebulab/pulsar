@@ -6,12 +6,8 @@ module Pulsar
     end
 
     def validate_context!
-      validable_properties.each do |property, validator|
-        result = if validator.is_a? Proc
-                   validator.call(context.send(property), context)
-                 else
-                   context.send property.to_sym
-                 end
+      validable_properties.each do |property|
+        result = context.send property.to_sym
         context_fail! "Invalid context for #{property} [#{result}]" unless result
       end
     end
@@ -23,17 +19,15 @@ module Pulsar
     def validable_properties
       self.class.validable_properties
     end
-  end
 
-  module ClassMethods
-    def validate_context_for!(*args)
-      args.each do |arg|
-        validable_properties[arg] = (block_given? ? Proc.new : nil)
+    module ClassMethods
+      def validate_context_for!(*args)
+        validable_properties.concat args
       end
-    end
 
-    def validable_properties
-      @validable_properties ||= {}
+      def validable_properties
+        @validable_properties ||= []
+      end
     end
   end
 end
