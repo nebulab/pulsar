@@ -229,6 +229,21 @@ my_application: production, staging
 awesome_startup: dev, production, staging
 ```
 
+### Execute arbitrary Capistrano tasks
+
+You can launch any Capistrano task via `task` command. You can also
+pass arguments in _Rake style_ (i.e. via square brackets after task name)
+
+```
+$ pulsar task mycustom:task[argumen1,argument2] my_application staging
+```
+
+or via environment variables.
+
+```
+$ TASK_ARG1=arg1 TASK_ARG2=arg2 pulsar task mycustom:task my_application staging
+```
+
 ## Integrations
 
 Pulsar is easy to integrate, you just need access to the configurations
