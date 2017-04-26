@@ -4,11 +4,11 @@ RSpec.describe 'Task' do
   subject { -> { command } }
 
   let(:command) do
-    `DRY_RUN=true #{RSpec.configuration.pulsar_command} task #{taskname} #{options} #{arguments}`
+    `DRY_RUN=true #{RSpec.configuration.pulsar_command} task #{task} #{options} #{arguments}`
   end
 
   let(:repo)        { RSpec.configuration.pulsar_conf_path }
-  let(:taskname)    { 'deploy:check' }
+  let(:task)        { 'deploy:check' }
   let(:options)     { "--conf-repo #{repo}" }
   let(:app)         { 'blog' }
   let(:environment) { 'production' }
@@ -42,7 +42,7 @@ RSpec.describe 'Task' do
   context 'requires application and environment arguments' do
     let(:app)         { nil }
     let(:environment) { nil }
-    let(:error)       { /Usage: "pulsar task TASKNAME APPLICATION ENVIRONMENT"/ }
+    let(:error)       { /Usage: "pulsar task TASK APPLICATION ENVIRONMENT"/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
   end
@@ -51,7 +51,7 @@ RSpec.describe 'Task' do
     subject { command }
 
     context 'deploys an application on a environment in the pulsar configuration' do
-      let(:output) { "Executed task deploy:check for blog on production!" }
+      let(:output) { /Executed task deploy:check for blog on production!/ }
 
       context 'from a local folder' do
         let(:repo) { Dir.mktmpdir }
@@ -60,7 +60,16 @@ RSpec.describe 'Task' do
           FileUtils.cp_r("#{RSpec.configuration.pulsar_conf_path}/.", repo)
         end
 
-        it { is_expected.to match(output) }
+        context 'with Capistrano parameters passed via command line' do
+          let(:task)   { "deploy:check[param1,param2]" }
+          let(:output) { /Executed task deploy:check\[param1,param2\] for blog on production!\n/ }
+
+          it { is_expected.to match(output) }
+        end
+
+        context 'without Capistrano parameters' do
+          it { is_expected.to match(output) }
+        end
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -75,9 +84,18 @@ RSpec.describe 'Task' do
         let(:repo)        { RSpec.configuration.pulsar_remote_git_conf }
         let(:app)         { 'your_app' }
         let(:environment) { 'staging' }
-        let(:output)      { "Executed task deploy:check for your_app on staging!\n" }
+        let(:output)      { /Executed task deploy:check for your_app on staging!\n/ }
 
-        it { is_expected.to match(output) }
+        context 'with Capistrano parameters passed via command line' do
+          let(:task)   { "deploy:check[param1,param2]" }
+          let(:output) { /Executed task deploy:check\[param1,param2\] for your_app on staging!\n/ }
+
+          it { is_expected.to match(output) }
+        end
+
+        context 'without Capistrano parameters' do
+          it { is_expected.to match(output) }
+        end
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -92,9 +110,18 @@ RSpec.describe 'Task' do
         let(:repo)        { RSpec.configuration.pulsar_remote_github_conf }
         let(:app)         { 'your_app' }
         let(:environment) { 'staging' }
-        let(:output)      { "Executed task deploy:check for your_app on staging!\n" }
+        let(:output)      { /Executed task deploy:check for your_app on staging!\n/ }
 
-        it { is_expected.to match(output) }
+        context 'with Capistrano parameters passed via command line' do
+          let(:task)   { "deploy:check[param1,param2]" }
+          let(:output) { /Executed task deploy:check\[param1,param2\] for your_app on staging!\n/ }
+
+          it { is_expected.to match(output) }
+        end
+
+        context 'without Capistrano parameters' do
+          it { is_expected.to match(output) }
+        end
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
@@ -113,26 +140,26 @@ RSpec.describe 'Task' do
     context 'because of wrong directory' do
       let(:repo) { './some-wrong-directory' }
 
-      it { is_expected.to match("Failed to execute task deploy:check for blog on production.\n") }
+      it { is_expected.to match(/Failed to execute task deploy:check for blog on production.\n/) }
     end
 
     context 'because of empty directory' do
       let(:repo) { RSpec.configuration.pulsar_empty_conf_path }
 
-      it { is_expected.to match("Failed to execute task deploy:check for blog on production.\n") }
+      it { is_expected.to match(/Failed to execute task deploy:check for blog on production.\n/) }
       it { is_expected.to match "No application found on repository #{RSpec.configuration.pulsar_empty_conf_path}\n" }
     end
 
     context 'because Bundler failed' do
       let(:repo) { RSpec.configuration.pulsar_wrong_bundle_conf_path }
 
-      it { is_expected.to match("Failed to execute task deploy:check for blog on production.\n") }
+      it { is_expected.to match(/Failed to execute task deploy:check for blog on production.\n/) }
     end
 
     context 'because Capistrano failed' do
       let(:repo) { RSpec.configuration.pulsar_wrong_cap_conf_path }
 
-      it { is_expected.to match("Failed to execute task deploy:check for blog on production.\n") }
+      it { is_expected.to match(/Failed to execute task deploy:check for blog on production.\n/) }
     end
 
     context 'because the application does not exists in the repository' do
@@ -140,7 +167,7 @@ RSpec.describe 'Task' do
       let(:app)         { 'foobuzz' }
       let(:environment) { 'staging' }
 
-      it { is_expected.to match("The application foobuzz does not exist in your repository") }
+      it { is_expected.to match(/The application foobuzz does not exist in your repository/) }
     end
 
     context 'because the environment does not exists for the application' do
@@ -148,12 +175,12 @@ RSpec.describe 'Task' do
       let(:app)         { 'blog' }
       let(:environment) { 'foobuzz' }
 
-      it { is_expected.to match("The application blog does not have an environment called foobuzz") }
+      it { is_expected.to match(/The application blog does not have an environment called foobuzz/) }
 
       context 'but \'no application error\' message takes precedence' do
         let(:app) { 'foobuzz' }
 
-        it { is_expected.to match("The application foobuzz does not exist in your repository") }
+        it { is_expected.to match(/The application foobuzz does not exist in your repository/) }
       end
     end
   end

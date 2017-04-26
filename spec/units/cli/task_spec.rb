@@ -24,7 +24,7 @@ RSpec.describe Pulsar::CLI do
 
       specify do
         is_expected.to have_received(:call)
-          .with(repository: repo, application: 'blog', environment: 'production', taskname: 'deploy:check')
+          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy:check')
       end
 
       context 'success' do
@@ -62,7 +62,7 @@ RSpec.describe Pulsar::CLI do
 
       specify do
         is_expected.to have_received(:call)
-          .with(repository: repo, application: 'blog', environment: 'production', taskname: 'deploy:check')
+          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy:check')
       end
 
       context 'success' do
@@ -92,7 +92,7 @@ RSpec.describe Pulsar::CLI do
 
       specify do
         is_expected.to have_received(:call)
-          .with(repository: repo, application: 'blog', environment: 'production', taskname: 'deploy:check')
+          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy:check')
       end
 
       context 'success' do
