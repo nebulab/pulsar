@@ -106,5 +106,20 @@ RSpec.describe 'List' do
       it { is_expected.to match "Failed to list application and environments.\n" }
       it { is_expected.to match "No application found on repository #{RSpec.configuration.pulsar_empty_conf_path}\n" }
     end
+
+    context 'because of permissions problems of dotenv directory' do
+      let(:repo) { nil }
+      before do
+        allow(Dotenv).to receive(:load).and_raise Errno::EACCES
+      end
+
+      it { is_expected.to match "Failed to list application and environments.\n" }
+
+      context 'but when has a repository defined' do
+        let(:repo) { RSpec.configuration.pulsar_conf_path }
+
+        it { is_expected.to match "blog: production, staging\necommerce: staging\n" }
+      end
+    end
   end
 end

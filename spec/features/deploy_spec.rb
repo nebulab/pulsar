@@ -122,6 +122,23 @@ RSpec.describe 'Deploy' do
       it { is_expected.to match "No application found on repository #{RSpec.configuration.pulsar_empty_conf_path}\n" }
     end
 
+    context 'because of permissions problems of dotenv directory' do
+      let(:repo)        { RSpec.configuration.pulsar_empty_conf_path }
+      let(:app)         { 'blog' }
+      let(:environment) { 'production' }
+      before do
+        allow(Dotenv).to receive(:load).and_raise Errno::EACCES
+      end
+
+      it { is_expected.to match "Failed to deploy blog on production.\n" }
+
+      context 'but when has a repository defined' do
+        let(:repo) { RSpec.configuration.pulsar_conf_path }
+
+        it { is_expected.to match "Deployed blog on production!\n" }
+      end
+    end
+
     context 'because Bundler failed' do
       let(:repo) { RSpec.configuration.pulsar_wrong_bundle_conf_path }
 
