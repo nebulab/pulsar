@@ -10,7 +10,7 @@ module Pulsar
                                       :remote
                                     end
     rescue
-      context.fail! error: Pulsar::ContextError.new($!.message)
+      context_fail! $!.message
     end
   end
 end

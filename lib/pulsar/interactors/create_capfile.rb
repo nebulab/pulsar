@@ -34,7 +34,7 @@ module Pulsar
     end
 
     def fail_on_missing_application!
-      context.fail! error: Pulsar::ContextError.new("The application #{context.application} does not exist in your repository")
+      context_fail! "The application #{context.application} does not exist in your repository"
     end
   end
 end
