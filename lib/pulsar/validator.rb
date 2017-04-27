@@ -13,7 +13,7 @@ module Pulsar
     end
 
     def context_fail!(msg)
-      context.fail! error: Pulsar::ContextError.new(msg)
+      context.fail! error: Pulsar::ContextError.new(msg, 1)
     end
 
     def validable_properties
