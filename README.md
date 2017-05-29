@@ -1,4 +1,4 @@
-# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.svg)](https://badge.fury.io/rb/pulsar) [![CircleCI](https://img.shields.io/circleci/project/github/nebulab/pulsar.svg)](https://circleci.com/gh/nebulab/pulsar) [![Coverage Status](https://coveralls.io/repos/github/nebulab/pulsar/badge.svg?branch=master)](https://coveralls.io/github/nebulab/pulsar?branch=master)
+# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.svg)](https://badge.fury.io/rb/pulsar) [![CircleCI](https://img.shields.io/circleci/project/github/nebulab/pulsar/master.png)](https://circleci.com/gh/nebulab/pulsar/tree/master) [![Coverage Status](https://coveralls.io/repos/github/nebulab/pulsar/badge.svg?branch=master)](https://coveralls.io/github/nebulab/pulsar?branch=master)
 
 The easy [Capistrano](cap-gem) deploy and configuration manager.
 
