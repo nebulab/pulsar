@@ -4,7 +4,7 @@ RSpec.describe 'Task' do
   subject { -> { command } }
 
   let(:command) do
-    `DRY_RUN=true #{RSpec.configuration.pulsar_command} task #{task} #{options} #{arguments}`
+    `DRY_RUN=true #{RSpec.configuration.pulsar_command} task #{options} #{arguments} #{task}`
   end
 
   let(:repo)        { RSpec.configuration.pulsar_conf_path }
@@ -42,7 +42,7 @@ RSpec.describe 'Task' do
   context 'requires application and environment arguments' do
     let(:app)         { nil }
     let(:environment) { nil }
-    let(:error)       { /Usage: "pulsar task TASK APPLICATION ENVIRONMENT"/ }
+    let(:error)       { /Usage: "pulsar task APPLICATION ENVIRONMENT TASK"/ }
 
     it { is_expected.to output(error).to_stderr_from_any_process }
   end

@@ -19,7 +19,7 @@ RSpec.describe Pulsar::CLI do
       before do
         allow(described_instance)
           .to receive(:options).and_return(conf_repo: repo)
-        described_instance.task('deploy:check', 'blog', 'production')
+        described_instance.task('blog', 'production', 'deploy:check')
       end
 
       specify do
@@ -28,7 +28,7 @@ RSpec.describe Pulsar::CLI do
       end
 
       context 'success' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:success) { "Executed task deploy:check for blog on production!" }
         let(:result) { spy(success?: true) }
@@ -37,7 +37,7 @@ RSpec.describe Pulsar::CLI do
       end
 
       context 'failure' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:result) { spy(success?: false) }
 
@@ -48,7 +48,7 @@ RSpec.describe Pulsar::CLI do
     context 'when using configuration file' do
       before do
         allow(described_instance).to receive(:options).and_return({})
-        described_instance.task('deploy:check', 'blog', 'production')
+        described_instance.task('blog', 'production', 'deploy:check')
       end
 
       around do |example|
@@ -66,7 +66,7 @@ RSpec.describe Pulsar::CLI do
       end
 
       context 'success' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:success) { "Executed task deploy:check for blog on production!" }
         let(:result) { spy(success?: true) }
@@ -75,7 +75,7 @@ RSpec.describe Pulsar::CLI do
       end
 
       context 'failure' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:result) { spy(success?: false) }
 
@@ -87,7 +87,7 @@ RSpec.describe Pulsar::CLI do
       before do
         allow(described_instance).to receive(:options).and_return({})
         ENV['PULSAR_CONF_REPO'] = repo
-        described_instance.task('deploy:check', 'blog', 'production')
+        described_instance.task('blog', 'production', 'deploy:check')
       end
 
       specify do
@@ -96,7 +96,7 @@ RSpec.describe Pulsar::CLI do
       end
 
       context 'success' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:success) { "Executed task deploy:check for blog on production!" }
         let(:result) { spy(success?: true) }
@@ -105,7 +105,7 @@ RSpec.describe Pulsar::CLI do
       end
 
       context 'failure' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:result) { spy(success?: false) }
 
@@ -115,7 +115,7 @@ RSpec.describe Pulsar::CLI do
 
     context 'when no configuration repo is passed' do
       context 'failure' do
-        subject { -> { described_instance.task('deploy:check', 'blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         it { is_expected.to raise_error(Thor::RequiredArgumentMissingError) }
       end

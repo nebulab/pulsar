@@ -69,9 +69,9 @@ module Pulsar
       end
     end
 
-    desc 'task TASK APPLICATION ENVIRONMENT', 'Run Capistrano task for APPLICATION on ENVIRONMENT'
+    desc 'task APPLICATION ENVIRONMENT TASK', 'Run Capistrano task for APPLICATION on ENVIRONMENT'
     option :conf_repo, aliases: '-c'
-    def task(task, application, environment)
+    def task(application, environment, task)
       load_config
       result = Pulsar::Task.call(
         repository: load_option_or_env!(:conf_repo),
