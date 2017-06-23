@@ -95,6 +95,8 @@ module Pulsar
     private
 
     def load_config
+      return unless File.exist?(PULSAR_CONF) && File.stat(PULSAR_CONF).readable?
+
       Dotenv.load(PULSAR_CONF) # Load configurations for Pulsar
     end
 
