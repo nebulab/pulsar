@@ -1,6 +1,6 @@
-# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.svg)](https://badge.fury.io/rb/pulsar) [![CircleCI](https://img.shields.io/circleci/project/github/nebulab/pulsar.svg)](https://circleci.com/gh/nebulab/pulsar) [![Coverage Status](https://coveralls.io/repos/github/nebulab/pulsar/badge.svg?branch=master)](https://coveralls.io/github/nebulab/pulsar?branch=master)
+# Pulsar [![Gem Version](https://badge.fury.io/rb/pulsar.svg)](https://badge.fury.io/rb/pulsar) [![CircleCI](https://img.shields.io/circleci/project/github/nebulab/pulsar/master.png)](https://circleci.com/gh/nebulab/pulsar/tree/master) [![Coverage Status](https://coveralls.io/repos/github/nebulab/pulsar/badge.svg?branch=master)](https://coveralls.io/github/nebulab/pulsar?branch=master)
 
-The easy [Capistrano](cap-gem) deploy and configuration manager.
+The easy [Capistrano][cap-gem] deploy and configuration manager.
 
 Pulsar allows you to run Capistrano tasks via a separate repository where all
 your deploy configurations are stored. Once you have your own repository, you
@@ -52,7 +52,7 @@ repository. As soon as you're done configuring you should consider transforming
 this folder to a git repository.
 
 You can have a look at how your repository should look like by browsing the
-[Pulsar Conf Demo](pulsar-conf-demo).
+[Pulsar Conf Demo][pulsar-conf-demo].
 
 **NOTE**: Pulsar only supports git.
 
@@ -118,7 +118,7 @@ each application.
 
 Another way to include your recipes is by using the `Gemfile`. Many gems already
 include custom recipes for Capistrano so you just need to require those. An
-example with [Whenever](whenever):
+example with [Whenever][whenever]:
 
 ```ruby
 #
@@ -254,34 +254,35 @@ the old v0.3 version that can be used as an example.
 
 ### Chat Bots
 
-- https://gist.github.com/mtylty/5324075: a [hubot](hubot) script that runs
+- https://gist.github.com/mtylty/5324075: a [hubot][hubot] script that runs
 Pulsar via the command line
-- [hubot-pulsar](hubot-pulsar): a [hubot](hubot) plugin for integrating via
-[Pulsar REST API](pulsar-rest-api)
-- [lita-pulsar](lita-pulsar): a [Lita](lita) plugin for integrating via the
+- [hubot-pulsar][hubot-pulsar]: a [hubot][hubot] plugin for integrating via
+[Pulsar REST API][pulsar-rest-api]
+- [lita-pulsar][lita-pulsar]: a [Lita][lita] plugin for integrating via the
 command line
 
 
 ### Pulsar REST API service
 
-[Pulsar REST API](pulsar-rest-api) is a service to provide a REST API for
+[Pulsar REST API][pulsar-rest-api] is a service to provide a REST API for
 executing pulsar jobs.
 
-Here is a [real-life example](pulsar-rest-api-blogpost) of how you can integrate
+Here is a [real-life example][pulsar-rest-api-blogpost] of how you can integrate
 and simplify your Pulsar workflow.
 
 ## About
 
-![Nebulab](http://nebulab.it/assets/images/public/logo.svg)
+[![Nebulab][nebulab-logo]][nebulab]
 
-Pulsar is funded and maintained by the [Nebulab](nebulab) team.
+Pulsar is funded and maintained by the [Nebulab][nebulab] team.
 
-We firmly believe in the power of open-source. [Contact us](contact-us) if you
+We firmly believe in the power of open-source. [Contact us][contact-us] if you
 like our work and you need help with your project design or development.
 
 [license]: MIT-LICENSE
 [cap-gem]: https://rubygems.org/gems/capistrano
 [nebulab]: http://nebulab.it/
+[nebulab-logo]: http://nebulab.it/assets/images/public/logo.svg
 [contact-us]: http://nebulab.it/contact-us/
 [pulsar-conf-demo]: http://github.com/nebulab/pulsar-conf-demo
 [whenever]: https://github.com/javan/whenever
