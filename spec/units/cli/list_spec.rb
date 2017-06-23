@@ -43,8 +43,10 @@ RSpec.describe Pulsar::CLI do
     end
 
     context 'when using configuration file' do
+      let(:options) { {} }
+
       before do
-        allow(described_instance).to receive(:options).and_return({})
+        allow(described_instance).to receive(:options).and_return(options)
         described_instance.list
       end
 
@@ -66,6 +68,18 @@ RSpec.describe Pulsar::CLI do
         let(:result) { spy(success?: true, applications: applications) }
 
         it { is_expected.to output(/blog: staging/).to_stdout }
+
+        context 'when file is unaccessible' do
+          let(:options) { { conf_repo: repo } }
+
+          around do |example|
+            system("chmod 000 #{RSpec.configuration.pulsar_dotenv_conf_path}")
+            example.run
+            system("chmod 644 #{RSpec.configuration.pulsar_dotenv_conf_path}")
+          end
+
+          it { is_expected.to output(/blog: staging/).to_stdout }
+        end
       end
 
       context 'failure' do
