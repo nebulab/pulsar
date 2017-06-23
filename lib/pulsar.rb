@@ -25,7 +25,7 @@ module Pulsar
 
   require 'pulsar/organizers/list'
   require 'pulsar/organizers/install'
-  require 'pulsar/organizers/deploy'
+  require 'pulsar/organizers/task'
 
   require 'pulsar/constants'
   require 'pulsar/cli'
