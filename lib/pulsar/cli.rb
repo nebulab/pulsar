@@ -96,6 +96,7 @@ module Pulsar
 
     def load_config
       Dotenv.load(PULSAR_CONF) # Load configurations for Pulsar
+    rescue Errno::EACCES
     end
 
     def load_option_or_env!(option)
