@@ -4,9 +4,9 @@ RSpec.describe Pulsar::CLI do
   subject { Pulsar::Task }
 
   let(:described_instance) { described_class.new }
-  let(:fail_text) { /Failed to deploy blog on production./ }
+  let(:fail_text) { /Failed to execute task deploy:check for blog on production./ }
 
-  context '#deploy' do
+  context '#task' do
     let(:result) { spy }
     let(:repo)   { './conf_repo' }
 
@@ -19,25 +19,25 @@ RSpec.describe Pulsar::CLI do
       before do
         allow(described_instance)
           .to receive(:options).and_return(conf_repo: repo)
-        described_instance.deploy('blog', 'production')
+        described_instance.task('blog', 'production', 'deploy:check')
       end
 
       specify do
         is_expected.to have_received(:call)
-          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy')
+          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy:check')
       end
 
       context 'success' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
-        let(:success) { "Deployed blog on production!" }
+        let(:success) { "Executed task deploy:check for blog on production!" }
         let(:result) { spy(success?: true) }
 
         it { is_expected.to output(/#{success}/).to_stdout }
       end
 
       context 'failure' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:result) { spy(success?: false) }
 
@@ -48,7 +48,7 @@ RSpec.describe Pulsar::CLI do
     context 'when using configuration file' do
       before do
         allow(described_instance).to receive(:options).and_return({})
-        described_instance.deploy('blog', 'production')
+        described_instance.task('blog', 'production', 'deploy:check')
       end
 
       around do |example|
@@ -62,20 +62,20 @@ RSpec.describe Pulsar::CLI do
 
       specify do
         is_expected.to have_received(:call)
-          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy')
+          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy:check')
       end
 
       context 'success' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
-        let(:success) { "Deployed blog on production!" }
+        let(:success) { "Executed task deploy:check for blog on production!" }
         let(:result) { spy(success?: true) }
 
         it { is_expected.to output(/#{success}/).to_stdout }
       end
 
       context 'failure' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:result) { spy(success?: false) }
 
@@ -87,25 +87,25 @@ RSpec.describe Pulsar::CLI do
       before do
         allow(described_instance).to receive(:options).and_return({})
         ENV['PULSAR_CONF_REPO'] = repo
-        described_instance.deploy('blog', 'production')
+        described_instance.task('blog', 'production', 'deploy:check')
       end
 
       specify do
         is_expected.to have_received(:call)
-          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy')
+          .with(repository: repo, application: 'blog', environment: 'production', task: 'deploy:check')
       end
 
       context 'success' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
-        let(:success) { "Deployed blog on production!" }
+        let(:success) { "Executed task deploy:check for blog on production!" }
         let(:result) { spy(success?: true) }
 
         it { is_expected.to output(/#{success}/).to_stdout }
       end
 
       context 'failure' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         let(:result) { spy(success?: false) }
 
@@ -115,7 +115,7 @@ RSpec.describe Pulsar::CLI do
 
     context 'when no configuration repo is passed' do
       context 'failure' do
-        subject { -> { described_instance.deploy('blog', 'production') } }
+        subject { -> { described_instance.task('blog', 'production', 'deploy:check') } }
 
         it { is_expected.to raise_error(Thor::RequiredArgumentMissingError) }
       end
