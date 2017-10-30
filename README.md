@@ -144,8 +144,8 @@ repository location can be specified either as a full git path or a GitHub
 repository path (*i.e.* `gh-user/pulsar-conf`).
 
 Since Pulsar requires the repository for everything, there are multiple ways to
-store this information so that you don't have to type it everytime. You can also
-use local repository, which is useful while developing your deployment.
+store this information so that you don't have to type it every time. You can
+also use local repository, which is useful while developing your deployment.
 
 You have three possibilities:
 
@@ -210,7 +210,7 @@ The above command will fetch the Pulsar configuration repository, run
 configuration. At last it will run `cap deploy` on it.
 
 Right now Pulsar does not support tasks other then deploy. Support for running
-other Capistrano taks will come, state tuned!
+other Capistrano tasks will come, state tuned!
 
 ### Listing applications
 
