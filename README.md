@@ -230,7 +230,7 @@ $ pulsar task my_application staging mycustom:task
 You can also pass arguments by wrapping the task and arguments in quotes.
 
 ```
-$ pulsar task my_application staging "mycustom:task TASK_ARG1=arg1 TASK_ARG2=arg2"
+$ pulsar task my_application staging "mycustom:task --dry-run --trace"
 ``` 
 
 or via environment variables.
