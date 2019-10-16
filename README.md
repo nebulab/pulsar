@@ -163,12 +163,6 @@ directory:
 PULSAR_CONF_REPO="gh-user/pulsar-conf"
 
 #
-# You can use local repository for development so you don't need to push changes
-# every time
-#
-# PULSAR_CONF_REPO="/full/path/to/repository"
-
-#
 # Also supported
 #
 # PULSAR_CONF_REPO="git://github.com/gh-user/pulsar-conf.git"
@@ -209,9 +203,6 @@ The above command will fetch the Pulsar configuration repository, run
 `my_application` specific ones and add specific `production.rb` stage
 configuration. At last it will run `cap deploy` on it.
 
-Right now Pulsar does not support tasks other then deploy. Support for running
-other Capistrano tasks will come, state tuned!
-
 ### Listing applications
 
 Pulsar can fetch your configuration repository and list the application and
@@ -231,12 +222,16 @@ awesome_startup: dev, production, staging
 
 ### Execute arbitrary Capistrano tasks
 
-You can launch any Capistrano task via `task` command. You can also
-pass arguments in _Rake style_ (i.e. via square brackets after task name)
+You can launch any Capistrano task via `task` command.
 
 ```
-$ pulsar task mycustom:task[argumen1,argument2] my_application staging
+$ pulsar task my_application staging mycustom:task
 ```
+You can also pass arguments by wrapping the task and arguments in quotes.
+
+```
+$ pulsar task my_application staging "mycustom:task TASK_ARG1=arg1 TASK_ARG2=arg2"
+``` 
 
 or via environment variables.
 
