@@ -222,21 +222,16 @@ awesome_startup: dev, production, staging
 
 ### Execute arbitrary Capistrano tasks
 
-You can launch any Capistrano task via `task` command.
+You can launch any Capistrano task via task command. You can also pass arguments in Rake style (i.e. via square brackets after task name)
 
 ```
-$ pulsar task my_application staging mycustom:task
+$ pulsar task my_application staging mycustom:task[argumen1,argument2]
 ```
-You can also pass arguments by wrapping the task and arguments in quotes.
-
-```
-$ pulsar task my_application staging "mycustom:task --dry-run --trace"
-``` 
 
 or via environment variables.
 
 ```
-$ TASK_ARG1=arg1 TASK_ARG2=arg2 pulsar task mycustom:task my_application staging
+$ TASK_ARG1=arg1 TASK_ARG2=arg2 pulsar task my_application staging mycustom:task
 ```
 
 ## Integrations
