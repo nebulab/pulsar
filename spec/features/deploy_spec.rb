@@ -1,40 +1,44 @@
 require 'spec_helper'
 
 RSpec.describe 'Deploy' do
-  subject { -> { command } }
+  subject { command_output }
 
   let(:command) do
-    `DRY_RUN=true #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}`
+    Pulsar::Executor.sh("DRY_RUN=true #{RSpec.configuration.pulsar_command} deploy #{options} #{arguments}")
   end
-
-  let(:repo)        { RSpec.configuration.pulsar_conf_path }
-  let(:options)     { "--conf-repo #{repo}" }
-  let(:app)         { 'blog' }
-  let(:environment) { 'production' }
-  let(:arguments)   { "#{app} #{environment}" }
+  let(:command_output) { command[:output] }
+  let(:exit_status)    { command[:status] }
+  let(:repo)           { RSpec.configuration.pulsar_conf_path }
+  let(:options)        { "--conf-repo #{repo}" }
+  let(:app)            { 'blog' }
+  let(:environment)    { 'production' }
+  let(:arguments)      { "#{app} #{environment}" }
 
   context 'via a subcommand named deploy' do
     let(:error) { /Could not find command/ }
 
-    it { is_expected.not_to output(error).to_stderr_from_any_process }
+    it { is_expected.not_to match(error) }
+    it { expect(exit_status).to eq(0) }
   end
 
   context 'requires a --conf-repo option' do
     let(:options) { nil }
     let(:error)   { /No value provided for required options '--conf-repo'/ }
 
-    it { is_expected.to output(error).to_stderr_from_any_process }
+    it { is_expected.to match(error) }
 
     context 'can be specified via the alias -c' do
       let(:options) { "-c #{repo}" }
 
-      it { is_expected.not_to output(error).to_stderr_from_any_process }
+      it { is_expected.not_to match(error) }
+      it { expect(exit_status).to eq(0) }
     end
 
     context 'can be specified via the environment variable PULSAR_CONF_REPO' do
       before { ENV['PULSAR_CONF_REPO'] = repo }
 
-      it { is_expected.not_to output(error).to_stderr_from_any_process }
+      it { is_expected.not_to match(error) }
+      it { expect(exit_status).to eq(0) }
     end
   end
 
@@ -43,11 +47,12 @@ RSpec.describe 'Deploy' do
     let(:environment) { nil }
     let(:error)       { /Usage: "pulsar deploy APPLICATION ENVIRONMENT"/ }
 
-    it { is_expected.to output(error).to_stderr_from_any_process }
+    it { is_expected.to match(error) }
+    it { expect(exit_status).to eq(1) }
   end
 
   context 'when succeeds' do
-    subject { command }
+    subject { command_output }
 
     context 'deploys an application on a environment in the pulsar configuration' do
       let(:output) { "Deployed blog on production!\n" }
@@ -60,11 +65,12 @@ RSpec.describe 'Deploy' do
         end
 
         it { is_expected.to match(output) }
+        it { expect(exit_status).to eq(0) }
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
 
-          before { command }
+          before { command_output }
 
           it { is_expected.to be_empty }
         end
@@ -77,11 +83,12 @@ RSpec.describe 'Deploy' do
         let(:output)      { "Deployed your_app on staging!\n" }
 
         it { is_expected.to match(output) }
+        it { expect(exit_status).to eq(0) }
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
 
-          before { command }
+          before { command_output }
 
           it { is_expected.to be_empty }
         end
@@ -94,11 +101,12 @@ RSpec.describe 'Deploy' do
         let(:output)      { "Deployed your_app on staging!\n" }
 
         it { is_expected.to match(output) }
+        it { expect(exit_status).to eq(0) }
 
         context 'leaves the tmp folder empty' do
           subject { Dir.glob("#{Pulsar::PULSAR_TMP}/*") }
 
-          before { command }
+          before { command_output }
 
           it { is_expected.to be_empty }
         end
@@ -107,12 +115,13 @@ RSpec.describe 'Deploy' do
   end
 
   context 'when fails' do
-    subject { command }
+    subject { command_output }
 
     context 'because of wrong directory' do
       let(:repo) { './some-wrong-directory' }
 
       it { is_expected.to match("Failed to deploy blog on production.\n") }
+      it { expect(exit_status).to eq(1) }
     end
 
     context 'because of empty directory' do
@@ -120,18 +129,21 @@ RSpec.describe 'Deploy' do
 
       it { is_expected.to match("Failed to deploy blog on production.\n") }
       it { is_expected.to match "No application found on repository #{RSpec.configuration.pulsar_empty_conf_path}\n" }
+      it { expect(exit_status).to eq(1) }
     end
 
     context 'because Bundler failed' do
       let(:repo) { RSpec.configuration.pulsar_wrong_bundle_conf_path }
 
       it { is_expected.to match("Failed to deploy blog on production.\n") }
+      it { expect(exit_status).to eq(1) }
     end
 
     context 'because Capistrano failed' do
       let(:repo) { RSpec.configuration.pulsar_wrong_cap_conf_path }
 
       it { is_expected.to match("Failed to deploy blog on production.\n") }
+      it { expect(exit_status).to eq(1) }
     end
 
     context 'because the application does not exists in the repository' do
@@ -140,6 +152,7 @@ RSpec.describe 'Deploy' do
       let(:environment) { 'staging' }
 
       it { is_expected.to match("The application foobuzz does not exist in your repository") }
+      it { expect(exit_status).to eq(1) }
     end
 
     context 'because the environment does not exists for the application' do
@@ -148,11 +161,13 @@ RSpec.describe 'Deploy' do
       let(:environment) { 'foobuzz' }
 
       it { is_expected.to match("The application blog does not have an environment called foobuzz") }
+      it { expect(exit_status).to eq(1) }
 
       context 'but \'no application error\' message takes precedence' do
         let(:app) { 'foobuzz' }
 
         it { is_expected.to match("The application foobuzz does not exist in your repository") }
+        it { expect(exit_status).to eq(1) }
       end
     end
   end

@@ -5,6 +5,8 @@ end
 
 module Pulsar
   class CLI < Thor
+    def self.exit_on_failure?; true; end
+
     map %w[--version -v] => :__print_version
 
     desc 'install [DIRECTORY]', 'Install initial repository in DIRECTORY'
@@ -20,9 +22,11 @@ module Pulsar
 
       if result.success?
         puts 'Successfully created intial repo!'
+        exit_with_status 0
       else
         puts 'Failed to create intial repo.'
         puts result.error
+        exit_with_status result.error.is_a?(Pulsar::ContextError) ? result.error.exit_code : 1
       end
     end
 
@@ -40,9 +44,11 @@ module Pulsar
         result.applications.each do |app, stages|
           puts "#{app}: #{stages.join(', ')}"
         end
+        exit_with_status 0
       else
         puts 'Failed to list application and environments.'
         puts result.error
+        exit_with_status result.error.is_a?(Pulsar::ContextError) ? result.error.exit_code : 1
       end
     end
 
@@ -63,9 +69,11 @@ module Pulsar
 
       if result.success?
         puts "Deployed #{application} on #{environment}!"
+        exit_with_status 0
       else
         puts "Failed to deploy #{application} on #{environment}."
         puts result.error
+        exit_with_status result.error.is_a?(Pulsar::ContextError) ? result.error.exit_code : 1
       end
     end
 
@@ -90,9 +98,14 @@ module Pulsar
     desc "--version, -v", "print the version"
     def __print_version
       puts Pulsar::VERSION
+      exit_with_status 0
     end
 
     private
+
+    def exit_with_status(status)
+      exit status
+    end
 
     def load_config
       return unless File.exist?(PULSAR_CONF) && File.stat(PULSAR_CONF).readable?
